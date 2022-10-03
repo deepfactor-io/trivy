@@ -7,7 +7,7 @@ import (
 	swalker "github.com/saracen/walker"
 	"golang.org/x/xerrors"
 
-	dio "github.com/aquasecurity/go-dep-parser/pkg/io"
+	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
 )
 
 type FS struct {

@@ -9,11 +9,11 @@ import (
 
 	"github.com/mitchellh/hashstructure/v2"
 
-	fos "github.com/aquasecurity/trivy/pkg/fanal/analyzer/os"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/report"
-	reportSpdx "github.com/aquasecurity/trivy/pkg/report/spdx"
-	"github.com/aquasecurity/trivy/pkg/types"
+	fos "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/report"
+	reportSpdx "github.com/deepfactor-io/trivy/pkg/report/spdx"
+	"github.com/deepfactor-io/trivy/pkg/types"
 	v1 "github.com/google/go-containerregistry/pkg/v1"
 	"github.com/google/uuid"
 	"github.com/spdx/tools-golang/jsonloader"

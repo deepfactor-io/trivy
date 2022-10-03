@@ -4,13 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"github.com/aquasecurity/trivy/pkg/result"
+	"github.com/deepfactor-io/trivy/pkg/result"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/types"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 func TestClient_Filter(t *testing.T) {

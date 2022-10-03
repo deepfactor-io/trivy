@@ -8,21 +8,21 @@ import (
 
 	"github.com/aquasecurity/defsec/pkg/errs"
 
-	cmd "github.com/aquasecurity/trivy/pkg/commands/artifact"
+	cmd "github.com/deepfactor-io/trivy/pkg/commands/artifact"
 
-	"github.com/aquasecurity/trivy/pkg/cloud"
+	"github.com/deepfactor-io/trivy/pkg/cloud"
 
-	"github.com/aquasecurity/trivy/pkg/cloud/cache"
+	"github.com/deepfactor-io/trivy/pkg/cloud/cache"
 
-	"github.com/aquasecurity/trivy/pkg/flag"
+	"github.com/deepfactor-io/trivy/pkg/flag"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
 
-	"github.com/aquasecurity/trivy/pkg/cloud/aws/scanner"
-	"github.com/aquasecurity/trivy/pkg/cloud/report"
+	"github.com/deepfactor-io/trivy/pkg/cloud/aws/scanner"
+	"github.com/deepfactor-io/trivy/pkg/cloud/report"
 
-	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/log"
 
 	awsScanner "github.com/aquasecurity/defsec/pkg/scanners/cloud/aws"
 )

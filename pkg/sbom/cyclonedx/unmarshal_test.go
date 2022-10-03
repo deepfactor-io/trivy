@@ -5,13 +5,13 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aquasecurity/trivy/pkg/sbom"
+	"github.com/deepfactor-io/trivy/pkg/sbom"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/sbom/cyclonedx"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx"
 )
 
 func TestUnmarshaler_Unmarshal(t *testing.T) {

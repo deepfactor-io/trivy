@@ -7,14 +7,14 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/config/helm"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/helm"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/config/dockerfile"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/config/json"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/config/terraform"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/config/yaml"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/dockerfile"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/json"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/terraform"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/yaml"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 const separator = ":"

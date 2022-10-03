@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/aquasecurity/defsec/pkg/scan"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/types"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 func convertResults(results scan.Results, provider string, scoped []string) map[string]ResultsAtTime {

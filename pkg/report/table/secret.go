@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 type secretRenderer struct {
