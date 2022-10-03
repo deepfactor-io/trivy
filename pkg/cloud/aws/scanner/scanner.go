@@ -6,8 +6,8 @@ import (
 
 	"github.com/aquasecurity/defsec/pkg/framework"
 
-	"github.com/aquasecurity/trivy/pkg/flag"
-	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/flag"
+	"github.com/deepfactor-io/trivy/pkg/log"
 
 	"github.com/aquasecurity/defsec/pkg/scan"
 	"github.com/aquasecurity/defsec/pkg/scanners/cloud/aws"

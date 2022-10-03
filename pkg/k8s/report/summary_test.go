@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/aquasecurity/trivy/pkg/flag"
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/flag"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 func TestReport_ColumnHeading(t *testing.T) {

@@ -3,7 +3,7 @@
 package local
 
 import (
-	types "github.com/aquasecurity/trivy/pkg/fanal/types"
+	types "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	mock "github.com/stretchr/testify/mock"
 )
 

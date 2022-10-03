@@ -5,8 +5,8 @@ package serialize
 import (
 	json "encoding/json"
 	types2 "github.com/aquasecurity/trivy-db/pkg/types"
-	types1 "github.com/aquasecurity/trivy/pkg/fanal/types"
-	types "github.com/aquasecurity/trivy/pkg/types"
+	types1 "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	types "github.com/deepfactor-io/trivy/pkg/types"
 	easyjson "github.com/mailru/easyjson"
 	jlexer "github.com/mailru/easyjson/jlexer"
 	jwriter "github.com/mailru/easyjson/jwriter"

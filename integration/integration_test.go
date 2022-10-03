@@ -19,9 +19,9 @@ import (
 
 	"github.com/aquasecurity/trivy-db/pkg/db"
 	"github.com/aquasecurity/trivy-db/pkg/metadata"
-	"github.com/aquasecurity/trivy/pkg/commands"
-	"github.com/aquasecurity/trivy/pkg/dbtest"
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/commands"
+	"github.com/deepfactor-io/trivy/pkg/dbtest"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 var update = flag.Bool("update", false, "update golden files")

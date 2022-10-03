@@ -6,14 +6,14 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/aquasecurity/trivy/pkg/flag"
+	"github.com/deepfactor-io/trivy/pkg/flag"
 
 	"golang.org/x/xerrors"
 
-	cmd "github.com/aquasecurity/trivy/pkg/commands/artifact"
-	"github.com/aquasecurity/trivy/pkg/k8s/report"
-	"github.com/aquasecurity/trivy/pkg/k8s/scanner"
-	"github.com/aquasecurity/trivy/pkg/log"
+	cmd "github.com/deepfactor-io/trivy/pkg/commands/artifact"
+	"github.com/deepfactor-io/trivy/pkg/k8s/report"
+	"github.com/deepfactor-io/trivy/pkg/k8s/scanner"
+	"github.com/deepfactor-io/trivy/pkg/log"
 
 	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
 	"github.com/aquasecurity/trivy-kubernetes/pkg/k8s"

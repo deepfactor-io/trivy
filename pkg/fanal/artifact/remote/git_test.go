@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
-	"github.com/aquasecurity/trivy/pkg/fanal/cache"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 func setupGitServer() (*httptest.Server, error) {

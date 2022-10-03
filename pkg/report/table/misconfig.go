@@ -12,7 +12,7 @@ import (
 	"github.com/liamg/tml"
 	"golang.org/x/crypto/ssh/terminal"
 
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 const (

@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/aquasecurity/trivy/pkg/cloud/report"
+	"github.com/deepfactor-io/trivy/pkg/cloud/report"
 )
 
 func (c *Cache) Save(r *report.Report) error {

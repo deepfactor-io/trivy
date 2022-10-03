@@ -5,17 +5,17 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/aquasecurity/trivy/pkg/report/predicate"
-	"github.com/aquasecurity/trivy/pkg/report/table"
+	"github.com/deepfactor-io/trivy/pkg/report/predicate"
+	"github.com/deepfactor-io/trivy/pkg/report/table"
 
 	"golang.org/x/xerrors"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/report/cyclonedx"
-	"github.com/aquasecurity/trivy/pkg/report/github"
-	"github.com/aquasecurity/trivy/pkg/report/spdx"
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/report/cyclonedx"
+	"github.com/deepfactor-io/trivy/pkg/report/github"
+	"github.com/deepfactor-io/trivy/pkg/report/spdx"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 const (

@@ -14,8 +14,8 @@ import (
 	"golang.org/x/xerrors"
 	"k8s.io/utils/clock"
 
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/types"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 const (

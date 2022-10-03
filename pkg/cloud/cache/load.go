@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/aquasecurity/trivy/pkg/cloud/report"
+	"github.com/deepfactor-io/trivy/pkg/cloud/report"
 )
 
 func (c *Cache) loadMetadata() (*Metadata, error) {

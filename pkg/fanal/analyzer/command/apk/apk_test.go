@@ -15,7 +15,7 @@ import (
 
 	"github.com/kylelemons/godebug/pretty"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 func TestAnalyze(t *testing.T) {

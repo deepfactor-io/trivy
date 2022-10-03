@@ -1,7 +1,7 @@
 package flag
 
 import (
-	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/log"
 )
 
 // e.g. config yaml

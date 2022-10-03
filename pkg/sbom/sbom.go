@@ -9,8 +9,8 @@ import (
 	"github.com/in-toto/in-toto-golang/in_toto"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/attestation"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/attestation"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 type SBOM struct {

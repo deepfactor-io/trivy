@@ -3,7 +3,7 @@ package cache
 import (
 	"time"
 
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 const SchemaVersion = 1

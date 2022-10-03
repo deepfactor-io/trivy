@@ -4,7 +4,7 @@
 package server
 
 import (
-	"github.com/aquasecurity/trivy/pkg/fanal/cache"
+	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
 	"github.com/google/wire"
 )
 
