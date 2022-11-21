@@ -6,10 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/require"
-
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
+	"github.com/stretchr/testify/require"
 
 	"github.com/deepfactor-io/trivy/pkg/clock"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"

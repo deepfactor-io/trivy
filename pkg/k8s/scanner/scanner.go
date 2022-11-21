@@ -9,20 +9,11 @@ import (
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
-<<<<<<< HEAD
 	cmd "github.com/deepfactor-io/trivy/pkg/commands/artifact"
 	"github.com/deepfactor-io/trivy/pkg/flag"
 	"github.com/deepfactor-io/trivy/pkg/k8s/report"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/types"
-=======
-	cmd "github.com/aquasecurity/trivy/pkg/commands/artifact"
-	"github.com/aquasecurity/trivy/pkg/flag"
-	"github.com/aquasecurity/trivy/pkg/k8s/report"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/scanner/local"
-	"github.com/aquasecurity/trivy/pkg/types"
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 type Scanner struct {
@@ -67,7 +58,7 @@ func (s *Scanner) Scan(ctx context.Context, artifacts []*artifacts.Artifact) (re
 	for _, artifact := range artifacts {
 		bar.Increment()
 
-		if shouldScanVulnsOrSecrets(s.opts.SecurityChecks) {
+		if slices.Contains(s.opts.SecurityChecks, types.SecurityCheckVulnerability) {
 			resources, err := s.scanVulns(ctx, artifact)
 			if err != nil {
 				return report.Report{}, xerrors.Errorf("scanning vulnerabilities error: %w", err)
@@ -75,7 +66,7 @@ func (s *Scanner) Scan(ctx context.Context, artifacts []*artifacts.Artifact) (re
 			vulns = append(vulns, resources...)
 		}
 
-		if local.ShouldScanMisconfigOrRbac(s.opts.SecurityChecks) {
+		if s.shouldScanMisconfig(s.opts.SecurityChecks) {
 			resource, err := s.scanMisconfigs(ctx, artifact)
 			if err != nil {
 				return report.Report{}, xerrors.Errorf("scanning misconfigurations error: %w", err)
@@ -90,6 +81,10 @@ func (s *Scanner) Scan(ctx context.Context, artifacts []*artifacts.Artifact) (re
 		Vulnerabilities:   vulns,
 		Misconfigurations: misconfigs,
 	}, nil
+}
+
+func (s *Scanner) shouldScanMisconfig(securityChecks []string) bool {
+	return slices.Contains(securityChecks, types.SecurityCheckConfig) || slices.Contains(securityChecks, types.SecurityCheckRbac)
 }
 
 func (s *Scanner) scanVulns(ctx context.Context, artifact *artifacts.Artifact) ([]report.Resource, error) {
@@ -137,15 +132,10 @@ func (s *Scanner) scanMisconfigs(ctx context.Context, artifact *artifacts.Artifa
 	return s.filter(ctx, configReport, artifact)
 }
 func (s *Scanner) filter(ctx context.Context, r types.Report, artifact *artifacts.Artifact) (report.Resource, error) {
-	var err error
-	r, err = s.runner.Filter(ctx, s.opts, r)
+	r, err := s.runner.Filter(ctx, s.opts, r)
 	if err != nil {
 		return report.Resource{}, xerrors.Errorf("filter error: %w", err)
 	}
-	return report.CreateResource(artifact, r, nil), nil
-}
 
-func shouldScanVulnsOrSecrets(securityChecks []string) bool {
-	return slices.Contains(securityChecks, types.SecurityCheckVulnerability) ||
-		slices.Contains(securityChecks, types.SecurityCheckSecret)
+	return report.CreateResource(artifact, r, nil), nil
 }

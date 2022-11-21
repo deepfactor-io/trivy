@@ -40,7 +40,7 @@ the `--helm-set-string` is the same as `--helm-set` but explicitly retains the v
 trivy config --helm-set-string name=false ./infrastructure/tf
 ```
 
-### Setting specific values from files
+### Setting sepecific values from files
 Specific override values can come from specific files
 
 ```bash

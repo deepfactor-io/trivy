@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"golang.org/x/xerrors"
@@ -17,17 +18,21 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
-func init() {
-	analyzer.RegisterAnalyzer(&helmConfigAnalyzer{})
-}
-
 const version = 1
 
 const maxTarSize = 209_715_200 // 200MB
 
-type helmConfigAnalyzer struct{}
+type ConfigAnalyzer struct {
+	filePattern *regexp.Regexp
+}
 
-func (a helmConfigAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
+func NewConfigAnalyzer(filePattern *regexp.Regexp) ConfigAnalyzer {
+	return ConfigAnalyzer{
+		filePattern: filePattern,
+	}
+}
+
+func (a ConfigAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
 	if isArchive(input.FilePath) {
 		if !isHelmChart(input.FilePath, input.Content) {
 			return nil, nil
@@ -57,13 +62,17 @@ func (a helmConfigAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisIn
 	}, nil
 }
 
-func (a helmConfigAnalyzer) Required(filePath string, info os.FileInfo) bool {
+func (a ConfigAnalyzer) Required(filePath string, info os.FileInfo) bool {
+	if a.filePattern != nil && a.filePattern.MatchString(filePath) {
+		return true
+	}
+
 	if info.Size() > maxTarSize {
 		// tarball is too big to be Helm chart - move on
 		return false
 	}
 
-	for _, acceptable := range []string{".tpl", ".json", ".yml", ".yaml", ".tar", ".tgz", ".tar.gz"} {
+	for _, acceptable := range []string{".tpl", ".json", ".yaml", ".tar", ".tgz", ".tar.gz"} {
 		if strings.HasSuffix(strings.ToLower(filePath), acceptable) {
 			return true
 		}
@@ -79,11 +88,11 @@ func (a helmConfigAnalyzer) Required(filePath string, info os.FileInfo) bool {
 	return false
 }
 
-func (helmConfigAnalyzer) Type() analyzer.Type {
+func (ConfigAnalyzer) Type() analyzer.Type {
 	return analyzer.TypeHelm
 }
 
-func (helmConfigAnalyzer) Version() int {
+func (ConfigAnalyzer) Version() int {
 	return version
 }
 

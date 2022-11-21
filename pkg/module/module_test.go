@@ -92,10 +92,7 @@ func TestManager_Register(t *testing.T) {
 			}()
 
 			// Confirm the analyzer is registered
-			a, err := analyzer.NewAnalyzerGroup(analyzer.AnalyzerOptions{})
-			require.NoError(t, err)
-
-			got := a.AnalyzerVersions()
+			got := analyzer.NewAnalyzerGroup("", nil).AnalyzerVersions()
 			assert.Equal(t, tt.wantAnalyzerVersions, got)
 
 			// Confirm the post scanner is registered

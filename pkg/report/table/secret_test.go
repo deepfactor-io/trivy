@@ -27,7 +27,6 @@ func TestSecretRenderer(t *testing.T) {
 					Category:  ftypes.SecretRuleCategory("category"),
 					Title:     "this is a title",
 					Severity:  "HIGH",
-					Layer:     ftypes.Layer{DiffID: "sha256:beee9f30bc1f711043e78d4a2be0668955d4b761d587d6f60c2c8dc081efb203"},
 					StartLine: 1,
 					EndLine:   1,
 					Code: ftypes.Code{
@@ -53,7 +52,7 @@ HIGH: category (rule-id)
 ════════════════════════════════════════
 this is a title
 ────────────────────────────────────────
- my-file:1 (added in layer 'beee9f30bc1f')
+ my-file:1
 ────────────────────────────────────────
    1 [ password=secret
 ────────────────────────────────────────
@@ -65,14 +64,11 @@ this is a title
 			name: "multiple line",
 			input: []ftypes.SecretFinding{
 				{
-					RuleID:   "rule-id",
-					Category: ftypes.SecretRuleCategory("category"),
-					Title:    "this is a title",
-					Severity: "HIGH",
-					Layer: ftypes.Layer{
-						DiffID:    "sha256:beee9f30bc1f711043e78d4a2be0668955d4b761d587d6f60c2c8dc081efb203",
-						CreatedBy: "COPY my-file my-file",
-					},
+					RuleID:    "rule-id",
+					Category:  ftypes.SecretRuleCategory("category"),
+					Title:     "this is a title",
+					Severity:  "HIGH",
+					Deleted:   true,
 					StartLine: 3,
 					EndLine:   4,
 					Code: ftypes.Code{
@@ -119,7 +115,7 @@ HIGH: category (rule-id)
 ════════════════════════════════════════
 this is a title
 ────────────────────────────────────────
- my-file:3-4 (added by 'COPY my-file my-file')
+ my-file:3-4 (deleted in the intermediate layer)
 ────────────────────────────────────────
    1   #!/bin/bash
    2   

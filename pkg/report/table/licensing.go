@@ -15,8 +15,7 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/types"
 
 	"github.com/fatih/color"
-
-	"github.com/aquasecurity/tml"
+	"github.com/liamg/tml"
 )
 
 type pkgLicenseRenderer struct {
@@ -47,7 +46,7 @@ func (r pkgLicenseRenderer) Render() string {
 	total, summaries := summarize(r.severities, r.countSeverities())
 
 	target := r.result.Target + " (license)"
-	RenderTarget(r.w, target, r.isTerminal)
+	renderTarget(r.w, target, r.isTerminal)
 	r.printf("Total: %d (%s)\n\n", total, strings.Join(summaries, ", "))
 
 	r.tableWriter.Render()
@@ -117,7 +116,7 @@ func (r fileLicenseRenderer) Render() string {
 	total, summaries := summarize(r.severities, r.countSeverities())
 
 	target := r.result.Target + " (license)"
-	RenderTarget(r.w, target, r.isTerminal)
+	renderTarget(r.w, target, r.isTerminal)
 	r.printf("Total: %d (%s)\n\n", total, strings.Join(summaries, ", "))
 
 	r.tableWriter.Render()

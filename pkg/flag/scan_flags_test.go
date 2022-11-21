@@ -3,17 +3,11 @@ package flag_test
 import (
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/flag"
 	"github.com/deepfactor-io/trivy/pkg/types"
-=======
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	"github.com/aquasecurity/trivy/pkg/flag"
-	"github.com/aquasecurity/trivy/pkg/types"
 )
 
 func TestScanFlagGroup_ToOptions(t *testing.T) {
@@ -21,6 +15,7 @@ func TestScanFlagGroup_ToOptions(t *testing.T) {
 		skipDirs       []string
 		skipFiles      []string
 		offlineScan    bool
+		vulnType       string
 		securityChecks string
 	}
 	tests := []struct {
@@ -58,7 +53,7 @@ func TestScanFlagGroup_ToOptions(t *testing.T) {
 			},
 			want: flag.ScanOptions{},
 			assertion: func(t require.TestingT, err error, msgs ...interface{}) {
-				require.ErrorContains(t, err, "unknown security check: WRONG-CHECK")
+				require.ErrorContains(t, err, "unknown security check")
 			},
 		},
 		{
@@ -112,6 +107,7 @@ func TestScanFlagGroup_ToOptions(t *testing.T) {
 			viper.Set(flag.SkipDirsFlag.ConfigName, tt.fields.skipDirs)
 			viper.Set(flag.SkipFilesFlag.ConfigName, tt.fields.skipFiles)
 			viper.Set(flag.OfflineScanFlag.ConfigName, tt.fields.offlineScan)
+			viper.Set(flag.VulnTypeFlag.ConfigName, tt.fields.vulnType)
 			viper.Set(flag.SecurityChecksFlag.ConfigName, tt.fields.securityChecks)
 
 			// Assert options

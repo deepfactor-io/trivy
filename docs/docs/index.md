@@ -1,6 +1,28 @@
 # Docs
 
-This documentation details how to use Trivy to access the features listed below.
+Trivy detects two types of security issues:
+
+- [Vulnerabilities][vuln]
+- [Misconfigurations][misconf]
+
+Trivy can scan four different artifacts:
+
+- [Container Images][container]
+- [Filesystem][filesystem] and [Rootfs][rootfs]
+- [Git Repositories][repo]
+- [Kubernetes][kubernetes]
+
+Trivy can be run in two different modes:
+
+- [Standalone][standalone]
+- [Client/Server][client-server]
+
+Trivy can be run as a Kubernetes Operator:
+
+- [Kubernetes Operator][kubernetesoperator]
+
+It is designed to be used in CI. Before pushing to a container registry or deploying your application, you can scan your local container image and other artifacts easily.
+See [Integrations][integrations] for details.
 
 ## Features
 
@@ -45,7 +67,7 @@ This documentation details how to use Trivy to access the features listed below.
 
 Please see [LICENSE][license] for Trivy licensing information.
 
-[installation]: ../index.md
+[installation]: ../getting-started/installation.md
 [vuln]: ../docs/vulnerability/scanning/index.md
 [misconf]: ../docs/misconfiguration/scanning.md
 [kubernetesoperator]: ../docs/kubernetes/operator/index.md
@@ -57,7 +79,7 @@ Please see [LICENSE][license] for Trivy licensing information.
 
 [standalone]: ../docs/references/modes/standalone.md
 [client-server]: ../docs/references/modes/client-server.md
-[integrations]: ../tutorials/integrations/index.md
+[integrations]: ../docs/integrations/index.md
 
 [os]: ../docs/vulnerability/detection/os.md
 [lang]: ../docs/vulnerability/detection/language.md

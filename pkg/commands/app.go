@@ -111,7 +111,6 @@ func loadPluginCommands() []*cobra.Command {
 				}
 				return nil
 			},
-			DisableFlagParsing: true,
 		}
 		commands = append(commands, cmd)
 	}
@@ -208,8 +207,8 @@ func NewRootCommand(version string, globalFlags *flag.GlobalFlagGroup) *cobra.Co
 
 func NewImageCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 	reportFlagGroup := flag.NewReportFlagGroup()
-	reportFlagGroup.ReportFormat = nil // TODO: support --report summary
-	reportFlagGroup.Compliance = nil   // disable '--compliance'
+	reportFlagGroup.DependencyTree = nil // disable '--dependency-tree'
+	reportFlagGroup.ReportFormat = nil   // TODO: support --report summary
 
 	imageFlags := &flag.Flags{
 		CacheFlagGroup:         flag.NewCacheFlagGroup(),
@@ -218,7 +217,6 @@ func NewImageCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 		LicenseFlagGroup:       flag.NewLicenseFlagGroup(),
 		MisconfFlagGroup:       flag.NewMisconfFlagGroup(),
 		RemoteFlagGroup:        flag.NewClientFlags(), // for client/server mode
-		RegoFlagGroup:          flag.NewRegoFlagGroup(),
 		ReportFlagGroup:        reportFlagGroup,
 		ScanFlagGroup:          flag.NewScanFlagGroup(),
 		SecretFlagGroup:        flag.NewSecretFlagGroup(),
@@ -248,7 +246,7 @@ func NewImageCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
   $ trivy image --format json --output result.json alpine:3.15
 
   # Generate a report in the CycloneDX format
-  $ trivy image --format cyclonedx --output result.cdx alpine:3.15`,
+  $ trivy image --format cyclonedx --output result.cdx --security-checks none alpine:3.15`,
 
 		// 'Args' cannot be used since it is called before PreRunE and viper is not configured yet.
 		// cmd.Args     -> cannot validate args here
@@ -284,7 +282,6 @@ func NewImageCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 func NewFilesystemCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 	reportFlagGroup := flag.NewReportFlagGroup()
 	reportFlagGroup.ReportFormat = nil // TODO: support --report summary
-	reportFlagGroup.Compliance = nil   // disable '--compliance'
 
 	fsFlags := &flag.Flags{
 		CacheFlagGroup:         flag.NewCacheFlagGroup(),
@@ -292,7 +289,6 @@ func NewFilesystemCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 		LicenseFlagGroup:       flag.NewLicenseFlagGroup(),
 		MisconfFlagGroup:       flag.NewMisconfFlagGroup(),
 		RemoteFlagGroup:        flag.NewClientFlags(), // for client/server mode
-		RegoFlagGroup:          flag.NewRegoFlagGroup(),
 		ReportFlagGroup:        reportFlagGroup,
 		ScanFlagGroup:          flag.NewScanFlagGroup(),
 		SecretFlagGroup:        flag.NewSecretFlagGroup(),
@@ -338,15 +334,12 @@ func NewFilesystemCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 func NewRootfsCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 	reportFlagGroup := flag.NewReportFlagGroup()
 	reportFlagGroup.ReportFormat = nil // TODO: support --report summary
-	reportFlagGroup.Compliance = nil   // disable '--compliance'
 
 	rootfsFlags := &flag.Flags{
 		CacheFlagGroup:         flag.NewCacheFlagGroup(),
 		DBFlagGroup:            flag.NewDBFlagGroup(),
 		LicenseFlagGroup:       flag.NewLicenseFlagGroup(),
 		MisconfFlagGroup:       flag.NewMisconfFlagGroup(),
-		RemoteFlagGroup:        flag.NewClientFlags(), // for client/server mode
-		RegoFlagGroup:          flag.NewRegoFlagGroup(),
 		ReportFlagGroup:        reportFlagGroup,
 		ScanFlagGroup:          flag.NewScanFlagGroup(),
 		SecretFlagGroup:        flag.NewSecretFlagGroup(),
@@ -393,14 +386,12 @@ func NewRootfsCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 func NewRepositoryCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 	reportFlagGroup := flag.NewReportFlagGroup()
 	reportFlagGroup.ReportFormat = nil // TODO: support --report summary
-	reportFlagGroup.Compliance = nil   // disable '--compliance'
 
 	repoFlags := &flag.Flags{
 		CacheFlagGroup:         flag.NewCacheFlagGroup(),
 		DBFlagGroup:            flag.NewDBFlagGroup(),
 		LicenseFlagGroup:       flag.NewLicenseFlagGroup(),
 		MisconfFlagGroup:       flag.NewMisconfFlagGroup(),
-		RegoFlagGroup:          flag.NewRegoFlagGroup(),
 		RemoteFlagGroup:        flag.NewClientFlags(), // for client/server mode
 		ReportFlagGroup:        reportFlagGroup,
 		ScanFlagGroup:          flag.NewScanFlagGroup(),
@@ -457,7 +448,6 @@ func NewClientCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 		CacheFlagGroup:         flag.NewCacheFlagGroup(),
 		DBFlagGroup:            flag.NewDBFlagGroup(),
 		MisconfFlagGroup:       flag.NewMisconfFlagGroup(),
-		RegoFlagGroup:          flag.NewRegoFlagGroup(),
 		RemoteFlagGroup:        remoteFlags,
 		ReportFlagGroup:        flag.NewReportFlagGroup(),
 		ScanFlagGroup:          flag.NewScanFlagGroup(),
@@ -540,19 +530,16 @@ func NewConfigCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 	reportFlagGroup.IgnorePolicy = nil   // disable '--ignore-policy'
 	reportFlagGroup.ListAllPkgs = nil    // disable '--list-all-pkgs'
 	reportFlagGroup.ReportFormat = nil   // TODO: support --report summary
-	reportFlagGroup.Compliance = nil     // disable '--compliance'
 
 	scanFlags := &flag.ScanFlagGroup{
 		// Enable only '--skip-dirs' and '--skip-files' and disable other flags
-		SkipDirs:     &flag.SkipDirsFlag,
-		SkipFiles:    &flag.SkipFilesFlag,
-		FilePatterns: &flag.FilePatternsFlag,
+		SkipDirs:  &flag.SkipDirsFlag,
+		SkipFiles: &flag.SkipFilesFlag,
 	}
 
 	configFlags := &flag.Flags{
 		CacheFlagGroup:   flag.NewCacheFlagGroup(),
 		MisconfFlagGroup: flag.NewMisconfFlagGroup(),
-		RegoFlagGroup:    flag.NewRegoFlagGroup(),
 		ReportFlagGroup:  reportFlagGroup,
 		ScanFlagGroup:    scanFlags,
 	}
@@ -747,8 +734,7 @@ func NewKubernetesCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 		"%s,%s,%s,%s",
 		types.SecurityCheckVulnerability,
 		types.SecurityCheckConfig,
-		types.SecurityCheckSecret,
-		types.SecurityCheckRbac,
+		types.SecurityCheckSecret, types.SecurityCheckRbac,
 	)
 	scanFlags.SecurityChecks = &securityChecks
 
@@ -758,7 +744,6 @@ func NewKubernetesCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 		K8sFlagGroup:           flag.NewK8sFlagGroup(), // kubernetes-specific flags
 		LicenseFlagGroup:       flag.NewLicenseFlagGroup(),
 		MisconfFlagGroup:       flag.NewMisconfFlagGroup(),
-		RegoFlagGroup:          flag.NewRegoFlagGroup(),
 		ReportFlagGroup:        flag.NewReportFlagGroup(),
 		ScanFlagGroup:          scanFlags,
 		SecretFlagGroup:        flag.NewSecretFlagGroup(),
@@ -767,7 +752,7 @@ func NewKubernetesCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "kubernetes [flags] { cluster | all | specific resources like kubectl. eg: pods, pod/NAME }",
 		Aliases: []string{"k8s"},
-		Short:   "[EXPERIMENTAL] Scan kubernetes cluster",
+		Short:   "scan kubernetes cluster",
 		Example: `  # cluster scanning
   $ trivy k8s --report summary cluster
 
@@ -814,7 +799,6 @@ func NewAWSCommand(globalFlags *flag.GlobalFlagGroup) *cobra.Command {
 		AWSFlagGroup:     flag.NewAWSFlagGroup(),
 		CloudFlagGroup:   flag.NewCloudFlagGroup(),
 		MisconfFlagGroup: flag.NewMisconfFlagGroup(),
-		RegoFlagGroup:    flag.NewRegoFlagGroup(),
 		ReportFlagGroup:  flag.NewReportFlagGroup(),
 	}
 

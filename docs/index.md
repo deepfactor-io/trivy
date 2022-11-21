@@ -1,34 +1,26 @@
 ---
 hide:
+- navigation
 - toc
 ---
 
-![logo](imgs/logo.png){ align=right }
+![logo](imgs/logo.png){ align=left }
 
-Trivy (tri pronounced like trigger, vy pronounced like envy) is a comprehensive security scanner. It is reliable, fast, extremely easy to use, and it works wherever you need it.
+`Trivy` (`tri` pronounced like **tri**gger, `vy` pronounced like en**vy**) is a simple and comprehensive [vulnerability][vulnerability]/[misconfiguration][misconf]/[secret][secret] scanner for containers and other artifacts.
+`Trivy` detects vulnerabilities of [OS packages][os] (Alpine, RHEL, CentOS, etc.) and [language-specific packages][lang] (Bundler, Composer, npm, yarn, etc.).
+In addition, `Trivy` scans [Infrastructure as Code (IaC) files][misconf] such as Terraform and Kubernetes, to detect potential configuration issues that expose your deployments to the risk of attack.
+`Trivy` also scans [hardcoded secrets][secret] like passwords, API keys and tokens.
+`Trivy` is easy to use. Just install the binary and you're ready to scan.
+All you need to do for scanning is to specify a target such as an image name of the container.
 
-Trivy has different scanners that look for different security issues, and different targets where it can find those issues.
+<div style="text-align: center">
+    <img src="imgs/overview.png" width="800">
+</div>
 
-Targets:
 
-- Container Image
-- Filesystem
-- Git repository (remote)
-- Kubernetes cluster or resource
-
-Scanners:
-
-- OS packages and software dependencies in use (SBOM)
-- Known vulnerabilities (CVEs)
-- IaC misconfigurations
-- Sensitive information and secrets
-
-It is designed to be used in CI. Before pushing to a container registry or deploying your application, you can scan your local container image and other artifacts easily.
-See [Integrations][integrations] for details.
-
-Much more scanners and targets are coming up. [Join the Slack][slack] channel to stay up to date, ask questions, and let us know what features you would like to see.
-
-Please see [LICENSE][license] for Trivy licensing information.
+<div style="text-align: center; margin-top: 150px">
+    <h1 id="demo">Demo</h1>
+</div>
 
 <figure style="text-align: center">
   <video width="1000" autoplay muted controls loop>
@@ -49,6 +41,18 @@ Please see [LICENSE][license] for Trivy licensing information.
   <figcaption>Demo: Secret Detection</figcaption>
 </figure>
 
-[integrations]: ./tutorials/integrations/index.md
-[slack]: https://slack.aquasec.com
-[license]:  https://github.com/aquasecurity/trivy/blob/main/LICENSE
+---
+
+Trivy is an [Aqua Security][aquasec] open source project.  
+Learn about our open source work and portfolio [here][oss].  
+Contact us about any matter by opening a GitHub Discussion [here][discussions]
+
+[vulnerability]: docs/vulnerability/scanning/index.md
+[misconf]: docs/misconfiguration/scanning.md
+[secret]: docs/secret/scanning.md
+[os]: docs/vulnerability/detection/os.md
+[lang]: docs/vulnerability/detection/language.md
+
+[aquasec]: https://aquasec.com
+[oss]: https://www.aquasec.com/products/open-source-projects/
+[discussions]: https://github.com/aquasecurity/trivy/discussions

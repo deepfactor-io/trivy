@@ -39,7 +39,6 @@ Get Trivy by your favorite installation method. See [installation] section in th
 
 - `apt-get install trivy`
 - `yum install trivy`
-- `pacman -S trivy`
 - `brew install aquasecurity/trivy/trivy`
 - `sudo port install trivy`
 - `docker run aquasec/trivy`
@@ -138,7 +137,7 @@ Contact us about any matter by opening a GitHub Discussion [here][discussions]
 
 [getting-started]: https://aquasecurity.github.io/trivy/latest/getting-started/installation/
 [docs]: https://aquasecurity.github.io/trivy
-[integrations]:https://aquasecurity.github.io/trivy/latest/tutorials/integrations/
+[integrations]:https://aquasecurity.github.io/trivy/latest/docs/integrations/
 [installation]:https://aquasecurity.github.io/trivy/latest/getting-started/installation/
 [releases]: https://github.com/aquasecurity/trivy/releases
 [alpine]: https://ariadne.space/2021/06/08/the-vulnerability-remediation-lifecycle-of-alpine-containers/

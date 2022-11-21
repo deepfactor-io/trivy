@@ -7,19 +7,13 @@
 package cache
 
 import (
-<<<<<<< HEAD
 	common "github.com/deepfactor-io/trivy/rpc/common"
-=======
-	reflect "reflect"
-	sync "sync"
-
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
-
-	common "github.com/aquasecurity/trivy/rpc/common"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (

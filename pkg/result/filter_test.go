@@ -4,14 +4,9 @@ import (
 	"context"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/result"
-=======
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	"github.com/aquasecurity/trivy/pkg/result"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"

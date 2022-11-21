@@ -39,7 +39,7 @@ func (a depsLibraryAnalyzer) Required(filePath string, _ os.FileInfo) bool {
 }
 
 func (a depsLibraryAnalyzer) Type() analyzer.Type {
-	return analyzer.TypeDotNetCore
+	return analyzer.TypeDotNetDeps
 }
 
 func (a depsLibraryAnalyzer) Version() int {

@@ -37,7 +37,6 @@ const (
 	PropertyRepoTag    = "RepoTag"
 
 	// Package properties
-	PropertyPkgID           = "PkgID"
 	PropertyPkgType         = "PkgType"
 	PropertySrcName         = "SrcName"
 	PropertySrcVersion      = "SrcVersion"
@@ -158,9 +157,7 @@ func (e *Marshaler) MarshalVulnerabilities(report types.Report) (*cdx.BOM, error
 	//      "bom-ref" : "urn:cdx:f08a6ccd-4dce-4759-bd84-c626675d60a7/1"
 	//    }
 	//  },
-	if report.CycloneDX.SerialNumber != "" { // bomRef is optional field - https://cyclonedx.org/docs/1.4/json/#metadata_component_bom-ref
-		bom.Metadata.Component.BOMRef = fmt.Sprintf("%s/%d", report.CycloneDX.SerialNumber, report.CycloneDX.Version)
-	}
+	bom.Metadata.Component.BOMRef = fmt.Sprintf("%s/%d", report.CycloneDX.SerialNumber, report.CycloneDX.Version)
 	return bom, nil
 }
 
@@ -178,10 +175,6 @@ func (e *Marshaler) cdxMetadata() *cdx.Metadata {
 }
 
 func externalRef(bomLink string, bomRef string) (string, error) {
-	// bomLink is optional field: https://cyclonedx.org/docs/1.4/json/#vulnerabilities_items_bom-ref
-	if bomLink == "" {
-		return bomRef, nil
-	}
 	if !strings.HasPrefix(bomLink, "urn:uuid:") {
 		return "", xerrors.Errorf("%q: %w", bomLink, ErrInvalidBOMLink)
 	}
@@ -437,7 +430,6 @@ func cdxProperties(pkgType string, pkg ftypes.Package) *[]cdx.Property {
 		name  string
 		value string
 	}{
-		{PropertyPkgID, pkg.ID},
 		{PropertyPkgType, pkgType},
 		{PropertyFilePath, pkg.FilePath},
 		{PropertySrcName, pkg.SrcName},

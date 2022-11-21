@@ -18,15 +18,14 @@ func CalcKey(id string, analyzerVersions, hookVersions map[string]int, artifactO
 
 	h := sha256.New()
 
-	// Write ID, analyzer/handler versions, skipped files/dirs and file patterns
+	// Write ID, analyzer/handler versions, and skipped files/dirs
 	keyBase := struct {
 		ID               string
 		AnalyzerVersions map[string]int
 		HookVersions     map[string]int
 		SkipFiles        []string
 		SkipDirs         []string
-		FilePatterns     []string `json:",omitempty"`
-	}{id, analyzerVersions, hookVersions, artifactOpt.SkipFiles, artifactOpt.SkipDirs, artifactOpt.FilePatterns}
+	}{id, analyzerVersions, hookVersions, artifactOpt.SkipFiles, artifactOpt.SkipDirs}
 
 	if err := json.NewEncoder(h).Encode(keyBase); err != nil {
 		return "", xerrors.Errorf("json encode error: %w", err)

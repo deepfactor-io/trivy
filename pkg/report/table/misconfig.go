@@ -9,15 +9,10 @@ import (
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 
+	"github.com/liamg/tml"
 	"golang.org/x/crypto/ssh/terminal"
 
-<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/types"
-=======
-	"github.com/aquasecurity/tml"
-
-	"github.com/aquasecurity/trivy/pkg/types"
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 const (
@@ -58,7 +53,7 @@ func NewMisconfigRenderer(result types.Result, severities []dbTypes.Severity, tr
 
 func (r *misconfigRenderer) Render() string {
 	target := fmt.Sprintf("%s (%s)", r.result.Target, r.result.Type)
-	RenderTarget(r.w, target, r.ansi)
+	renderTarget(r.w, target, r.ansi)
 
 	total, summaries := summarize(r.severities, r.countSeverities())
 

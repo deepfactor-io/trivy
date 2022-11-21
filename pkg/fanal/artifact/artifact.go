@@ -4,16 +4,10 @@ import (
 	"context"
 	"sort"
 
-<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	misconf "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/secret"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-=======
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	misconf "github.com/aquasecurity/trivy/pkg/fanal/analyzer/config"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 type Option struct {
@@ -22,7 +16,6 @@ type Option struct {
 	DisabledHandlers  []types.HandlerType
 	SkipFiles         []string
 	SkipDirs          []string
-	FilePatterns      []string
 	NoProgress        bool
 	Offline           bool
 	InsecureSkipTLS   bool
@@ -30,14 +23,9 @@ type Option struct {
 	RepoBranch        string
 	RepoCommit        string
 	RepoTag           string
-	SBOMSources       []string
-	RekorURL          string
-	Platform          string
-	Slow              bool // Lower CPU and memory
 
 	MisconfScannerOption misconf.ScannerOption
-	SecretScannerOption  analyzer.SecretScannerOption
-	LicenseScannerOption analyzer.LicenseScannerOption
+	SecretScannerOption  secret.ScannerOption
 }
 
 func (o *Option) Sort() {
@@ -46,7 +34,6 @@ func (o *Option) Sort() {
 	})
 	sort.Strings(o.SkipFiles)
 	sort.Strings(o.SkipDirs)
-	sort.Strings(o.FilePatterns)
 }
 
 type Artifact interface {

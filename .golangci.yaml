@@ -21,17 +21,18 @@ linters-settings:
     local-prefixes: github.com/aquasecurity
   gosec:
     excludes:
-      - G114
       - G204
       - G402
 
 linters:
   disable-all: true
   enable:
-    - unused
+    - structcheck
     - ineffassign
     - typecheck
     - govet
+    - varcheck
+    - deadcode
     - revive
     - gosec
     - unconvert
@@ -42,7 +43,7 @@ linters:
     - misspell
 
 run:
-  go: 1.19
+  go: 1.18
   skip-files:
     - ".*._mock.go$"
     - ".*._test.go$"

@@ -4,7 +4,6 @@ import (
 	"context"
 	"io"
 	"os"
-	"strings"
 	"sync"
 	"time"
 
@@ -59,7 +58,7 @@ type image struct {
 	v1.Image
 	opener  opener
 	inspect types.ImageInspect
-	history []v1.History
+	history []dimage.HistoryResponseItem
 }
 
 // populateImage initializes an "image" struct.
@@ -112,7 +111,7 @@ func (img *image) ConfigFile() (*v1.ConfigFile, error) {
 		Created:       v1.Time{Time: created},
 		DockerVersion: img.inspect.DockerVersion,
 		Config:        img.imageConfig(img.inspect.Config),
-		History:       img.history,
+		History:       img.configHistory(),
 		OS:            img.inspect.Os,
 		RootFS: v1.RootFS{
 			Type:    img.inspect.RootFS.Type,
@@ -141,6 +140,23 @@ func (img *image) RepoTags() []string {
 
 func (img *image) RepoDigests() []string {
 	return img.inspect.RepoDigests
+}
+
+func (img *image) configHistory() []v1.History {
+	// Fill only required metadata
+	var history []v1.History
+	for i := len(img.history) - 1; i >= 0; i-- {
+		h := img.history[i]
+		history = append(history, v1.History{
+			Created: v1.Time{
+				Time: time.Unix(h.Created, 0).UTC(),
+			},
+			CreatedBy:  h.CreatedBy,
+			Comment:    h.Comment,
+			EmptyLayer: h.Size == 0,
+		})
+	}
+	return history
 }
 
 func (img *image) diffIDs() ([]v1.Hash, error) {
@@ -203,60 +219,4 @@ func (img *image) imageConfig(config *container.Config) v1.Config {
 	}
 
 	return c
-}
-
-func configHistory(dhistory []dimage.HistoryResponseItem) []v1.History {
-	// Fill only required metadata
-	var history []v1.History
-
-	for i := len(dhistory) - 1; i >= 0; i-- {
-		h := dhistory[i]
-		history = append(history, v1.History{
-			Created: v1.Time{
-				Time: time.Unix(h.Created, 0).UTC(),
-			},
-			CreatedBy:  h.CreatedBy,
-			Comment:    h.Comment,
-			EmptyLayer: emptyLayer(h),
-		})
-	}
-	return history
-}
-
-func emptyLayer(history dimage.HistoryResponseItem) bool {
-	if history.Size != 0 {
-		return false
-	}
-	createdBy := strings.TrimSpace(strings.TrimLeft(history.CreatedBy, "/bin/sh -c #(nop)"))
-	// This logic is taken from https://github.com/moby/buildkit/blob/2942d13ff489a2a49082c99e6104517e357e53ad/frontend/dockerfile/dockerfile2llb/convert.go
-	if strings.HasPrefix(createdBy, "ENV") ||
-		strings.HasPrefix(createdBy, "MAINTAINER") ||
-		strings.HasPrefix(createdBy, "LABEL") ||
-		strings.HasPrefix(createdBy, "CMD") ||
-		strings.HasPrefix(createdBy, "ENTRYPOINT") ||
-		strings.HasPrefix(createdBy, "HEALTHCHECK") ||
-		strings.HasPrefix(createdBy, "EXPOSE") ||
-		strings.HasPrefix(createdBy, "USER") ||
-		strings.HasPrefix(createdBy, "VOLUME") ||
-		strings.HasPrefix(createdBy, "STOPSIGNAL") ||
-		strings.HasPrefix(createdBy, "SHELL") ||
-		strings.HasPrefix(createdBy, "ARG") {
-		return true
-	}
-	// buildkit layers with "WORKDIR /" command are empty,
-	if strings.HasPrefix(history.Comment, "buildkit.dockerfile") {
-		if createdBy == "WORKDIR /" {
-			return true
-		}
-	} else if strings.HasPrefix(createdBy, "WORKDIR") { // layers build with docker and podman, WORKDIR command is always empty layer.
-		return true
-	}
-	// The following instructions could reach here:
-	//     - "ADD"
-	//     - "COPY"
-	//     - "RUN"
-	//         - "RUN" may not include even 'RUN' prefix
-	//            e.g. '/bin/sh -c mkdir test '
-	//     - "WORKDIR", which doesn't meet the above conditions
-	return false
 }

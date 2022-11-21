@@ -13,18 +13,19 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
-func init() {
-	analyzer.RegisterAnalyzer(&terraformConfigAnalyzer{})
-}
-
 const version = 1
 
 var requiredExts = []string{".tf", ".tf.json"}
 
-type terraformConfigAnalyzer struct{}
+type ConfigAnalyzer struct {
+}
+
+func NewConfigAnalyzer() ConfigAnalyzer {
+	return ConfigAnalyzer{}
+}
 
 // Analyze returns a name of Terraform file
-func (a terraformConfigAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
+func (a ConfigAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
 	b, err := io.ReadAll(input.Content)
 	if err != nil {
 		return nil, xerrors.Errorf("read error (%s): %w", input.FilePath, err)
@@ -43,14 +44,14 @@ func (a terraformConfigAnalyzer) Analyze(_ context.Context, input analyzer.Analy
 	}, nil
 }
 
-func (a terraformConfigAnalyzer) Required(filePath string, _ os.FileInfo) bool {
+func (a ConfigAnalyzer) Required(filePath string, _ os.FileInfo) bool {
 	return slices.Contains(requiredExts, filepath.Ext(filePath))
 }
 
-func (terraformConfigAnalyzer) Type() analyzer.Type {
+func (ConfigAnalyzer) Type() analyzer.Type {
 	return analyzer.TypeTerraform
 }
 
-func (terraformConfigAnalyzer) Version() int {
+func (ConfigAnalyzer) Version() int {
 	return version
 }

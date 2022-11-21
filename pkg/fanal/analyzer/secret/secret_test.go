@@ -1,4 +1,4 @@
-package secret_test
+package secret
 
 import (
 	"context"
@@ -8,14 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-=======
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/secret"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 func TestSecretAnalyzer(t *testing.T) {
@@ -156,10 +150,7 @@ func TestSecretAnalyzer(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := &secret.SecretAnalyzer{}
-			err := a.Init(analyzer.AnalyzerOptions{
-				SecretScannerOption: analyzer.SecretScannerOption{ConfigPath: tt.configPath},
-			})
+			a, err := newSecretAnalyzer(tt.configPath)
 			require.NoError(t, err)
 			content, err := os.Open(tt.filePath)
 			require.NoError(t, err)
@@ -214,8 +205,7 @@ func TestSecretRequire(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := secret.SecretAnalyzer{}
-			err := a.Init(analyzer.AnalyzerOptions{})
+			a, err := newSecretAnalyzer("")
 			require.NoError(t, err)
 
 			fi, err := os.Stat(tt.filePath)

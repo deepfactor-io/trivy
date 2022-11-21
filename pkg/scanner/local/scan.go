@@ -40,7 +40,6 @@ var (
 // SuperSet binds dependencies for Local scan
 var SuperSet = wire.NewSet(
 	vulnerability.SuperSet,
-	wire.Value([]applier.Option(nil)), // functional options
 	applier.NewApplier,
 	wire.Bind(new(Applier), new(applier.Applier)),
 	wire.Struct(new(ospkgDetector.Detector)),
@@ -133,7 +132,7 @@ func (s Scanner) Scan(ctx context.Context, target, artifactKey string, blobKeys 
 	}
 
 	// Scan IaC config files
-	if ShouldScanMisconfigOrRbac(options.SecurityChecks) {
+	if shouldScanMisconfig(options.SecurityChecks) {
 		configResults := s.misconfsToResults(artifactDetail.Misconfigurations)
 		results = append(results, configResults...)
 	}
@@ -489,10 +488,6 @@ func toDetectedMisconfiguration(res ftypes.MisconfResult, defaultSeverity dbType
 		res.References = append(res.References, primaryURL)
 	}
 
-	if len(primaryURL) == 0 && len(res.References) > 0 {
-		primaryURL = res.References[0]
-	}
-
 	return types.DetectedMisconfiguration{
 		ID:          res.ID,
 		AVDID:       res.AVDID,
@@ -535,7 +530,6 @@ func mergePkgs(pkgs, pkgsFromCommands []ftypes.Package) []ftypes.Package {
 	return pkgs
 }
 
-func ShouldScanMisconfigOrRbac(securityChecks []string) bool {
-	return slices.Contains(securityChecks, types.SecurityCheckConfig) ||
-		slices.Contains(securityChecks, types.SecurityCheckRbac)
+func shouldScanMisconfig(securityChecks []string) bool {
+	return slices.Contains(securityChecks, types.SecurityCheckConfig) || slices.Contains(securityChecks, types.SecurityCheckRbac)
 }

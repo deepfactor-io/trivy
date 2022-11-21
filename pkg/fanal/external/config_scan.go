@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 
-<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config"
 	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
@@ -12,17 +11,6 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact/local"
 	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-=======
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/config"
-	"github.com/aquasecurity/trivy/pkg/fanal/applier"
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact/local"
-	"github.com/aquasecurity/trivy/pkg/fanal/cache"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-
-	_ "github.com/aquasecurity/trivy/pkg/fanal/analyzer/config/all"
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 type ConfigScanner struct {

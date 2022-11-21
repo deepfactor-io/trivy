@@ -64,9 +64,8 @@ func (p *PackageURL) Package() *ftypes.Package {
 		return pkg
 	}
 
-	// TODO: replace with packageurl.TypeGradle once they add it.
-	if p.Type == packageurl.TypeMaven || p.Type == ftypes.Gradle {
-		// Maven and Gradle packages separate ":"
+	if p.Type == packageurl.TypeMaven {
+		// Maven package separate ":"
 		// e.g. org.springframework:spring-core
 		pkg.Name = strings.Join([]string{p.Namespace, p.Name}, ":")
 	} else {
@@ -93,8 +92,6 @@ func (p *PackageURL) AppType() string {
 		return string(analyzer.TypeNodePkg)
 	case packageurl.TypeCargo:
 		return string(analyzer.TypeRustBinary)
-	case packageurl.TypeNuget:
-		return string(analyzer.TypeNuget)
 	}
 	return p.Type
 }
@@ -143,7 +140,7 @@ func NewPackageURL(t string, metadata types.Metadata, pkg ftypes.Package) (Packa
 		if metadata.OS != nil {
 			namespace = metadata.OS.Family
 		}
-	case packageurl.TypeMaven, string(ftypes.Gradle): // TODO: replace with packageurl.TypeGradle once they add it.
+	case packageurl.TypeMaven:
 		namespace, name = parseMaven(name)
 	case packageurl.TypePyPi:
 		name = parsePyPI(name)
@@ -292,8 +289,6 @@ func purlType(t string) string {
 		return packageurl.TypeMaven
 	case string(analyzer.TypeBundler), string(analyzer.TypeGemSpec):
 		return packageurl.TypeGem
-	case string(analyzer.TypeNuget), string(analyzer.TypeDotNetCore):
-		return packageurl.TypeNuget
 	case string(analyzer.TypePythonPkg), string(analyzer.TypePip), string(analyzer.TypePipenv), string(analyzer.TypePoetry):
 		return packageurl.TypePyPi
 	case string(analyzer.TypeGoBinary), string(analyzer.TypeGoMod):

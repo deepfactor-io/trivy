@@ -218,7 +218,6 @@ func (_m *MockArtifactCache) ApplyPutBlobExpectations(expectations []ArtifactCac
 func (_m *MockArtifactCache) PutBlob(blobID string, blobInfo types.BlobInfo) error {
 
 	for i := range blobInfo.Misconfigurations {
-		// suppress misconfiguration code block
 		for j := range blobInfo.Misconfigurations[i].Failures {
 			blobInfo.Misconfigurations[i].Failures[j].Code = types.Code{}
 		}

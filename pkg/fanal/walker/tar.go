@@ -22,23 +22,15 @@ const (
 
 type LayerTar struct {
 	walker
-	threshold int64
 }
 
-func NewLayerTar(skipFiles, skipDirs []string, slow bool) LayerTar {
-	threshold := defaultSizeThreshold
-	if slow {
-		threshold = slowSizeThreshold
-	}
-
+func NewLayerTar(skipFiles, skipDirs []string) LayerTar {
 	return LayerTar{
-		walker:    newWalker(skipFiles, skipDirs, slow),
-		threshold: threshold,
+		walker: newWalker(skipFiles, skipDirs),
 	}
 }
 
 func (w LayerTar) Walk(layer io.Reader, analyzeFn WalkFunc) ([]string, []string, error) {
-
 	var opqDirs, whFiles, skipDirs []string
 	tr := tar.NewReader(layer)
 	for {
@@ -94,7 +86,7 @@ func (w LayerTar) Walk(layer io.Reader, analyzeFn WalkFunc) ([]string, []string,
 }
 
 func (w LayerTar) processFile(filePath string, tr *tar.Reader, fi fs.FileInfo, analyzeFn WalkFunc) error {
-	tf := newTarFile(fi.Size(), tr, w.threshold)
+	tf := newTarFile(fi.Size(), tr)
 	defer func() {
 		// nolint
 		_ = tf.Clean()
@@ -128,17 +120,14 @@ type tarFile struct {
 	size   int64
 	reader io.Reader
 
-	threshold int64 //　Files larger than this threshold are written to file without being read into memory.
-
 	content  []byte // It will be populated if this file is small
 	filePath string // It will be populated if this file is large
 }
 
-func newTarFile(size int64, r io.Reader, threshold int64) tarFile {
+func newTarFile(size int64, r io.Reader) tarFile {
 	return tarFile{
-		size:      size,
-		reader:    r,
-		threshold: threshold,
+		size:   size,
+		reader: r,
 	}
 }
 
@@ -148,7 +137,7 @@ func newTarFile(size int64, r io.Reader, threshold int64) tarFile {
 func (o *tarFile) Open() (dio.ReadSeekCloserAt, error) {
 	o.once.Do(func() {
 		// When the file is large, it will be written down to a temp file.
-		if o.size >= o.threshold {
+		if o.size >= ThresholdSize {
 			f, err := os.CreateTemp("", "fanal-*")
 			if err != nil {
 				o.err = xerrors.Errorf("failed to create the temp file: %w", err)

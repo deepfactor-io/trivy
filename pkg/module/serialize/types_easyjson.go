@@ -4,21 +4,13 @@ package serialize
 
 import (
 	json "encoding/json"
-<<<<<<< HEAD
 	types2 "github.com/aquasecurity/trivy-db/pkg/types"
 	types1 "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	types "github.com/deepfactor-io/trivy/pkg/types"
-=======
-	time "time"
-
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 	easyjson "github.com/mailru/easyjson"
 	jlexer "github.com/mailru/easyjson/jlexer"
 	jwriter "github.com/mailru/easyjson/jwriter"
-
-	types2 "github.com/aquasecurity/trivy-db/pkg/types"
-	types1 "github.com/aquasecurity/trivy/pkg/fanal/types"
-	types "github.com/aquasecurity/trivy/pkg/types"
+	time "time"
 )
 
 // suppress unused package warning

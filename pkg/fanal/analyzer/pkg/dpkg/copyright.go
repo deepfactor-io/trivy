@@ -31,29 +31,26 @@ var (
 )
 
 // dpkgLicenseAnalyzer parses copyright files and detect licenses
-type dpkgLicenseAnalyzer struct {
-	licenseFull bool
-}
+type dpkgLicenseAnalyzer struct{}
 
 // Analyze parses /usr/share/doc/*/copyright files
-func (a *dpkgLicenseAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
+func (a dpkgLicenseAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
 	findings, err := a.parseCopyright(input.Content)
 	if err != nil {
 		return nil, xerrors.Errorf("parse copyright %s: %w", input.FilePath, err)
 	}
 
 	// If licenses are not found, fallback to the classifier
-	if len(findings) == 0 && a.licenseFull {
+	if len(findings) == 0 {
 		// Rewind the reader to the beginning of the stream after saving
 		if _, err = input.Content.Seek(0, io.SeekStart); err != nil {
 			return nil, xerrors.Errorf("seek error: %w", err)
 		}
 
-		licenseFile, err := licensing.Classify(input.FilePath, input.Content)
+		findings, err = licensing.Classify(input.Content)
 		if err != nil {
 			return nil, xerrors.Errorf("license classification error: %w", err)
 		}
-		findings = licenseFile.Findings
 	}
 
 	if len(findings) == 0 {
@@ -76,7 +73,7 @@ func (a *dpkgLicenseAnalyzer) Analyze(_ context.Context, input analyzer.Analysis
 }
 
 // parseCopyright parses /usr/share/doc/*/copyright files
-func (a *dpkgLicenseAnalyzer) parseCopyright(r dio.ReadSeekerAt) ([]types.LicenseFinding, error) {
+func (a dpkgLicenseAnalyzer) parseCopyright(r dio.ReadSeekerAt) ([]types.LicenseFinding, error) {
 	scanner := bufio.NewScanner(r)
 	var licenses []string
 	for scanner.Scan() {
@@ -120,19 +117,14 @@ func (a *dpkgLicenseAnalyzer) parseCopyright(r dio.ReadSeekerAt) ([]types.Licens
 
 }
 
-func (a *dpkgLicenseAnalyzer) Init(opt analyzer.AnalyzerOptions) error {
-	a.licenseFull = opt.LicenseScannerOption.Full
-	return nil
-}
-
-func (a *dpkgLicenseAnalyzer) Required(filePath string, _ os.FileInfo) bool {
+func (a dpkgLicenseAnalyzer) Required(filePath string, _ os.FileInfo) bool {
 	return strings.HasPrefix(filePath, "usr/share/doc/") && filepath.Base(filePath) == "copyright"
 }
 
-func (a *dpkgLicenseAnalyzer) Type() analyzer.Type {
+func (a dpkgLicenseAnalyzer) Type() analyzer.Type {
 	return analyzer.TypeDpkgLicense
 }
 
-func (a *dpkgLicenseAnalyzer) Version() int {
+func (a dpkgLicenseAnalyzer) Version() int {
 	return dpkgLicenseAnalyzerVersion
 }

@@ -27,7 +27,6 @@ func TestReportFlagGroup_ToOptions(t *testing.T) {
 		ignorePolicy   string
 		output         string
 		severities     string
-		compliane      string
 
 		debug bool
 	}
@@ -171,18 +170,6 @@ func TestReportFlagGroup_ToOptions(t *testing.T) {
 				ListAllPkgs: true,
 			},
 		},
-		{
-			name: "happy path with compliance",
-			fields: fields{
-				compliane:  "nsa",
-				severities: "low",
-			},
-			want: flag.ReportOptions{
-				Output:     os.Stdout,
-				Compliance: "nsa",
-				Severities: []dbTypes.Severity{dbTypes.SeverityLow},
-			},
-		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -203,7 +190,6 @@ func TestReportFlagGroup_ToOptions(t *testing.T) {
 			viper.Set(flag.ExitCodeFlag.ConfigName, tt.fields.exitCode)
 			viper.Set(flag.OutputFlag.ConfigName, tt.fields.output)
 			viper.Set(flag.SeverityFlag.ConfigName, tt.fields.severities)
-			viper.Set(flag.ComplianceFlag.ConfigName, tt.fields.compliane)
 
 			// Assert options
 			f := &flag.ReportFlagGroup{
@@ -216,7 +202,6 @@ func TestReportFlagGroup_ToOptions(t *testing.T) {
 				ExitCode:       &flag.ExitCodeFlag,
 				Output:         &flag.OutputFlag,
 				Severity:       &flag.SeverityFlag,
-				Compliance:     &flag.ComplianceFlag,
 			}
 
 			got, err := f.ToOptions(os.Stdout)

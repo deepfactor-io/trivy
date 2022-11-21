@@ -281,7 +281,6 @@ func TestAnalyzeFile(t *testing.T) {
 		filePath          string
 		testFilePath      string
 		disabledAnalyzers []analyzer.Type
-		filePatterns      []string
 	}
 	tests := []struct {
 		name    string
@@ -322,14 +321,7 @@ func TestAnalyzeFile(t *testing.T) {
 					{
 						FilePath: "/lib/apk/db/installed",
 						Packages: []types.Package{
-							{
-								ID:         "musl@1.1.24-r2",
-								Name:       "musl",
-								Version:    "1.1.24-r2",
-								SrcName:    "musl",
-								SrcVersion: "1.1.24-r2",
-								Licenses:   []string{"MIT"},
-							},
+							{Name: "musl", Version: "1.1.24-r2", SrcName: "musl", SrcVersion: "1.1.24-r2", Licenses: []string{"MIT"}},
 						},
 					},
 				},
@@ -386,28 +378,6 @@ func TestAnalyzeFile(t *testing.T) {
 			want: &analyzer.AnalysisResult{},
 		},
 		{
-			name: "happy path with library analyzer file pattern regex",
-			args: args{
-				filePath:     "/app/Gemfile-dev.lock",
-				testFilePath: "testdata/app/Gemfile.lock",
-				filePatterns: []string{"bundler:Gemfile(-.*)?\\.lock"},
-			},
-			want: &analyzer.AnalysisResult{
-				Applications: []types.Application{
-					{
-						Type:     "bundler",
-						FilePath: "/app/Gemfile-dev.lock",
-						Libraries: []types.Package{
-							{
-								Name:    "actioncable",
-								Version: "5.2.3",
-							},
-						},
-					},
-				},
-			},
-		},
-		{
 			name: "ignore permission error",
 			args: args{
 				filePath:     "/etc/alpine-release",
@@ -423,24 +393,6 @@ func TestAnalyzeFile(t *testing.T) {
 			},
 			wantErr: "unable to open /lib/apk/db/installed",
 		},
-		{
-			name: "sad path with broken file pattern regex",
-			args: args{
-				filePath:     "/app/Gemfile-dev.lock",
-				testFilePath: "testdata/app/Gemfile.lock",
-				filePatterns: []string{"bundler:Gemfile(-.*?\\.lock"},
-			},
-			wantErr: "error parsing regexp",
-		},
-		{
-			name: "sad path with broken file pattern",
-			args: args{
-				filePath:     "/app/Gemfile-dev.lock",
-				testFilePath: "testdata/app/Gemfile.lock",
-				filePatterns: []string{"Gemfile(-.*)?\\.lock"},
-			},
-			wantErr: "invalid file pattern",
-		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -448,16 +400,7 @@ func TestAnalyzeFile(t *testing.T) {
 			limit := semaphore.NewWeighted(3)
 
 			got := new(analyzer.AnalysisResult)
-			a, err := analyzer.NewAnalyzerGroup(analyzer.AnalyzerOptions{
-				FilePatterns:      tt.args.filePatterns,
-				DisabledAnalyzers: tt.args.disabledAnalyzers,
-			})
-			if err != nil && tt.wantErr != "" {
-				require.NotNil(t, err)
-				assert.Contains(t, err.Error(), tt.wantErr)
-				return
-			}
-			require.NoError(t, err)
+			a := analyzer.NewAnalyzerGroup(analyzer.GroupBuiltin, tt.args.disabledAnalyzers)
 
 			info, err := os.Stat(tt.args.testFilePath)
 			require.NoError(t, err)
@@ -497,7 +440,6 @@ func TestAnalyzeConfig(t *testing.T) {
 		targetOS          types.OS
 		configBlob        []byte
 		disabledAnalyzers []analyzer.Type
-		filePatterns      []string
 	}
 	tests := []struct {
 		name string
@@ -540,11 +482,7 @@ func TestAnalyzeConfig(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a, err := analyzer.NewAnalyzerGroup(analyzer.AnalyzerOptions{
-				FilePatterns:      tt.args.filePatterns,
-				DisabledAnalyzers: tt.args.disabledAnalyzers,
-			})
-			require.NoError(t, err)
+			a := analyzer.NewAnalyzerGroup(analyzer.GroupBuiltin, tt.args.disabledAnalyzers)
 			got := a.AnalyzeImageConfig(tt.args.targetOS, tt.args.configBlob)
 			assert.Equal(t, tt.want, got)
 		})
@@ -563,7 +501,7 @@ func TestAnalyzer_AnalyzerVersions(t *testing.T) {
 			want: map[string]int{
 				"alpine":   1,
 				"apk-repo": 1,
-				"apk":      2,
+				"apk":      1,
 				"bundler":  1,
 				"ubuntu":   1,
 			},
@@ -572,17 +510,14 @@ func TestAnalyzer_AnalyzerVersions(t *testing.T) {
 			name:     "disable analyzers",
 			disabled: []analyzer.Type{analyzer.TypeAlpine, analyzer.TypeApkRepo, analyzer.TypeUbuntu},
 			want: map[string]int{
-				"apk":     2,
+				"apk":     1,
 				"bundler": 1,
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a, err := analyzer.NewAnalyzerGroup(analyzer.AnalyzerOptions{
-				DisabledAnalyzers: tt.disabled,
-			})
-			require.NoError(t, err)
+			a := analyzer.NewAnalyzerGroup(analyzer.GroupBuiltin, tt.disabled)
 			got := a.AnalyzerVersions()
 			fmt.Printf("%v\n", got)
 			assert.Equal(t, tt.want, got)
@@ -614,10 +549,7 @@ func TestAnalyzer_ImageConfigAnalyzerVersions(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a, err := analyzer.NewAnalyzerGroup(analyzer.AnalyzerOptions{
-				DisabledAnalyzers: tt.disabled,
-			})
-			require.NoError(t, err)
+			a := analyzer.NewAnalyzerGroup(analyzer.GroupBuiltin, tt.disabled)
 			got := a.ImageConfigAnalyzerVersions()
 			assert.Equal(t, tt.want, got)
 		})

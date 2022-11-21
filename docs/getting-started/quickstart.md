@@ -1,9 +1,5 @@
 # Quick Start
 
-## Prerequisites
-
-- Make sure to have the Trivy [CLI installed][installation]
-
 ## Scan image for vulnerabilities and secrets
 
 Simply specify an image name (and a tag).
@@ -51,7 +47,7 @@ For more details, see [vulnerability][vulnerability] and [secret][secret] pages.
 
 ## Scan directory for misconfigurations
 
-Simply specify a directory containing IaC files such as Terraform, CloudFormation, Azure ARM templates, Helm and Dockerfile.
+Simply specify a directory containing IaC files such as Terraform and Dockerfile.
 
 ```
 $ trivy config [YOUR_IAC_DIR]
@@ -84,7 +80,6 @@ See https://avd.aquasec.com/misconfig/ds001
 
 For more details, see [here][misconf].
 
-[installation]: ./installation.md
 [vulnerability]: ../docs/vulnerability/scanning/index.md
 [misconf]: ../docs/misconfiguration/scanning.md
 [secret]: ../docs/secret/scanning.md

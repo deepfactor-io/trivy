@@ -103,6 +103,7 @@ func readReport(t *testing.T, filePath string) types.Report {
 
 	// We don't compare repo tags because the archive doesn't support it
 	report.Metadata.RepoTags = nil
+
 	report.Metadata.RepoDigests = nil
 
 	for i, result := range report.Results {

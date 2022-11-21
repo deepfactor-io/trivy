@@ -3,7 +3,6 @@ package artifact
 import (
 	"context"
 	"errors"
-	"fmt"
 	"os"
 
 	"github.com/hashicorp/go-multierror"
@@ -13,7 +12,6 @@ import (
 
 	"github.com/aquasecurity/go-version/pkg/semver"
 	"github.com/aquasecurity/trivy-db/pkg/db"
-<<<<<<< HEAD
 	tcache "github.com/deepfactor-io/trivy/pkg/cache"
 	"github.com/deepfactor-io/trivy/pkg/commands/operation"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
@@ -30,23 +28,6 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/scanner"
 	"github.com/deepfactor-io/trivy/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/utils"
-=======
-	tcache "github.com/aquasecurity/trivy/pkg/cache"
-	"github.com/aquasecurity/trivy/pkg/commands/operation"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/config"
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
-	"github.com/aquasecurity/trivy/pkg/fanal/cache"
-	"github.com/aquasecurity/trivy/pkg/flag"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/module"
-	pkgReport "github.com/aquasecurity/trivy/pkg/report"
-	"github.com/aquasecurity/trivy/pkg/result"
-	"github.com/aquasecurity/trivy/pkg/rpc/client"
-	"github.com/aquasecurity/trivy/pkg/scanner"
-	"github.com/aquasecurity/trivy/pkg/types"
-	"github.com/aquasecurity/trivy/pkg/utils"
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 // TargetKind represents what kind of artifact Trivy scans
@@ -77,7 +58,7 @@ type ScannerConfig struct {
 
 	// Cache
 	ArtifactCache      cache.ArtifactCache
-	LocalArtifactCache cache.Cache
+	LocalArtifactCache cache.LocalArtifactCache
 
 	// Client/Server options
 	RemoteOption client.ScannerOption
@@ -452,10 +433,6 @@ func disabledAnalyzers(opts flag.Options) []analyzer.Type {
 		analyzers = append(analyzers, analyzer.TypeLicenseFile)
 	}
 
-	if len(opts.SBOMSources) == 0 {
-		analyzers = append(analyzers, analyzer.TypeExecutable)
-	}
-
 	return analyzers
 }
 
@@ -469,10 +446,8 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 		VulnType:            opts.VulnType,
 		SecurityChecks:      opts.SecurityChecks,
 		ScanRemovedPackages: opts.ScanRemovedPkgs, // this is valid only for 'image' subcommand
-		Platform:            opts.Platform,        // this is valid only for 'image' subcommand
 		ListAllPackages:     opts.ListAllPkgs,
 		LicenseCategories:   opts.LicenseCategories,
-		FilePatterns:        opts.FilePatterns,
 	}
 
 	if slices.Contains(opts.SecurityChecks, types.SecurityCheckVulnerability) {
@@ -489,6 +464,7 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 			Namespaces:       append(opts.PolicyNamespaces, defaultPolicyNamespaces...),
 			PolicyPaths:      opts.PolicyPaths,
 			DataPaths:        opts.DataPaths,
+			FilePatterns:     opts.FilePatterns,
 			HelmValues:       opts.HelmValues,
 			HelmValueFiles:   opts.HelmValueFiles,
 			HelmFileValues:   opts.HelmFileValues,
@@ -528,29 +504,19 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 			DisabledAnalyzers: disabledAnalyzers(opts),
 			SkipFiles:         opts.SkipFiles,
 			SkipDirs:          opts.SkipDirs,
-			FilePatterns:      opts.FilePatterns,
 			InsecureSkipTLS:   opts.Insecure,
 			Offline:           opts.OfflineScan,
 			NoProgress:        opts.NoProgress || opts.Quiet,
 			RepoBranch:        opts.RepoBranch,
 			RepoCommit:        opts.RepoCommit,
 			RepoTag:           opts.RepoTag,
-			SBOMSources:       opts.SBOMSources,
-			RekorURL:          opts.RekorURL,
-			Platform:          opts.Platform,
-			Slow:              opts.Slow,
 
 			// For misconfiguration scanning
 			MisconfScannerOption: configScannerOptions,
 
 			// For secret scanning
-			SecretScannerOption: analyzer.SecretScannerOption{
+			SecretScannerOption: secret.ScannerOption{
 				ConfigPath: opts.SecretConfigPath,
-			},
-
-			// For license scanning
-			LicenseScannerOption: analyzer.LicenseScannerOption{
-				Full: opts.LicenseFull,
 			},
 		},
 	}, scanOptions, nil
@@ -596,6 +562,7 @@ func canonicalVersion(ver string) string {
 	if v.IsPreRelease() || v.Metadata() != "" {
 		return devVersion
 	}
-	// Add "v" prefix and cut a patch number, "0.34.0" => "v0.34" for the url
-	return fmt.Sprintf("v%d.%d", v.Major(), v.Minor())
+
+	// Add "v" prefix, "0.34.0" => "v0.34.0" for the url
+	return "v" + ver
 }

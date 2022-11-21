@@ -23,12 +23,10 @@ const (
 	Pnpm       = "pnpm"
 	Jar        = "jar"
 	Pom        = "pom"
-	Gradle     = "gradle"
 	GoBinary   = "gobinary"
 	GoModule   = "gomod"
 	JavaScript = "javascript"
 	RustBinary = "rustbinary"
-	Conan      = "conan"
 
 	// Config files
 	YAML           = "yaml"
@@ -41,7 +39,6 @@ const (
 	Helm           = "helm"
 	Rbac           = "rbac"
 	Cloud          = "cloud"
-	AzureARM       = "azure-arm"
 
 	// Licensing
 	License = "license"
@@ -68,6 +65,4 @@ const (
 	GemfileLock = "Gemfile.lock"
 
 	CargoLock = "Cargo.lock"
-
-	ConanLock = "conan.lock"
 )

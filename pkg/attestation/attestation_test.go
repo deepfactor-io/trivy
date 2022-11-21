@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/in-toto/in-toto-golang/in_toto"
-	slsa "github.com/in-toto/in-toto-golang/in_toto/slsa_provenance/common"
+	slsa "github.com/in-toto/in-toto-golang/in_toto/slsa_provenance/v0.2"
 	"github.com/stretchr/testify/require"
 
 	"github.com/deepfactor-io/trivy/pkg/attestation"

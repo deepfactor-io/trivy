@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strconv"
 
-	"github.com/aquasecurity/tml"
+	"github.com/liamg/tml"
 
 	"golang.org/x/term"
 

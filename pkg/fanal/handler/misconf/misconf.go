@@ -8,15 +8,11 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"sort"
 	"strings"
 
+	"github.com/liamg/memoryfs"
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
-
-	"github.com/aquasecurity/memoryfs"
-
-	"github.com/aquasecurity/defsec/pkg/scanners/azure/arm"
 
 	"github.com/aquasecurity/defsec/pkg/detection"
 	"github.com/aquasecurity/defsec/pkg/scan"
@@ -167,7 +163,8 @@ func newMisconfPostHandler(artifactOpt artifact.Option) (handler.PostHandler, er
 	}
 
 	if opt.RegoOnly {
-		opts = append(opts, options.ScannerWithRegoOnly(true))
+		opts = append(opts, tfscanner.ScannerWithRegoOnly(true))
+		opts = append(opts, cfscanner.ScannerWithRegoOnly(true))
 	}
 
 	if len(policyPaths) > 0 {
@@ -186,9 +183,8 @@ func newMisconfPostHandler(artifactOpt artifact.Option) (handler.PostHandler, er
 	tfOpts := addTFOpts(opts, artifactOpt.MisconfScannerOption)
 
 	return misconfPostHandler{
-		filePatterns: artifactOpt.FilePatterns,
+		filePatterns: artifactOpt.MisconfScannerOption.FilePatterns,
 		scanners: map[string]scanners.FSScanner{
-			types.AzureARM:       arm.New(opts...),
 			types.Terraform:      tfscanner.New(tfOpts...),
 			types.CloudFormation: cfscanner.New(opts...),
 			types.Dockerfile:     dfscanner.NewScanner(opts...),
@@ -228,7 +224,6 @@ func addHelmOpts(opts []options.ScannerOption, scannerOption config.ScannerOptio
 }
 
 var enabledDefsecTypes = map[detection.FileType]string{
-	detection.FileTypeAzureARM:       types.AzureARM,
 	detection.FileTypeCloudFormation: types.CloudFormation,
 	detection.FileTypeTerraform:      types.Terraform,
 	detection.FileTypeDockerfile:     types.Dockerfile,
@@ -297,27 +292,6 @@ func (h misconfPostHandler) Handle(ctx context.Context, result *analyzer.Analysi
 	}
 
 	// Add misconfigurations
-	for _, misconf := range misconfs {
-		sort.Slice(misconf.Successes, func(i, j int) bool {
-			if misconf.Successes[i].AVDID == misconf.Successes[j].AVDID {
-				return misconf.Successes[i].StartLine < misconf.Successes[j].StartLine
-			}
-			return misconf.Successes[i].AVDID < misconf.Successes[j].AVDID
-		})
-		sort.Slice(misconf.Warnings, func(i, j int) bool {
-			if misconf.Warnings[i].AVDID == misconf.Warnings[j].AVDID {
-				return misconf.Warnings[i].StartLine < misconf.Warnings[j].StartLine
-			}
-			return misconf.Warnings[i].AVDID < misconf.Warnings[j].AVDID
-		})
-		sort.Slice(misconf.Failures, func(i, j int) bool {
-			if misconf.Failures[i].AVDID == misconf.Failures[j].AVDID {
-				return misconf.Failures[i].StartLine < misconf.Failures[j].StartLine
-			}
-			return misconf.Failures[i].AVDID < misconf.Failures[j].AVDID
-		})
-	}
-
 	blob.Misconfigurations = misconfs
 
 	return nil

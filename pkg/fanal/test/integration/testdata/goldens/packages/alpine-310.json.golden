@@ -1,6 +1,5 @@
 [
   {
-    "ID": "alpine-baselayout@3.1.2-r0",
     "Name": "alpine-baselayout",
     "Version": "3.1.2-r0",
     "SrcName": "alpine-baselayout",
@@ -8,17 +7,12 @@
     "Licenses": [
       "GPL-2.0"
     ],
-    "DependsOn": [
-      "busybox@1.30.1-r2",
-      "musl@1.1.22-r3"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "alpine-keys@2.1-r2",
     "Name": "alpine-keys",
     "Version": "2.1-r2",
     "SrcName": "alpine-keys",
@@ -32,7 +26,6 @@
     }
   },
   {
-    "ID": "apk-tools@2.10.4-r2",
     "Name": "apk-tools",
     "Version": "2.10.4-r2",
     "SrcName": "apk-tools",
@@ -40,19 +33,12 @@
     "Licenses": [
       "GPL-2.0"
     ],
-    "DependsOn": [
-      "libcrypto1.1@1.1.1c-r0",
-      "libssl1.1@1.1.1c-r0",
-      "musl@1.1.22-r3",
-      "zlib@1.2.11-r1"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "busybox@1.30.1-r2",
     "Name": "busybox",
     "Version": "1.30.1-r2",
     "SrcName": "busybox",
@@ -60,16 +46,12 @@
     "Licenses": [
       "GPL-2.0"
     ],
-    "DependsOn": [
-      "musl@1.1.22-r3"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "ca-certificates-cacert@20190108-r0",
     "Name": "ca-certificates-cacert",
     "Version": "20190108-r0",
     "SrcName": "ca-certificates",
@@ -84,7 +66,6 @@
     }
   },
   {
-    "ID": "libc-utils@0.7.1-r0",
     "Name": "libc-utils",
     "Version": "0.7.1-r0",
     "SrcName": "libc-dev",
@@ -92,16 +73,12 @@
     "Licenses": [
       "BSD-3-Clause"
     ],
-    "DependsOn": [
-      "musl-utils@1.1.22-r3"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "libcrypto1.1@1.1.1c-r0",
     "Name": "libcrypto1.1",
     "Version": "1.1.1c-r0",
     "SrcName": "openssl",
@@ -109,16 +86,12 @@
     "Licenses": [
       "OpenSSL"
     ],
-    "DependsOn": [
-      "musl@1.1.22-r3"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "libssl1.1@1.1.1c-r0",
     "Name": "libssl1.1",
     "Version": "1.1.1c-r0",
     "SrcName": "openssl",
@@ -126,17 +99,12 @@
     "Licenses": [
       "OpenSSL"
     ],
-    "DependsOn": [
-      "libcrypto1.1@1.1.1c-r0",
-      "musl@1.1.22-r3"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "libtls-standalone@2.9.1-r0",
     "Name": "libtls-standalone",
     "Version": "2.9.1-r0",
     "SrcName": "libtls-standalone",
@@ -144,19 +112,12 @@
     "Licenses": [
       "ISC"
     ],
-    "DependsOn": [
-      "ca-certificates-cacert@20190108-r0",
-      "libcrypto1.1@1.1.1c-r0",
-      "libssl1.1@1.1.1c-r0",
-      "musl@1.1.22-r3"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "musl@1.1.22-r3",
     "Name": "musl",
     "Version": "1.1.22-r3",
     "SrcName": "musl",
@@ -170,7 +131,6 @@
     }
   },
   {
-    "ID": "musl-utils@1.1.22-r3",
     "Name": "musl-utils",
     "Version": "1.1.22-r3",
     "SrcName": "musl",
@@ -180,17 +140,12 @@
       "BSD-3-Clause",
       "GPL-2.0"
     ],
-    "DependsOn": [
-      "musl@1.1.22-r3",
-      "scanelf@1.2.3-r0"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "scanelf@1.2.3-r0",
     "Name": "scanelf",
     "Version": "1.2.3-r0",
     "SrcName": "pax-utils",
@@ -198,16 +153,12 @@
     "Licenses": [
       "GPL-2.0"
     ],
-    "DependsOn": [
-      "musl@1.1.22-r3"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "ssl_client@1.30.1-r2",
     "Name": "ssl_client",
     "Version": "1.30.1-r2",
     "SrcName": "busybox",
@@ -215,26 +166,18 @@
     "Licenses": [
       "GPL-2.0"
     ],
-    "DependsOn": [
-      "libtls-standalone@2.9.1-r0",
-      "musl@1.1.22-r3"
-    ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",
       "DiffID": "sha256:03901b4a2ea88eeaad62dbe59b072b28b6efa00491962b8741081c5df50c65e0"
     }
   },
   {
-    "ID": "zlib@1.2.11-r1",
     "Name": "zlib",
     "Version": "1.2.11-r1",
     "SrcName": "zlib",
     "SrcVersion": "1.2.11-r1",
     "Licenses": [
       "Zlib"
-    ],
-    "DependsOn": [
-      "musl@1.1.22-r3"
     ],
     "Layer": {
       "Digest": "sha256:9d48c3bd43c520dc2784e868a780e976b207cbf493eaff8c6596eb871cbd9609",

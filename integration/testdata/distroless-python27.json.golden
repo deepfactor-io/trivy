@@ -70,7 +70,6 @@
       "Vulnerabilities": [
         {
           "VulnerabilityID": "CVE-2019-1551",
-          "PkgID": "libssl1.1@1.1.0k-1~deb9u1",
           "PkgName": "libssl1.1",
           "InstalledVersion": "1.1.0k-1~deb9u1",
           "Layer": {
@@ -142,7 +141,6 @@
           "VendorIDs": [
             "DSA-4539-1"
           ],
-          "PkgID": "libssl1.1@1.1.0k-1~deb9u1",
           "PkgName": "libssl1.1",
           "InstalledVersion": "1.1.0k-1~deb9u1",
           "FixedVersion": "1.1.0l-1~deb9u1",
@@ -220,7 +218,6 @@
         },
         {
           "VulnerabilityID": "CVE-2019-1551",
-          "PkgID": "openssl@1.1.0k-1~deb9u1",
           "PkgName": "openssl",
           "InstalledVersion": "1.1.0k-1~deb9u1",
           "Layer": {
@@ -292,7 +289,6 @@
           "VendorIDs": [
             "DSA-4539-1"
           ],
-          "PkgID": "openssl@1.1.0k-1~deb9u1",
           "PkgName": "openssl",
           "InstalledVersion": "1.1.0k-1~deb9u1",
           "FixedVersion": "1.1.0l-1~deb9u1",

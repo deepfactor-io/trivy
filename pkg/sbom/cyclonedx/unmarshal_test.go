@@ -5,7 +5,6 @@ import (
 	"os"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/sbom"
 
 	"github.com/stretchr/testify/assert"
@@ -13,27 +12,19 @@ import (
 
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx"
-=======
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/sbom/cyclonedx"
-	"github.com/aquasecurity/trivy/pkg/types"
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 func TestUnmarshaler_Unmarshal(t *testing.T) {
 	tests := []struct {
 		name      string
 		inputFile string
-		want      types.SBOM
+		want      sbom.SBOM
 		wantErr   string
 	}{
 		{
 			name:      "happy path",
 			inputFile: "testdata/happy/bom.json",
-			want: types.SBOM{
+			want: sbom.SBOM{
 				OS: &ftypes.OS{
 					Family: "alpine",
 					Name:   "3.16.0",
@@ -90,19 +81,6 @@ func TestUnmarshaler_Unmarshal(t *testing.T) {
 						},
 					},
 					{
-						Type: "gradle",
-						Libraries: []ftypes.Package{
-							{
-								Name:    "com.example:example",
-								Ref:     "pkg:gradle/com.example/example@0.0.1",
-								Version: "0.0.1",
-								Layer: ftypes.Layer{
-									DiffID: "sha256:3c79e832b1b4891a1cb4a326ef8524e0bd14a2537150ac0e203a5677176c1ca1",
-								},
-							},
-						},
-					},
-					{
 						Type: "jar",
 						Libraries: []ftypes.Package{
 							{
@@ -136,7 +114,7 @@ func TestUnmarshaler_Unmarshal(t *testing.T) {
 		{
 			name:      "happy path for unrelated bom",
 			inputFile: "testdata/happy/unrelated-bom.json",
-			want: types.SBOM{
+			want: sbom.SBOM{
 				Applications: []ftypes.Application{
 					{
 						Type:     "composer",
@@ -161,7 +139,7 @@ func TestUnmarshaler_Unmarshal(t *testing.T) {
 		{
 			name:      "happy path for independent library bom",
 			inputFile: "testdata/happy/independent-library-bom.json",
-			want: types.SBOM{
+			want: sbom.SBOM{
 				Applications: []ftypes.Application{
 					{
 						Type:     "composer",
@@ -191,7 +169,7 @@ func TestUnmarshaler_Unmarshal(t *testing.T) {
 		{
 			name:      "happy path only os component",
 			inputFile: "testdata/happy/os-only-bom.json",
-			want: types.SBOM{
+			want: sbom.SBOM{
 				OS: &ftypes.OS{
 					Family: "alpine",
 					Name:   "3.16.0",
@@ -204,12 +182,12 @@ func TestUnmarshaler_Unmarshal(t *testing.T) {
 		{
 			name:      "happy path empty component",
 			inputFile: "testdata/happy/empty-bom.json",
-			want:      types.SBOM{},
+			want:      sbom.SBOM{},
 		},
 		{
 			name:      "happy path empty metadata component",
 			inputFile: "testdata/happy/empty-metadata-component-bom.json",
-			want:      types.SBOM{},
+			want:      sbom.SBOM{},
 		},
 		{
 			name:      "sad path invalid purl",

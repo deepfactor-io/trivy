@@ -5,16 +5,13 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"regexp"
 
 	"golang.org/x/xerrors"
 
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
-
-func init() {
-	analyzer.RegisterAnalyzer(&jsonConfigAnalyzer{})
-}
 
 const version = 1
 
@@ -23,9 +20,17 @@ var (
 	excludedFiles = []string{types.NpmPkgLock, types.NuGetPkgsLock, types.NuGetPkgsConfig}
 )
 
-type jsonConfigAnalyzer struct{}
+type ConfigAnalyzer struct {
+	filePattern *regexp.Regexp
+}
 
-func (a jsonConfigAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
+func NewConfigAnalyzer(filePattern *regexp.Regexp) ConfigAnalyzer {
+	return ConfigAnalyzer{
+		filePattern: filePattern,
+	}
+}
+
+func (a ConfigAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
 	b, err := io.ReadAll(input.Content)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to read %s: %w", input.FilePath, err)
@@ -45,7 +50,11 @@ func (a jsonConfigAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisIn
 	}, nil
 }
 
-func (a jsonConfigAnalyzer) Required(filePath string, _ os.FileInfo) bool {
+func (a ConfigAnalyzer) Required(filePath string, _ os.FileInfo) bool {
+	if a.filePattern != nil && a.filePattern.MatchString(filePath) {
+		return true
+	}
+
 	filename := filepath.Base(filePath)
 	for _, excludedFile := range excludedFiles {
 		if filename == excludedFile {
@@ -56,10 +65,10 @@ func (a jsonConfigAnalyzer) Required(filePath string, _ os.FileInfo) bool {
 	return filepath.Ext(filePath) == requiredExt
 }
 
-func (jsonConfigAnalyzer) Type() analyzer.Type {
+func (ConfigAnalyzer) Type() analyzer.Type {
 	return analyzer.TypeJSON
 }
 
-func (jsonConfigAnalyzer) Version() int {
+func (ConfigAnalyzer) Version() int {
 	return version
 }

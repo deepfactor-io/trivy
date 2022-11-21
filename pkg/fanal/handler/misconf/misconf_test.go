@@ -5,21 +5,12 @@ import (
 	"fmt"
 	"testing"
 
-<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	misconf "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-=======
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
->>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 func Test_Handle(t *testing.T) {
@@ -65,7 +56,7 @@ func Test_Handle(t *testing.T) {
 			result := &analyzer.AnalysisResult{
 				Files: tt.files,
 			}
-			misconfHandler, err := newMisconfPostHandler(artifact.Option{FilePatterns: tt.filePatterns})
+			misconfHandler, err := newMisconfPostHandler(artifact.Option{MisconfScannerOption: misconf.ScannerOption{FilePatterns: tt.filePatterns}})
 			assert.NoError(t, err)
 			blobInfo := &types.BlobInfo{}
 

@@ -134,9 +134,8 @@ func ApplyLayers(layers []types.BlobInfo) types.ArtifactDetail {
 		// Apply secrets
 		for _, secret := range layer.Secrets {
 			l := types.Layer{
-				Digest:    layer.Digest,
-				DiffID:    layer.DiffID,
-				CreatedBy: layer.CreatedBy,
+				Digest: layer.Digest,
+				DiffID: layer.DiffID,
 			}
 			secretsMap = mergeSecrets(secretsMap, secret, l)
 		}
@@ -179,7 +178,13 @@ func ApplyLayers(layers []types.BlobInfo) types.ArtifactDetail {
 		return nil
 	})
 
+	lastDiffID := layers[len(layers)-1].DiffID
 	for _, s := range secretsMap {
+		for i, finding := range s.Findings {
+			if finding.Layer.DiffID != lastDiffID {
+				s.Findings[i].Deleted = true // This secret is deleted in the upper layer
+			}
+		}
 		mergedLayer.Secrets = append(mergedLayer.Secrets, s)
 	}
 
