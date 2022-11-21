@@ -12,10 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/samber/lo"
-
 	cdx "github.com/CycloneDX/cyclonedx-go"
 	"github.com/docker/go-connections/nat"
+	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	testcontainers "github.com/testcontainers/testcontainers-go"
@@ -310,6 +309,17 @@ func TestClientServerWithFormat(t *testing.T) {
 				Input:        "testdata/fixtures/images/alpine-310.tar.gz",
 			},
 			golden: "testdata/alpine-310.asff.golden",
+		},
+		{
+			name: "scan secrets with ASFF template",
+			args: csArgs{
+				Command:          "fs",
+				RemoteAddrOption: "--server",
+				Format:           "template",
+				TemplatePath:     "@../contrib/asff.tpl",
+				Target:           "testdata/fixtures/fs/secrets/",
+			},
+			golden: "testdata/secrets.asff.golden",
 		},
 		{
 			name: "alpine 3.10 with html template",

@@ -82,6 +82,11 @@ Available in client/server mode
 
 ```yaml
 scan:
+  # Same as '--file-patterns'
+  # Default is empty
+  file-patterns:
+    -
+
   # Same as '--skip-dirs'
   # Default is empty
   skip-dirs:
@@ -189,41 +194,40 @@ secret:
   config: config/trivy/secret.yaml
 ```
 
+## Rego Options
+
+```yaml
+rego
+  # Same as '--trace'
+  # Default is false
+  trace: false
+
+  # Same as '--config-policy'
+  # Default is empty
+  policy:
+    - policy/repository
+    - policy/custom
+
+  # Same as '--config-data'
+  # Default is empty
+  data:
+    - data/
+
+  # Same as '--policy-namespaces'
+  # Default is empty
+  namespaces:
+    - opa.examples
+    - users
+```
 
 ## Misconfiguration Options
 Available with misconfiguration scanning
 
 ```yaml
 misconfiguration:
-  # Same as '--file-patterns'
-  # Default is empty
-  file-patterns:
-    -
-  
   # Same as '--include-non-failures'
   # Default is false
   include-non-failures: false
-  
-  # Same as '--trace'
-  # Default is false
-  trace: false
-  
-  # Same as '--config-policy'
-  # Default is empty
-  policy:
-    - policy/repository
-    - policy/custom
-    
-  # Same as '--config-data'
-  # Default is empty
-  data:
-    - data/
-    
-  # Same as '--policy-namespaces'
-  # Default is empty
-  namespaces:
-    - opa.examples
-    - users
 
   # helm value override configurations
   # set individual values

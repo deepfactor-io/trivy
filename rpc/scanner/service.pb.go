@@ -7,11 +7,19 @@
 package scanner
 
 import (
+<<<<<<< HEAD
 	common "github.com/deepfactor-io/trivy/rpc/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+=======
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 	reflect "reflect"
 	sync "sync"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+
+	common "github.com/aquasecurity/trivy/rpc/common"
 )
 
 const (

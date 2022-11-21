@@ -47,8 +47,9 @@ const (
 	TypeComposer Type = "composer"
 
 	// Java
-	TypeJar Type = "jar"
-	TypePom Type = "pom"
+	TypeJar        Type = "jar"
+	TypePom        Type = "pom"
+	TypeGradleLock Type = "gradle-lockfile"
 
 	// Node.js
 	TypeNpmPkgLock Type = "npm"
@@ -58,7 +59,7 @@ const (
 
 	// .NET
 	TypeNuget      Type = "nuget"
-	TypeDotNetDeps Type = "dotnet-deps"
+	TypeDotNetCore Type = "dotnet-core"
 
 	// Python
 	TypePythonPkg Type = "python-pkg"
@@ -69,6 +70,14 @@ const (
 	// Go
 	TypeGoBinary Type = "gobinary"
 	TypeGoMod    Type = "gomod"
+
+	// C/C++
+	TypeConanLock Type = "conan-lock"
+
+	// ============
+	// Non-packaged
+	// ============
+	TypeExecutable Type = "executable"
 
 	// ============
 	// Image Config
@@ -113,15 +122,15 @@ var (
 
 	// TypeLanguages has all language analyzers
 	TypeLanguages = []Type{
-		TypeBundler, TypeGemSpec, TypeCargo, TypeComposer, TypeJar, TypePom,
-		TypeNpmPkgLock, TypeNodePkg, TypeYarn, TypePnpm, TypeNuget, TypeDotNetDeps,
-		TypePythonPkg, TypePip, TypePipenv, TypePoetry, TypeGoBinary, TypeGoMod, TypeRustBinary,
+		TypeBundler, TypeGemSpec, TypeCargo, TypeComposer, TypeJar, TypePom, TypeGradleLock,
+		TypeNpmPkgLock, TypeNodePkg, TypeYarn, TypePnpm, TypeNuget, TypeDotNetCore,
+		TypePythonPkg, TypePip, TypePipenv, TypePoetry, TypeGoBinary, TypeGoMod, TypeRustBinary, TypeConanLock,
 	}
 
 	// TypeLockfiles has all lock file analyzers
 	TypeLockfiles = []Type{
 		TypeBundler, TypeNpmPkgLock, TypeYarn,
-		TypePnpm, TypePip, TypePipenv, TypePoetry, TypeGoMod, TypePom,
+		TypePnpm, TypePip, TypePipenv, TypePoetry, TypeGoMod, TypePom, TypeConanLock, TypeGradleLock,
 	}
 
 	// TypeIndividualPkgs has all analyzers for individual packages

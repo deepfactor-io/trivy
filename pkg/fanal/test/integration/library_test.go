@@ -9,18 +9,21 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"sort"
 	"strings"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+=======
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 	dtypes "github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+<<<<<<< HEAD
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/all"
 	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
@@ -29,6 +32,18 @@ import (
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/handler/all"
 	"github.com/deepfactor-io/trivy/pkg/fanal/image"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+=======
+	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
+
+	_ "github.com/aquasecurity/trivy/pkg/fanal/analyzer/all"
+	"github.com/aquasecurity/trivy/pkg/fanal/applier"
+	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
+	aimage "github.com/aquasecurity/trivy/pkg/fanal/artifact/image"
+	"github.com/aquasecurity/trivy/pkg/fanal/cache"
+	_ "github.com/aquasecurity/trivy/pkg/fanal/handler/all"
+	"github.com/aquasecurity/trivy/pkg/fanal/image"
+	"github.com/aquasecurity/trivy/pkg/fanal/types"
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 var update = flag.Bool("update", false, "update golden files")
@@ -129,7 +144,10 @@ func TestFanal_Library_DockerLessMode(t *testing.T) {
 
 			// don't scan licenses in the test - in parallel it will fail
 			ar, err := aimage.NewArtifact(img, c, artifact.Option{
-				DisabledAnalyzers: []analyzer.Type{analyzer.TypeLicenseFile},
+				DisabledAnalyzers: []analyzer.Type{
+					analyzer.TypeExecutable,
+					analyzer.TypeLicenseFile,
+				},
 			})
 			require.NoError(t, err)
 
@@ -164,7 +182,7 @@ func TestFanal_Library_DockerMode(t *testing.T) {
 			// load image into docker engine
 			resp, err := cli.ImageLoad(ctx, testfile, true)
 			require.NoError(t, err, tt.name)
-			_, err = io.Copy(ioutil.Discard, resp.Body)
+			_, err = io.Copy(io.Discard, resp.Body)
 			require.NoError(t, err, tt.name)
 
 			// Enable only dockerd scanning
@@ -175,7 +193,10 @@ func TestFanal_Library_DockerMode(t *testing.T) {
 
 			ar, err := aimage.NewArtifact(img, c, artifact.Option{
 				// disable license checking in the test - in parallel it will fail because of resource requirement
-				DisabledAnalyzers: []analyzer.Type{analyzer.TypeLicenseFile},
+				DisabledAnalyzers: []analyzer.Type{
+					analyzer.TypeExecutable,
+					analyzer.TypeLicenseFile,
+				},
 			})
 			require.NoError(t, err)
 
@@ -211,7 +232,10 @@ func TestFanal_Library_TarMode(t *testing.T) {
 			require.NoError(t, err, tt.name)
 
 			ar, err := aimage.NewArtifact(img, c, artifact.Option{
-				DisabledAnalyzers: []analyzer.Type{analyzer.TypeLicenseFile},
+				DisabledAnalyzers: []analyzer.Type{
+					analyzer.TypeExecutable,
+					analyzer.TypeLicenseFile,
+				},
 			})
 			require.NoError(t, err)
 
@@ -241,17 +265,25 @@ func commonChecks(t *testing.T, detail types.ArtifactDetail, tc testCase) {
 }
 
 func checkOSPackages(t *testing.T, detail types.ArtifactDetail, tc testCase) {
+	// Sort OS packages for consistency
+	sort.Slice(detail.Packages, func(i, j int) bool {
+		if detail.Packages[i].Name != detail.Packages[j].Name {
+			return detail.Packages[i].Name < detail.Packages[j].Name
+		}
+		return detail.Packages[i].Version < detail.Packages[j].Version
+	})
+
 	splitted := strings.Split(tc.remoteImageName, ":")
 	goldenFile := fmt.Sprintf("testdata/goldens/packages/%s.json.golden", splitted[len(splitted)-1])
 
 	if *update {
 		b, err := json.MarshalIndent(detail.Packages, "", "  ")
 		require.NoError(t, err)
-		err = ioutil.WriteFile(goldenFile, b, 0666)
+		err = os.WriteFile(goldenFile, b, 0666)
 		require.NoError(t, err)
 		return
 	}
-	data, err := ioutil.ReadFile(goldenFile)
+	data, err := os.ReadFile(goldenFile)
 	require.NoError(t, err, tc.name)
 
 	var expectedPkgs []types.Package
@@ -316,7 +348,7 @@ func checkLangPkgs(detail types.ArtifactDetail, t *testing.T, tc testCase) {
 
 func checkPackageFromCommands(t *testing.T, detail types.ArtifactDetail, tc testCase) {
 	if tc.wantPkgsFromCmds != "" {
-		data, _ := ioutil.ReadFile(tc.wantPkgsFromCmds)
+		data, _ := os.ReadFile(tc.wantPkgsFromCmds)
 		var expectedPkgsFromCmds []types.Package
 
 		err := json.Unmarshal(data, &expectedPkgsFromCmds)

@@ -7,14 +7,20 @@ import (
 	"path/filepath"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/oci"
 	"github.com/deepfactor-io/trivy/pkg/utils"
+=======
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 	v1 "github.com/google/go-containerregistry/pkg/v1"
 	fakei "github.com/google/go-containerregistry/pkg/v1/fake"
 	"github.com/google/go-containerregistry/pkg/v1/tarball"
 	"github.com/google/go-containerregistry/pkg/v1/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/aquasecurity/trivy/pkg/oci"
+	"github.com/aquasecurity/trivy/pkg/utils"
 )
 
 type fakeLayer struct {

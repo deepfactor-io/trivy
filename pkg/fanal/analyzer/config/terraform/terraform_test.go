@@ -1,4 +1,4 @@
-package terraform_test
+package terraform
 
 import (
 	"bytes"
@@ -8,9 +8,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/terraform"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+=======
+	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
+	"github.com/aquasecurity/trivy/pkg/fanal/types"
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 func TestConfigAnalyzer_Analyze(t *testing.T) {
@@ -41,7 +46,7 @@ func TestConfigAnalyzer_Analyze(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := terraform.ConfigAnalyzer{}
+			a := terraformConfigAnalyzer{}
 			ctx := context.Background()
 			got, err := a.Analyze(ctx, tt.input)
 
@@ -75,7 +80,7 @@ func TestConfigAnalyzer_Required(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := terraform.ConfigAnalyzer{}
+			a := terraformConfigAnalyzer{}
 			got := a.Required(tt.filePath, nil)
 			assert.Equal(t, tt.want, got)
 		})

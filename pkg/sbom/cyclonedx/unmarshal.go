@@ -6,19 +6,29 @@ import (
 	"strconv"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/log"
 
+=======
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 	cdx "github.com/CycloneDX/cyclonedx-go"
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
+<<<<<<< HEAD
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/purl"
 	"github.com/deepfactor-io/trivy/pkg/sbom"
+=======
+	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/aquasecurity/trivy/pkg/purl"
+	"github.com/aquasecurity/trivy/pkg/types"
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 type CycloneDX struct {
-	*sbom.SBOM
+	*types.SBOM
 
 	dependencies map[string][]string
 	components   map[string]cdx.Component
@@ -27,7 +37,7 @@ type CycloneDX struct {
 func (c *CycloneDX) UnmarshalJSON(b []byte) error {
 	log.Logger.Debug("Unmarshaling CycloneDX JSON...")
 	if c.SBOM == nil {
-		c.SBOM = &sbom.SBOM{}
+		c.SBOM = &types.SBOM{}
 	}
 	bom := cdx.NewBOM()
 	decoder := cdx.NewBOMDecoder(bytes.NewReader(b), cdx.BOMFileFormatJSON)
@@ -155,17 +165,16 @@ func parsePkgs(components []cdx.Component, seen map[string]struct{}) ([]ftypes.P
 }
 
 // walkDependencies takes all nested dependencies of the root component.
-//
-// e.g. Library A, B, C, D and E will be returned as dependencies of Application 1.
-// type: Application 1
-//   - type: Library A
-//     - type: Library B
-//   - type: Application 2
-//     - type: Library C
-//     - type: Application 3
-//       - type: Library D
-//       - type: Library E
 func (c *CycloneDX) walkDependencies(rootRef string) []cdx.Component {
+	// e.g. Library A, B, C, D and E will be returned as dependencies of Application 1.
+	// type: Application 1
+	//   - type: Library A
+	//     - type: Library B
+	//   - type: Application 2
+	//     - type: Library C
+	//     - type: Application 3
+	//       - type: Library D
+	//       - type: Library E
 	var components []cdx.Component
 	for _, dep := range c.dependencies[rootRef] {
 		component, ok := c.components[dep]
@@ -267,6 +276,8 @@ func toPackage(component cdx.Component) (string, *ftypes.Package, error) {
 	for _, prop := range lo.FromPtr(component.Properties) {
 		if strings.HasPrefix(prop.Name, Namespace) {
 			switch strings.TrimPrefix(prop.Name, Namespace) {
+			case PropertyPkgID:
+				pkg.ID = prop.Value
 			case PropertySrcName:
 				pkg.SrcName = prop.Value
 			case PropertySrcVersion:

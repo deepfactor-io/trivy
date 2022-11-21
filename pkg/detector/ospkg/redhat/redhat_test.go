@@ -8,14 +8,24 @@ import (
 	"github.com/stretchr/testify/require"
 	fake "k8s.io/utils/clock/testing"
 
+	"github.com/stretchr/testify/assert"
+
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
+<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/dbtest"
 	"github.com/deepfactor-io/trivy/pkg/detector/ospkg/redhat"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/types"
 	"github.com/stretchr/testify/assert"
+=======
+	"github.com/aquasecurity/trivy/pkg/dbtest"
+	"github.com/aquasecurity/trivy/pkg/detector/ospkg/redhat"
+	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/aquasecurity/trivy/pkg/types"
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 func TestMain(m *testing.M) {

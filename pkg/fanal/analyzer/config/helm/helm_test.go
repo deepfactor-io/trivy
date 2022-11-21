@@ -3,7 +3,6 @@ package helm
 import (
 	"context"
 	"os"
-	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -340,7 +339,7 @@ affinity: {}
 			info, err := os.Stat(tt.inputFile)
 			require.NoError(t, err)
 
-			a := NewConfigAnalyzer(nil)
+			a := helmConfigAnalyzer{}
 			ctx := context.Background()
 			got, err := a.Analyze(ctx, analyzer.AnalysisInput{
 				FilePath: tt.inputFile,
@@ -361,14 +360,18 @@ affinity: {}
 
 func Test_helmConfigAnalyzer_Required(t *testing.T) {
 	tests := []struct {
-		name        string
-		filePattern *regexp.Regexp
-		filePath    string
-		want        bool
+		name     string
+		filePath string
+		want     bool
 	}{
 		{
 			name:     "yaml",
 			filePath: "testdata/testchart/Chart.yaml",
+			want:     true,
+		},
+		{
+			name:     "yaml - shorthand",
+			filePath: "testdata/testchart/templates/deployment.yml",
 			want:     true,
 		},
 		{
@@ -406,17 +409,10 @@ func Test_helmConfigAnalyzer_Required(t *testing.T) {
 			filePath: "testdata/nope.tgz",
 			want:     true, // its a tarball after all
 		},
-
-		{
-			name:        "file pattern",
-			filePattern: regexp.MustCompile(`foo*`),
-			filePath:    "foo_file",
-			want:        true,
-		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewConfigAnalyzer(tt.filePattern)
+			s := helmConfigAnalyzer{}
 
 			info, _ := os.Stat(tt.filePath)
 
@@ -427,7 +423,7 @@ func Test_helmConfigAnalyzer_Required(t *testing.T) {
 }
 
 func Test_helmConfigAnalyzer_Type(t *testing.T) {
-	s := NewConfigAnalyzer(nil)
+	s := helmConfigAnalyzer{}
 
 	want := analyzer.TypeHelm
 	got := s.Type()

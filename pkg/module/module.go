@@ -9,16 +9,16 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/liamg/memoryfs"
 	"github.com/mailru/easyjson"
 	"github.com/samber/lo"
 	"github.com/tetratelabs/wazero"
 	"github.com/tetratelabs/wazero/api"
 	"github.com/tetratelabs/wazero/experimental"
-	wasi "github.com/tetratelabs/wazero/wasi_snapshot_preview1"
+	wasi "github.com/tetratelabs/wazero/imports/wasi_snapshot_preview1"
 	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
+<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	tapi "github.com/deepfactor-io/trivy/pkg/module/api"
@@ -26,10 +26,21 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/scanner/post"
 	"github.com/deepfactor-io/trivy/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/utils"
+=======
+	"github.com/aquasecurity/memoryfs"
+
+	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
+	"github.com/aquasecurity/trivy/pkg/log"
+	tapi "github.com/aquasecurity/trivy/pkg/module/api"
+	"github.com/aquasecurity/trivy/pkg/module/serialize"
+	"github.com/aquasecurity/trivy/pkg/scanner/post"
+	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/aquasecurity/trivy/pkg/utils"
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
 var (
-	exportFunctions = map[string]interface{}{
+	logFunctions = map[string]api.GoModuleFunc{
 		"debug": logDebug,
 		"info":  logInfo,
 		"warn":  logWarn,
@@ -39,32 +50,52 @@ var (
 	RelativeDir = filepath.Join(".trivy", "modules")
 )
 
-func logDebug(ctx context.Context, m api.Module, offset, size uint32) {
-	buf := readMemory(ctx, m, offset, size)
+// logDebug is defined as an api.GoModuleFunc for lower overhead vs reflection.
+func logDebug(ctx context.Context, mod api.Module, params []uint64) (_ []uint64) {
+	offset, size := uint32(params[0]), uint32(params[1])
+
+	buf := readMemory(ctx, mod, offset, size)
 	if buf != nil {
 		log.Logger.Debug(string(buf))
 	}
+
+	return
 }
 
-func logInfo(ctx context.Context, m api.Module, offset, size uint32) {
-	buf := readMemory(ctx, m, offset, size)
+// logInfo is defined as an api.GoModuleFunc for lower overhead vs reflection.
+func logInfo(ctx context.Context, mod api.Module, params []uint64) (_ []uint64) {
+	offset, size := uint32(params[0]), uint32(params[1])
+
+	buf := readMemory(ctx, mod, offset, size)
 	if buf != nil {
 		log.Logger.Info(string(buf))
 	}
+
+	return
 }
 
-func logWarn(ctx context.Context, m api.Module, offset, size uint32) {
-	buf := readMemory(ctx, m, offset, size)
+// logWarn is defined as an api.GoModuleFunc for lower overhead vs reflection.
+func logWarn(ctx context.Context, mod api.Module, params []uint64) (_ []uint64) {
+	offset, size := uint32(params[0]), uint32(params[1])
+
+	buf := readMemory(ctx, mod, offset, size)
 	if buf != nil {
 		log.Logger.Warn(string(buf))
 	}
+
+	return
 }
 
-func logError(ctx context.Context, m api.Module, offset, size uint32) {
-	buf := readMemory(ctx, m, offset, size)
+// logError is defined as an api.GoModuleFunc for lower overhead vs reflection.
+func logError(ctx context.Context, mod api.Module, params []uint64) (_ []uint64) {
+	offset, size := uint32(params[0]), uint32(params[1])
+
+	buf := readMemory(ctx, mod, offset, size)
 	if buf != nil {
 		log.Logger.Error(string(buf))
 	}
+
+	return
 }
 
 func readMemory(ctx context.Context, m api.Module, offset, size uint32) []byte {
@@ -84,15 +115,8 @@ type Manager struct {
 func NewManager(ctx context.Context) (*Manager, error) {
 	m := &Manager{}
 
-	// The runtime must enable the following features because Tinygo uses these features to build.
-	// cf. https://github.com/tinygo-org/tinygo/blob/b65447c7d567eea495805656f45472cc3c483e03/targets/wasi.json#L4
-	c := wazero.NewRuntimeConfig().
-		WithFeatureBulkMemoryOperations(true).
-		WithFeatureNonTrappingFloatToIntConversion(true).
-		WithFeatureSignExtensionOps(true)
-
 	// Create a new WebAssembly Runtime.
-	m.runtime = wazero.NewRuntimeWithConfig(c)
+	m.runtime = wazero.NewRuntime(ctx)
 
 	// Load WASM modules in local
 	if err := m.loadModules(ctx); err != nil {
@@ -248,20 +272,26 @@ func newWASMPlugin(ctx context.Context, r wazero.Runtime, code []byte) (*wasmMod
 	ns := r.NewNamespace(ctx)
 
 	// Instantiate a Go-defined module named "env" that exports functions.
-	_, err := r.NewModuleBuilder("env").
-		ExportMemory("mem", 100).
-		ExportFunctions(exportFunctions).
-		Instantiate(ctx, ns)
-	if err != nil {
+	envBuilder := r.NewHostModuleBuilder("env")
+
+	// Avoid reflection for logging as it implies an overhead of >1us per call.
+	for n, f := range logFunctions {
+		envBuilder.NewFunctionBuilder().
+			WithGoModuleFunction(f, []api.ValueType{api.ValueTypeI32, api.ValueTypeI32}, []api.ValueType{}).
+			WithParameterNames("offset", "size").
+			Export(n)
+	}
+
+	if _, err := envBuilder.Instantiate(ctx, ns); err != nil {
 		return nil, xerrors.Errorf("wasm module build error: %w", err)
 	}
 
-	if _, err = wasi.NewBuilder(r).Instantiate(ctx, ns); err != nil {
+	if _, err := wasi.NewBuilder(r).Instantiate(ctx, ns); err != nil {
 		return nil, xerrors.Errorf("WASI init error: %w", err)
 	}
 
 	// Compile the WebAssembly module using the default configuration.
-	compiled, err := r.CompileModule(ctx, code, wazero.NewCompileConfig())
+	compiled, err := r.CompileModule(ctx, code)
 	if err != nil {
 		return nil, xerrors.Errorf("module compile error: %w", err)
 	}
@@ -610,7 +640,7 @@ func moduleVersion(ctx context.Context, mod api.Module) (int, error) {
 		return 0, xerrors.New("invalid signature: version")
 	}
 
-	return int(versionRes[0]), nil
+	return int(uint32(versionRes[0])), nil
 }
 
 func moduleAPIVersion(ctx context.Context, mod api.Module) (int, error) {
@@ -626,7 +656,7 @@ func moduleAPIVersion(ctx context.Context, mod api.Module) (int, error) {
 		return 0, xerrors.New("invalid signature: api_version")
 	}
 
-	return int(versionRes[0]), nil
+	return int(uint32(versionRes[0])), nil
 }
 
 func moduleRequiredFiles(ctx context.Context, mod api.Module) ([]*regexp.Regexp, error) {

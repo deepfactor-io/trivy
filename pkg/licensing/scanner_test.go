@@ -5,8 +5,13 @@ import (
 
 	"github.com/deepfactor-io/trivy/pkg/licensing"
 
+<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+=======
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 	"github.com/stretchr/testify/assert"
+
+	"github.com/aquasecurity/trivy/pkg/fanal/types"
 )
 
 func TestScanner_Scan(t *testing.T) {

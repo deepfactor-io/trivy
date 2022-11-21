@@ -9,17 +9,23 @@ import (
 	"golang.org/x/xerrors"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
+<<<<<<< HEAD
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/report"
 	"github.com/deepfactor-io/trivy/pkg/result"
+=======
+	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/aquasecurity/trivy/pkg/report"
+	"github.com/aquasecurity/trivy/pkg/result"
+	"github.com/aquasecurity/trivy/pkg/types"
+>>>>>>> fd5cafb26dfebcea6939572098650f79bafb430c
 )
 
-// e.g. config yaml
-// report:
-//   format: table
-//   dependency-tree: true
-//   exit-code: 1
-//   severity: HIGH,CRITICAL
+// e.g. config yaml:
+//
+//	format: table
+//	dependency-tree: true
+//	severity: HIGH,CRITICAL
 var (
 	FormatFlag = Flag{
 		Name:       "format",
@@ -45,7 +51,7 @@ var (
 		Name:       "dependency-tree",
 		ConfigName: "dependency-tree",
 		Value:      false,
-		Usage:      "show dependency origin tree (EXPERIMENTAL)",
+		Usage:      "[EXPERIMENTAL] show dependency origin tree of vulnerable packages",
 	}
 	ListAllPkgsFlag = Flag{
 		Name:       "list-all-pkgs",
@@ -85,6 +91,12 @@ var (
 		Value:      strings.Join(dbTypes.SeverityNames, ","),
 		Usage:      "severities of security issues to be displayed (comma separated)",
 	}
+	ComplianceFlag = Flag{
+		Name:       "compliance",
+		ConfigName: "scan.compliance",
+		Value:      "",
+		Usage:      "compliance report to generate (nsa)",
+	}
 )
 
 // ReportFlagGroup composes common printer flag structs
@@ -100,6 +112,7 @@ type ReportFlagGroup struct {
 	ExitCode       *Flag
 	Output         *Flag
 	Severity       *Flag
+	Compliance     *Flag
 }
 
 type ReportOptions struct {
@@ -113,6 +126,7 @@ type ReportOptions struct {
 	IgnorePolicy   string
 	Output         io.Writer
 	Severities     []dbTypes.Severity
+	Compliance     string
 }
 
 func NewReportFlagGroup() *ReportFlagGroup {
@@ -127,6 +141,7 @@ func NewReportFlagGroup() *ReportFlagGroup {
 		ExitCode:       &ExitCodeFlag,
 		Output:         &OutputFlag,
 		Severity:       &SeverityFlag,
+		Compliance:     &ComplianceFlag,
 	}
 }
 
@@ -136,7 +151,7 @@ func (f *ReportFlagGroup) Name() string {
 
 func (f *ReportFlagGroup) Flags() []*Flag {
 	return []*Flag{f.Format, f.ReportFormat, f.Template, f.DependencyTree, f.ListAllPkgs, f.IgnoreFile,
-		f.IgnorePolicy, f.ExitCode, f.Output, f.Severity}
+		f.IgnorePolicy, f.ExitCode, f.Output, f.Severity, f.Compliance}
 }
 
 func (f *ReportFlagGroup) ToOptions(out io.Writer) (ReportOptions, error) {
@@ -166,7 +181,9 @@ func (f *ReportFlagGroup) ToOptions(out io.Writer) (ReportOptions, error) {
 
 	// "--dependency-tree" option is available only with "--format table".
 	if dependencyTree {
-		log.Logger.Infof(`"--dependency-tree" only shows dependencies for "package-lock.json" files`)
+		log.Logger.Infof(`"--dependency-tree" only shows the dependents of vulnerable packages. ` +
+			`Note that it is the reverse of the usual dependency tree, which shows the packages that depend on the vulnerable package. ` +
+			`It supports "package-lock.json", "Cargo.lock" and OS packages. Please see the document for the detail.`)
 		if format != report.FormatTable {
 			log.Logger.Warn(`"--dependency-tree" can be used only with "--format table".`)
 		}
@@ -184,6 +201,11 @@ func (f *ReportFlagGroup) ToOptions(out io.Writer) (ReportOptions, error) {
 		}
 	}
 
+	complianceTypes, err := parseComplianceTypes(getString(f.Compliance))
+	if err != nil {
+		return ReportOptions{}, xerrors.Errorf("unable to parse compliance types: %w", err)
+	}
+
 	return ReportOptions{
 		Format:         format,
 		ReportFormat:   getString(f.ReportFormat),
@@ -195,7 +217,15 @@ func (f *ReportFlagGroup) ToOptions(out io.Writer) (ReportOptions, error) {
 		IgnorePolicy:   getString(f.IgnorePolicy),
 		Output:         out,
 		Severities:     splitSeverity(getStringSlice(f.Severity)),
+		Compliance:     complianceTypes,
 	}, nil
+}
+
+func parseComplianceTypes(compliance string) (string, error) {
+	if len(compliance) > 0 && !slices.Contains(types.Compliances, compliance) && !strings.HasPrefix(compliance, "@") {
+		return "", xerrors.Errorf("unknown compliance : %v", compliance)
+	}
+	return compliance, nil
 }
 
 func (f *ReportFlagGroup) forceListAllPkgs(format string, listAllPkgs, dependencyTree bool) bool {

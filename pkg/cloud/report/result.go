@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/liamg/tml"
+	"github.com/aquasecurity/tml"
 
 	renderer "github.com/deepfactor-io/trivy/pkg/report/table"
 
