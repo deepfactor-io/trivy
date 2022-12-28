@@ -23,7 +23,7 @@ import (
 )
 
 const (
-	Namespace = "aquasecurity:trivy:"
+	Namespace = "Deepfactor:dfctl:"
 
 	PropertySchemaVersion = "SchemaVersion"
 	PropertyType          = "Type"
