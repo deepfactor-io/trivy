@@ -166,8 +166,8 @@ func (e *Marshaler) cdxMetadata() *cdx.Metadata {
 		Timestamp: e.clock.Now().UTC().Format(timeLayout),
 		Tools: &[]cdx.Tool{
 			{
-				Vendor:  "aquasecurity",
-				Name:    "trivy",
+				Vendor:  "Deepfactor",
+				Name:    "dfctl",
 				Version: e.appVersion,
 			},
 		},
