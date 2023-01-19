@@ -36,7 +36,7 @@ var (
 		"error": logError,
 	}
 
-	RelativeDir = filepath.Join(".trivy", "modules")
+	RelativeDir = filepath.Join(".deepfactor", "modules")
 )
 
 func logDebug(ctx context.Context, m api.Module, offset, size uint32) {
