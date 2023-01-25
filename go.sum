@@ -580,8 +580,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/daviddengcn/go-colortext v0.0.0-20160507010035-511bcaf42ccd/go.mod h1:dv4zxwHi5C/8AeI+4gX4dCWOIvNi7I6JCSX0HvlKPgE=
-github.com/deepfactor-io/go-dep-parser v0.0.0-20220927113150-19cad745e996 h1:Zd/3m5n58313M8//yiuEjj/M1xEcvLo9ml3CXYxrkeE=
-github.com/deepfactor-io/go-dep-parser v0.0.0-20220927113150-19cad745e996/go.mod h1:JlFpqEDd6oMRyRCtwPRidFsHjFs1YL7Otpi00mJccDw=
+github.com/deepfactor-io/go-dep-parser v0.0.0-20230125083822-802a7525c561 h1:nx0PBvgkwPo96EgPEZ9mhpWo5DuGdZ2IVMZlza4gowQ=
+github.com/deepfactor-io/go-dep-parser v0.0.0-20230125083822-802a7525c561/go.mod h1:JlFpqEDd6oMRyRCtwPRidFsHjFs1YL7Otpi00mJccDw=
 github.com/denisenkom/go-mssqldb v0.9.0/go.mod h1:xbL0rPBG9cCiLr28tMa8zpbdarY27NDyej4t/EjAShU=
 github.com/denverdino/aliyungo v0.0.0-20190125010748-a747050bb1ba/go.mod h1:dV8lFg6daOBZbT6/BDGIz6Y3WFGn8juu6G+CQ6LHtl0=
 github.com/dgraph-io/badger/v3 v3.2103.2 h1:dpyM5eCJAtQCBcMCZcT4UBZchuTJgCywerHHgmxfxM8=
