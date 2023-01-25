@@ -358,7 +358,7 @@ func (ag AnalyzerGroup) AnalyzeFile(ctx context.Context, wg *sync.WaitGroup, ter
 				Options:  opts,
 			})
 			if err != nil && !xerrors.Is(err, aos.AnalyzeOSError) {
-				log.Logger.Errorf("Analysis error: %s", err)
+				log.Logger.Debugf("Analysis error: %s", err)
 				// Terminate walk and update error
 				*terminateWalk = true
 				*terminateError = err.Error()
