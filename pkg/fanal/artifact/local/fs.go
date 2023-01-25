@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/json"
+	"errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -78,6 +79,9 @@ func buildAbsPaths(base string, paths []string) []string {
 
 func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) {
 	var wg sync.WaitGroup
+	var terminateWalk bool
+	var terminateError string
+
 	result := analyzer.NewAnalysisResult()
 	limit := semaphore.NewWeighted(parallel)
 
@@ -97,7 +101,7 @@ func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) 
 		}
 
 		opts := analyzer.AnalysisOptions{Offline: a.artifactOption.Offline}
-		if err = a.analyzer.AnalyzeFile(ctx, &wg, limit, result, directory, filePath, info, opener, nil, opts); err != nil {
+		if err = a.analyzer.AnalyzeFile(ctx, &wg, &terminateWalk, &terminateError, limit, result, directory, filePath, info, opener, nil, opts); err != nil {
 			return xerrors.Errorf("analyze file (%s): %w", filePath, err)
 		}
 		return nil
@@ -108,6 +112,10 @@ func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) 
 
 	// Wait for all the goroutine to finish.
 	wg.Wait()
+
+	if terminateWalk {
+		return types.ArtifactReference{}, errors.New(terminateError)
+	}
 
 	// Sort the analysis result for consistent results
 	result.Sort()

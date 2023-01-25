@@ -3,6 +3,7 @@ package image
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"io"
 	"os"
 	"reflect"
@@ -215,13 +216,15 @@ func (a Artifact) inspectLayer(ctx context.Context, diffID string, disabled []an
 
 	// Prepare variables
 	var wg sync.WaitGroup
+	var terminateWalk bool
+	var terminateError string
 	opts := analyzer.AnalysisOptions{Offline: a.artifactOption.Offline}
 	result := analyzer.NewAnalysisResult()
 	limit := semaphore.NewWeighted(parallel)
 
 	// Walk a tar layer
 	opqDirs, whFiles, err := a.walker.Walk(r, func(filePath string, info os.FileInfo, opener analyzer.Opener) error {
-		if err = a.analyzer.AnalyzeFile(ctx, &wg, limit, result, "", filePath, info, opener, disabled, opts); err != nil {
+		if err = a.analyzer.AnalyzeFile(ctx, &wg, &terminateWalk, &terminateError, limit, result, "", filePath, info, opener, disabled, opts); err != nil {
 			return xerrors.Errorf("failed to analyze %s: %w", filePath, err)
 		}
 		return nil
@@ -232,6 +235,10 @@ func (a Artifact) inspectLayer(ctx context.Context, diffID string, disabled []an
 
 	// Wait for all the goroutine to finish.
 	wg.Wait()
+
+	if terminateWalk {
+		return types.BlobInfo{}, errors.New(terminateError)
+	}
 
 	// Sort the analysis result for consistent results
 	result.Sort()
