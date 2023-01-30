@@ -360,7 +360,7 @@ func (ag AnalyzerGroup) AnalyzeFile(ctx context.Context, wg *sync.WaitGroup, ter
 			})
 			if err != nil && !xerrors.Is(err, aos.AnalyzeOSError) {
 				log.Logger.Debugf("Analysis error: %s", err)
-				if strings.Contains(err.Error(), godepparserutils.JAVA_ARTIFACT_PARSER_ERROR) || (strings.Contains(err.Error(), "PROTOCOL_ERROR") && strings.Contains(err.Error(), "walk error")) {
+				if IsWalkTerminationRequired(err) {
 					// Terminate walk and update error
 					*terminateWalk = true
 					*terminateError = err.Error()
@@ -389,4 +389,8 @@ func (ag AnalyzerGroup) AnalyzeImageConfig(targetOS types.OS, configBlob []byte)
 		return pkgs
 	}
 	return nil
+}
+
+func IsWalkTerminationRequired(err error) bool {
+	return strings.Contains(err.Error(), godepparserutils.JAVA_ARTIFACT_PARSER_ERROR) || (strings.Contains(err.Error(), "PROTOCOL_ERROR") && strings.Contains(err.Error(), "walk error"))
 }
