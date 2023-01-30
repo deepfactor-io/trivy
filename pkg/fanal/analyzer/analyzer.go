@@ -14,6 +14,7 @@ import (
 	"golang.org/x/xerrors"
 
 	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
+	godepparserutils "github.com/deepfactor-io/go-dep-parser/pkg/utils"
 	aos "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os"
 	"github.com/deepfactor-io/trivy/pkg/fanal/log"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
@@ -359,9 +360,11 @@ func (ag AnalyzerGroup) AnalyzeFile(ctx context.Context, wg *sync.WaitGroup, ter
 			})
 			if err != nil && !xerrors.Is(err, aos.AnalyzeOSError) {
 				log.Logger.Debugf("Analysis error: %s", err)
-				// Terminate walk and update error
-				*terminateWalk = true
-				*terminateError = err.Error()
+				if strings.Contains(err.Error(), godepparserutils.JAVA_ARTIFACT_PARSER_ERROR) || (strings.Contains(err.Error(), "PROTOCOL_ERROR") && strings.Contains(err.Error(), "walk error")) {
+					// Terminate walk and update error
+					*terminateWalk = true
+					*terminateError = err.Error()
+				}
 				return
 			}
 			if ret != nil {
