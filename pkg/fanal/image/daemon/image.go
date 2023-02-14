@@ -4,15 +4,16 @@ import (
 	"context"
 	"io"
 	"os"
+	"strings"
 	"sync"
 	"time"
-	"strings"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	dimage "github.com/docker/docker/api/types/image"
 	v1 "github.com/google/go-containerregistry/pkg/v1"
 	"github.com/google/go-containerregistry/pkg/v1/tarball"
+	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 )
 
@@ -86,13 +87,29 @@ func (img *image) ConfigName() (v1.Hash, error) {
 	return v1.NewHash(img.inspect.ID)
 }
 
+func (img *image) configFile() (*v1.ConfigFile, error) {
+	// Need to fall back into expensive operations like "docker save"
+	// because the config file cannot be generated properly from container engine API for some reason.
+	if err := img.populateImage(); err != nil {
+		return nil, xerrors.Errorf("unable to populate: %w", err)
+	}
+	return img.Image.ConfigFile()
+}
+
 func (img *image) ConfigFile() (*v1.ConfigFile, error) {
 	if len(img.inspect.RootFS.Layers) == 0 {
 		// Podman doesn't return RootFS...
-		if err := img.populateImage(); err != nil {
-			return nil, xerrors.Errorf("unable to populate: %w", err)
-		}
-		return img.Image.ConfigFile()
+		return img.configFile()
+	}
+
+	nonEmptyLayerCount := lo.CountBy(img.configHistory(), func(history v1.History) bool {
+		return !history.EmptyLayer
+	})
+
+	if len(img.inspect.RootFS.Layers) != nonEmptyLayerCount {
+		// In cases where empty layers are not correctly determined from the history API.
+		// There are some edge cases where we cannot guess empty layers well.
+		return img.configFile()
 	}
 
 	diffIDs, err := img.diffIDs()

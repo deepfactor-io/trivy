@@ -11,6 +11,7 @@ import (
 	"sync"
 
 	v1 "github.com/google/go-containerregistry/pkg/v1"
+	"github.com/samber/lo"
 	"golang.org/x/exp/slices"
 	"golang.org/x/sync/semaphore"
 	"golang.org/x/xerrors"
@@ -69,21 +70,27 @@ func NewArtifact(img types.Image, c cache.ArtifactCache, opt artifact.Option) (a
 	}, nil
 }
 
+func (a Artifact) diffIDs(configFile *v1.ConfigFile) []string {
+	if configFile == nil {
+		return nil
+	}
+	return lo.Map(configFile.RootFS.DiffIDs, func(diffID v1.Hash, _ int) string {
+		return diffID.String()
+	})
+}
+
 func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) {
 	imageID, err := a.image.ID()
 	if err != nil {
 		return types.ArtifactReference{}, xerrors.Errorf("unable to get the image ID: %w", err)
 	}
 
-	diffIDs, err := a.image.LayerIDs()
-	if err != nil {
-		return types.ArtifactReference{}, xerrors.Errorf("unable to get layer IDs: %w", err)
-	}
-
 	configFile, err := a.image.ConfigFile()
 	if err != nil {
 		return types.ArtifactReference{}, xerrors.Errorf("unable to get the image's config file: %w", err)
 	}
+
+	diffIDs := a.diffIDs(configFile)
 
 	// Debug
 	log.Logger.Debugf("Image ID: %s", imageID)
