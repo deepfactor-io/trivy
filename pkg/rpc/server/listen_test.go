@@ -15,8 +15,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy-db/pkg/db"
-	"github.com/deepfactor-io/trivy-db/pkg/metadata"
+	"github.com/aquasecurity/trivy-db/pkg/db"
+	"github.com/aquasecurity/trivy-db/pkg/metadata"
 	dbFile "github.com/deepfactor-io/trivy/pkg/db"
 	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
 	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"

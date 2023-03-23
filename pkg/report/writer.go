@@ -7,7 +7,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
+	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	cr "github.com/deepfactor-io/trivy/pkg/compliance/report"
 	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
 	"github.com/deepfactor-io/trivy/pkg/log"
@@ -110,7 +110,7 @@ func Write(report types.Report, option Option) error {
 		// TODO: support xml format option with cyclonedx writer
 		writer = cyclonedx.NewWriter(option.Output, option.DfctlVersion)
 	case FormatSPDX, FormatSPDXJSON:
-		writer = spdx.NewWriter(option.Output, option.AppVersion, option.Format)
+		writer = spdx.NewWriter(option.Output, option.DfctlVersion, option.Format)
 	case FormatTemplate:
 		// We keep `sarif.tpl` template working for backward compatibility for a while.
 		if strings.HasPrefix(option.OutputTemplate, "@") && strings.HasSuffix(option.OutputTemplate, "sarif.tpl") {

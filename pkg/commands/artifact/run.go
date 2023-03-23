@@ -12,7 +12,7 @@ import (
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/go-version/pkg/semver"
-	"github.com/deepfactor-io/trivy-db/pkg/db"
+	"github.com/aquasecurity/trivy-db/pkg/db"
 	tcache "github.com/deepfactor-io/trivy/pkg/cache"
 	"github.com/deepfactor-io/trivy/pkg/commands/operation"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"

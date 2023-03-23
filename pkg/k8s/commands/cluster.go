@@ -6,9 +6,9 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy-kubernetes/pkg/artifacts"
-	"github.com/deepfactor-io/trivy-kubernetes/pkg/k8s"
-	"github.com/deepfactor-io/trivy-kubernetes/pkg/trivyk8s"
+	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
+	"github.com/aquasecurity/trivy-kubernetes/pkg/k8s"
+	"github.com/aquasecurity/trivy-kubernetes/pkg/trivyk8s"
 	"github.com/deepfactor-io/trivy/pkg/flag"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/types"

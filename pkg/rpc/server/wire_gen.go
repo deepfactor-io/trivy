@@ -7,7 +7,7 @@
 package server
 
 import (
-	"github.com/deepfactor-io/trivy-db/pkg/db"
+	"github.com/aquasecurity/trivy-db/pkg/db"
 	"github.com/deepfactor-io/trivy/pkg/detector/ospkg"
 	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
 	"github.com/deepfactor-io/trivy/pkg/fanal/cache"

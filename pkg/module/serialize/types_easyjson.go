@@ -10,7 +10,7 @@ import (
 	jlexer "github.com/mailru/easyjson/jlexer"
 	jwriter "github.com/mailru/easyjson/jwriter"
 
-	types2 "github.com/deepfactor-io/trivy-db/pkg/types"
+	types2 "github.com/aquasecurity/trivy-db/pkg/types"
 	types1 "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	types "github.com/deepfactor-io/trivy/pkg/types"
 )

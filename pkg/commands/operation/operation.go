@@ -12,7 +12,7 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy-db/pkg/metadata"
+	"github.com/aquasecurity/trivy-db/pkg/metadata"
 	"github.com/deepfactor-io/trivy/pkg/db"
 	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
 	"github.com/deepfactor-io/trivy/pkg/flag"

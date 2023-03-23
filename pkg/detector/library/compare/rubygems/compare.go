@@ -4,7 +4,7 @@ import (
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/go-gem-version"
-	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
+	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/detector/library/compare"
 )
 

@@ -11,9 +11,9 @@ import (
 
 	"golang.org/x/xerrors"
 
+	"github.com/aquasecurity/trivy-java-db/pkg/db"
+	"github.com/aquasecurity/trivy-java-db/pkg/types"
 	"github.com/deepfactor-io/go-dep-parser/pkg/java/jar"
-	"github.com/deepfactor-io/trivy-java-db/pkg/db"
-	"github.com/deepfactor-io/trivy-java-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/oci"
 )

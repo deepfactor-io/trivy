@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy-db/pkg/vulnsrc/vulnerability"
+	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
+	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
 	fos "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/types"

@@ -11,8 +11,8 @@ import (
 	"github.com/twitchtv/twirp"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy-db/pkg/db"
-	"github.com/deepfactor-io/trivy-db/pkg/metadata"
+	"github.com/aquasecurity/trivy-db/pkg/db"
+	"github.com/aquasecurity/trivy-db/pkg/metadata"
 	dbFile "github.com/deepfactor-io/trivy/pkg/db"
 	dbc "github.com/deepfactor-io/trivy/pkg/db"
 	"github.com/deepfactor-io/trivy/pkg/fanal/cache"

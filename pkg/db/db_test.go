@@ -15,8 +15,8 @@ import (
 	"k8s.io/utils/clock"
 	clocktesting "k8s.io/utils/clock/testing"
 
-	tdb "github.com/deepfactor-io/trivy-db/pkg/db"
-	"github.com/deepfactor-io/trivy-db/pkg/metadata"
+	tdb "github.com/aquasecurity/trivy-db/pkg/db"
+	"github.com/aquasecurity/trivy-db/pkg/metadata"
 	"github.com/deepfactor-io/trivy/pkg/db"
 	"github.com/deepfactor-io/trivy/pkg/oci"
 )

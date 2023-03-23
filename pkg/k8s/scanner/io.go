@@ -9,7 +9,7 @@ import (
 
 	"github.com/deepfactor-io/trivy/pkg/log"
 
-	"github.com/deepfactor-io/trivy-kubernetes/pkg/artifacts"
+	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
 )
 
 func createTempFile(artifact *artifacts.Artifact) (string, error) {

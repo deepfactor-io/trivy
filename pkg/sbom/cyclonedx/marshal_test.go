@@ -15,8 +15,8 @@ import (
 	"github.com/stretchr/testify/require"
 	fake "k8s.io/utils/clock/testing"
 
-	dtypes "github.com/deepfactor-io/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy-db/pkg/vulnsrc/vulnerability"
+	dtypes "github.com/aquasecurity/trivy-db/pkg/types"
+	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
 	fos "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/report"
