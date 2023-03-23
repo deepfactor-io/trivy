@@ -14,9 +14,9 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/aquasecurity/trivy-db/pkg/utils"
-	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
+	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
+	"github.com/deepfactor-io/trivy-db/pkg/utils"
+	"github.com/deepfactor-io/trivy-db/pkg/vulnsrc/vulnerability"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/types"
 	"github.com/deepfactor-io/trivy/rpc/common"

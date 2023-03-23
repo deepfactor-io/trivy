@@ -9,7 +9,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zaptest/observer"
 
-	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
+	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
 	"github.com/deepfactor-io/trivy/pkg/flag"
 	"github.com/deepfactor-io/trivy/pkg/log"
@@ -25,6 +25,7 @@ func TestReportFlagGroup_ToOptions(t *testing.T) {
 		ignoreUnfixed  bool
 		ignoreFile     string
 		exitCode       int
+		exitOnEOSL     bool
 		ignorePolicy   string
 		output         string
 		severities     string
@@ -220,6 +221,7 @@ func TestReportFlagGroup_ToOptions(t *testing.T) {
 			viper.Set(flag.IgnoreUnfixedFlag.ConfigName, tt.fields.ignoreUnfixed)
 			viper.Set(flag.IgnorePolicyFlag.ConfigName, tt.fields.ignorePolicy)
 			viper.Set(flag.ExitCodeFlag.ConfigName, tt.fields.exitCode)
+			viper.Set(flag.ExitOnEOLFlag.ConfigName, tt.fields.exitOnEOSL)
 			viper.Set(flag.OutputFlag.ConfigName, tt.fields.output)
 			viper.Set(flag.SeverityFlag.ConfigName, tt.fields.severities)
 			viper.Set(flag.ComplianceFlag.ConfigName, tt.fields.compliane)
@@ -233,6 +235,7 @@ func TestReportFlagGroup_ToOptions(t *testing.T) {
 				IgnoreFile:     &flag.IgnoreFileFlag,
 				IgnorePolicy:   &flag.IgnorePolicyFlag,
 				ExitCode:       &flag.ExitCodeFlag,
+				ExitOnEOL:      &flag.ExitOnEOLFlag,
 				Output:         &flag.OutputFlag,
 				Severity:       &flag.SeverityFlag,
 				Compliance:     &flag.ComplianceFlag,

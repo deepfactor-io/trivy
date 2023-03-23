@@ -3,7 +3,7 @@ package licensing
 import (
 	"golang.org/x/exp/slices"
 
-	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
+	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 

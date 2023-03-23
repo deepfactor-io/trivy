@@ -10,8 +10,8 @@ import (
 	"golang.org/x/xerrors"
 	"k8s.io/utils/clock"
 
-	"github.com/aquasecurity/trivy-db/pkg/db"
-	"github.com/aquasecurity/trivy-db/pkg/metadata"
+	"github.com/deepfactor-io/trivy-db/pkg/db"
+	"github.com/deepfactor-io/trivy-db/pkg/metadata"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/oci"
 )

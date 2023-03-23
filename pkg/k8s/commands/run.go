@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/viper"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
-	"github.com/aquasecurity/trivy-kubernetes/pkg/k8s"
+	"github.com/deepfactor-io/trivy-kubernetes/pkg/artifacts"
+	"github.com/deepfactor-io/trivy-kubernetes/pkg/k8s"
 	cmd "github.com/deepfactor-io/trivy/pkg/commands/artifact"
 	cr "github.com/deepfactor-io/trivy/pkg/compliance/report"
 	"github.com/deepfactor-io/trivy/pkg/flag"
@@ -32,6 +32,14 @@ func Run(ctx context.Context, args []string, opts flag.Options) error {
 	if err != nil {
 		return xerrors.Errorf("failed getting k8s cluster: %w", err)
 	}
+	ctx, cancel := context.WithTimeout(ctx, opts.Timeout)
+	defer cancel()
+
+	defer func() {
+		if xerrors.Is(err, context.DeadlineExceeded) {
+			log.Logger.Warn("Increase --timeout value")
+		}
+	}()
 
 	switch args[0] {
 	case clusterArtifact:
@@ -56,16 +64,6 @@ func newRunner(flagOpts flag.Options, cluster string) *runner {
 }
 
 func (r *runner) run(ctx context.Context, artifacts []*artifacts.Artifact) error {
-	ctx, cancel := context.WithTimeout(ctx, r.flagOpts.Timeout)
-	defer cancel()
-
-	var err error
-	defer func() {
-		if xerrors.Is(err, context.DeadlineExceeded) {
-			log.Logger.Warn("Increase --timeout value")
-		}
-	}()
-
 	runner, err := cmd.NewRunner(ctx, r.flagOpts)
 	if err != nil {
 		if errors.Is(err, cmd.SkipScan) {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
+	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/detector/library/compare/maven"
 )
 

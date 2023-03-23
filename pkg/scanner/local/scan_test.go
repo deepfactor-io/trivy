@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy-db/pkg/db"
-	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
+	"github.com/deepfactor-io/trivy-db/pkg/db"
+	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/dbtest"
 	"github.com/deepfactor-io/trivy/pkg/detector/ospkg"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"

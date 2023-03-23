@@ -6,20 +6,20 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"time"
 
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy-java-db/pkg/db"
-	"github.com/aquasecurity/trivy-java-db/pkg/types"
 	"github.com/deepfactor-io/go-dep-parser/pkg/java/jar"
+	"github.com/deepfactor-io/trivy-java-db/pkg/db"
+	"github.com/deepfactor-io/trivy-java-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/oci"
 )
 
 const (
-	defaultJavaDBRepository = "ghcr.io/aquasecurity/trivy-java-db"
-	mediaType               = "application/vnd.aquasec.trivy.javadb.layer.v1.tar+gzip"
+	mediaType = "application/vnd.aquasec.trivy.javadb.layer.v1.tar+gzip"
 )
 
 var updater *Updater
@@ -42,12 +42,13 @@ func (u *Updater) Update() error {
 			return xerrors.Errorf("Java DB metadata error: %w", err)
 		} else if u.skip {
 			log.Logger.Error("The first run cannot skip downloading Java DB")
-			return xerrors.New("'--skip-java-update' cannot be specified on the first run")
+			return xerrors.New("'--skip-java-db-update' cannot be specified on the first run")
 		}
 	}
 
 	if (meta.Version != db.SchemaVersion || meta.NextUpdate.Before(time.Now().UTC())) && !u.skip {
 		// Download DB
+		log.Logger.Infof("Java DB Repository: %s", u.repo)
 		log.Logger.Info("Downloading the Java DB...")
 
 		var a *oci.Artifact
@@ -76,9 +77,9 @@ func (u *Updater) Update() error {
 	return nil
 }
 
-func Init(cacheDir string, skip, quiet, insecure bool) {
+func Init(cacheDir string, javaDBRepository string, skip, quiet, insecure bool) {
 	updater = &Updater{
-		repo:     fmt.Sprintf("%s:%d", defaultJavaDBRepository, db.SchemaVersion), // TODO: make it configurable
+		repo:     fmt.Sprintf("%s:%d", javaDBRepository, db.SchemaVersion),
 		dbDir:    filepath.Join(cacheDir, "java-db"),
 		skip:     skip,
 		quiet:    quiet,
@@ -142,6 +143,9 @@ func (d *DB) SearchByArtifactID(artifactID string) (string, error) {
 	} else if len(indexes) == 0 {
 		return "", xerrors.Errorf("artifactID %s: %w", artifactID, jar.ArtifactNotFoundErr)
 	}
+	sort.Slice(indexes, func(i, j int) bool {
+		return indexes[i].GroupID < indexes[j].GroupID
+	})
 
 	// Some artifacts might have the same artifactId.
 	// e.g. "javax.servlet:jstl" and "jstl:jstl"
@@ -157,6 +161,7 @@ func (d *DB) SearchByArtifactID(artifactID string) (string, error) {
 	var groupID string
 	for k, v := range groupIDs {
 		if v > maxCount {
+			maxCount = v
 			groupID = k
 		}
 	}

@@ -42,7 +42,7 @@ func TestPlugin_Run(t *testing.T) {
 			name: "happy path",
 			fields: fields{
 				Name:        "test_plugin",
-				Repository:  "github.com/aquasecurity/trivy-plugin-test",
+				Repository:  "github.com/deepfactor-io/trivy-plugin-test",
 				Version:     "0.1.0",
 				Usage:       "test",
 				Description: "test",
@@ -52,7 +52,7 @@ func TestPlugin_Run(t *testing.T) {
 							OS:   "linux",
 							Arch: "amd64",
 						},
-						URI: "github.com/aquasecurity/trivy-plugin-test",
+						URI: "github.com/deepfactor-io/trivy-plugin-test",
 						Bin: "test.sh",
 					},
 				},
@@ -64,13 +64,13 @@ func TestPlugin_Run(t *testing.T) {
 			name: "no selector",
 			fields: fields{
 				Name:        "test_plugin",
-				Repository:  "github.com/aquasecurity/trivy-plugin-test",
+				Repository:  "github.com/deepfactor-io/trivy-plugin-test",
 				Version:     "0.1.0",
 				Usage:       "test",
 				Description: "test",
 				Platforms: []plugin.Platform{
 					{
-						URI: "github.com/aquasecurity/trivy-plugin-test",
+						URI: "github.com/deepfactor-io/trivy-plugin-test",
 						Bin: "test.sh",
 					},
 				},
@@ -80,7 +80,7 @@ func TestPlugin_Run(t *testing.T) {
 			name: "no matched platform",
 			fields: fields{
 				Name:        "test_plugin",
-				Repository:  "github.com/aquasecurity/trivy-plugin-test",
+				Repository:  "github.com/deepfactor-io/trivy-plugin-test",
 				Version:     "0.1.0",
 				Usage:       "test",
 				Description: "test",
@@ -90,7 +90,7 @@ func TestPlugin_Run(t *testing.T) {
 							OS:   "darwin",
 							Arch: "amd64",
 						},
-						URI: "github.com/aquasecurity/trivy-plugin-test",
+						URI: "github.com/deepfactor-io/trivy-plugin-test",
 						Bin: "test.sh",
 					},
 				},
@@ -103,7 +103,7 @@ func TestPlugin_Run(t *testing.T) {
 			name: "no execution file",
 			fields: fields{
 				Name:        "test_plugin",
-				Repository:  "github.com/aquasecurity/trivy-plugin-test",
+				Repository:  "github.com/deepfactor-io/trivy-plugin-test",
 				Version:     "0.1.0",
 				Usage:       "test",
 				Description: "test",
@@ -113,7 +113,7 @@ func TestPlugin_Run(t *testing.T) {
 							OS:   "linux",
 							Arch: "amd64",
 						},
-						URI: "github.com/aquasecurity/trivy-plugin-test",
+						URI: "github.com/deepfactor-io/trivy-plugin-test",
 						Bin: "nonexistence.sh",
 					},
 				},
@@ -126,7 +126,7 @@ func TestPlugin_Run(t *testing.T) {
 			name: "plugin exec error",
 			fields: fields{
 				Name:        "error_plugin",
-				Repository:  "github.com/aquasecurity/trivy-plugin-error",
+				Repository:  "github.com/deepfactor-io/trivy-plugin-error",
 				Version:     "0.1.0",
 				Usage:       "test",
 				Description: "test",
@@ -136,7 +136,7 @@ func TestPlugin_Run(t *testing.T) {
 							OS:   "linux",
 							Arch: "amd64",
 						},
-						URI: "github.com/aquasecurity/trivy-plugin-test",
+						URI: "github.com/deepfactor-io/trivy-plugin-test",
 						Bin: "test.sh",
 					},
 				},
@@ -190,7 +190,7 @@ func TestInstall(t *testing.T) {
 			url:  "testdata/test_plugin",
 			want: plugin.Plugin{
 				Name:        "test_plugin",
-				Repository:  "github.com/aquasecurity/trivy-plugin-test",
+				Repository:  "github.com/deepfactor-io/trivy-plugin-test",
 				Version:     "0.1.0",
 				Usage:       "test",
 				Description: "test",
@@ -214,7 +214,7 @@ func TestInstall(t *testing.T) {
 			url:  "testdata/not_found",
 			want: plugin.Plugin{
 				Name:        "test_plugin",
-				Repository:  "github.com/aquasecurity/trivy-plugin-test",
+				Repository:  "github.com/deepfactor-io/trivy-plugin-test",
 				Version:     "0.1.0",
 				Usage:       "test",
 				Description: "test",
@@ -238,7 +238,7 @@ func TestInstall(t *testing.T) {
 			url:  "testdata/no_yaml",
 			want: plugin.Plugin{
 				Name:        "no_yaml",
-				Repository:  "github.com/aquasecurity/trivy-plugin-test",
+				Repository:  "github.com/deepfactor-io/trivy-plugin-test",
 				Version:     "0.1.0",
 				Usage:       "test",
 				Description: "test",
@@ -358,7 +358,7 @@ func TestLoadAll1(t *testing.T) {
 			want: []plugin.Plugin{
 				{
 					Name:        "test_plugin",
-					Repository:  "github.com/aquasecurity/trivy-plugin-test",
+					Repository:  "github.com/deepfactor-io/trivy-plugin-test",
 					Version:     "0.1.0",
 					Usage:       "test",
 					Description: "test",

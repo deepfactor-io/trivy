@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy-db/pkg/types"
+	"github.com/deepfactor-io/trivy-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/flag"
 )
 

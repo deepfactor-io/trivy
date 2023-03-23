@@ -7,7 +7,7 @@ import (
 	"github.com/cheggaaa/pb/v3"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
+	"github.com/deepfactor-io/trivy-kubernetes/pkg/artifacts"
 	cmd "github.com/deepfactor-io/trivy/pkg/commands/artifact"
 	"github.com/deepfactor-io/trivy/pkg/flag"
 	"github.com/deepfactor-io/trivy/pkg/k8s/report"

@@ -12,7 +12,7 @@ import (
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/go-version/pkg/semver"
-	"github.com/aquasecurity/trivy-db/pkg/db"
+	"github.com/deepfactor-io/trivy-db/pkg/db"
 	tcache "github.com/deepfactor-io/trivy/pkg/cache"
 	"github.com/deepfactor-io/trivy/pkg/commands/operation"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
@@ -29,7 +29,7 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/rpc/client"
 	"github.com/deepfactor-io/trivy/pkg/scanner"
 	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/utils"
+	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
 )
 
 // TargetKind represents what kind of artifact Trivy scans
@@ -131,7 +131,10 @@ func NewRunner(ctx context.Context, cliOptions flag.Options, opts ...runnerOptio
 	}
 
 	// Initialize WASM modules
-	m, err := module.NewManager(ctx)
+	m, err := module.NewManager(ctx, module.Options{
+		Dir:            cliOptions.ModuleDir,
+		EnabledModules: cliOptions.EnabledModules,
+	})
 	if err != nil {
 		return nil, xerrors.Errorf("WASM module error: %w", err)
 	}
@@ -342,7 +345,7 @@ func (r *runner) initJavaDB(opts flag.Options) error {
 
 	// Update the Java DB
 	noProgress := opts.Quiet || opts.NoProgress
-	javadb.Init(opts.CacheDir, opts.SkipJavaDBUpdate, noProgress, opts.Insecure)
+	javadb.Init(opts.CacheDir, opts.JavaDBRepository, opts.SkipJavaDBUpdate, noProgress, opts.Insecure)
 	if opts.DownloadJavaDBOnly {
 		if err := javadb.Update(); err != nil {
 			return xerrors.Errorf("Java DB error: %w", err)
@@ -367,12 +370,12 @@ func (r *runner) initCache(opts flag.Options) error {
 	}
 
 	// standalone mode
-	utils.SetCacheDir(opts.CacheDir)
+	fsutils.SetCacheDir(opts.CacheDir)
 	cacheClient, err := operation.NewCache(opts.CacheOptions)
 	if err != nil {
 		return xerrors.Errorf("unable to initialize the cache: %w", err)
 	}
-	log.Logger.Debugf("cache dir:  %s", utils.CacheDir())
+	log.Logger.Debugf("cache dir:  %s", fsutils.CacheDir())
 
 	if opts.Reset {
 		defer cacheClient.Close()
@@ -455,6 +458,7 @@ func Run(ctx context.Context, opts flag.Options, targetKind TargetKind) (err err
 		return xerrors.Errorf("report error: %w", err)
 	}
 
+	exitOnEOL(opts, report.Metadata)
 	Exit(opts, report.Results.Failed())
 
 	return nil
@@ -491,6 +495,14 @@ func disabledAnalyzers(opts flag.Options) []analyzer.Type {
 		analyzers = append(analyzers, analyzer.TypeLicenseFile)
 	}
 
+	// Parsing jar files requires Java-db client
+	// But we don't create client if vulnerability analysis is disabled and SBOM format is not used
+	// We need to disable jar analyzer to avoid errors
+	// TODO disable all languages that don't contain license information for this case
+	if !opts.Scanners.Enabled(types.VulnerabilityScanner) && !slices.Contains(report.SupportedSBOMFormats, opts.Format) {
+		analyzers = append(analyzers, analyzer.TypeJar)
+	}
+
 	// Do not perform misconfiguration scanning on container image config
 	// when it is not specified.
 	if !opts.ImageConfigScanners.Enabled(types.MisconfigScanner) {
@@ -521,8 +533,11 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 		opts.ImageConfigScanners = nil
 		// TODO: define image-config-scanners in the spec
 		if opts.Compliance.Spec.ID == "docker-cis" {
-			opts.Scanners = nil
-			opts.ImageConfigScanners = scanners
+			opts.Scanners = types.Scanners{types.VulnerabilityScanner}
+			opts.ImageConfigScanners = types.Scanners{
+				types.MisconfigScanner,
+				types.SecretScanner,
+			}
 		}
 	}
 
@@ -562,7 +577,6 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 			log.Logger.Debug("Policies successfully loaded from disk")
 			disableEmbedded = true
 		}
-
 		configScannerOptions = config.ScannerOption{
 			Trace:                   opts.Trace,
 			Namespaces:              append(opts.PolicyNamespaces, defaultPolicyNamespaces...),
@@ -573,6 +587,7 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 			HelmFileValues:          opts.HelmFileValues,
 			HelmStringValues:        opts.HelmStringValues,
 			TerraformTFVars:         opts.TerraformTFVars,
+			K8sVersion:              opts.K8sVersion,
 			DisableEmbeddedPolicies: disableEmbedded,
 		}
 	}
@@ -639,12 +654,10 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 
 func scan(ctx context.Context, opts flag.Options, initializeScanner InitializeScanner, cacheClient cache.Cache) (
 	types.Report, error) {
-
 	scannerConfig, scanOptions, err := initScannerConfig(opts, cacheClient)
 	if err != nil {
 		return types.Report{}, err
 	}
-
 	s, cleanup, err := initializeScanner(ctx, scannerConfig)
 	if err != nil {
 		return types.Report{}, xerrors.Errorf("unable to initialize a scanner: %w", err)
@@ -661,6 +674,13 @@ func scan(ctx context.Context, opts flag.Options, initializeScanner InitializeSc
 func Exit(opts flag.Options, failedResults bool) {
 	if opts.ExitCode != 0 && failedResults {
 		os.Exit(opts.ExitCode)
+	}
+}
+
+func exitOnEOL(opts flag.Options, m types.Metadata) {
+	if opts.ExitOnEOL != 0 && m.OS != nil && m.OS.Eosl {
+		log.Logger.Errorf("Detected EOL OS: %s %s", m.OS.Family, m.OS.Name)
+		os.Exit(opts.ExitOnEOL)
 	}
 }
 

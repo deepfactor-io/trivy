@@ -5,13 +5,13 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy-db/pkg/db"
+	"github.com/deepfactor-io/trivy-db/pkg/db"
 	"github.com/deepfactor-io/trivy/pkg/commands/operation"
 	"github.com/deepfactor-io/trivy/pkg/flag"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/module"
 	rpcServer "github.com/deepfactor-io/trivy/pkg/rpc/server"
-	"github.com/deepfactor-io/trivy/pkg/utils"
+	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
 )
 
 // Run runs the scan
@@ -21,13 +21,13 @@ func Run(ctx context.Context, opts flag.Options) (err error) {
 	}
 
 	// configure cache dir
-	utils.SetCacheDir(opts.CacheDir)
+	fsutils.SetCacheDir(opts.CacheDir)
 	cache, err := operation.NewCache(opts.CacheOptions)
 	if err != nil {
 		return xerrors.Errorf("server cache error: %w", err)
 	}
 	defer cache.Close()
-	log.Logger.Debugf("cache dir:  %s", utils.CacheDir())
+	log.Logger.Debugf("cache dir:  %s", fsutils.CacheDir())
 
 	if opts.Reset {
 		return cache.ClearDB()
@@ -48,7 +48,10 @@ func Run(ctx context.Context, opts flag.Options) (err error) {
 	}
 
 	// Initialize WASM modules
-	m, err := module.NewManager(ctx)
+	m, err := module.NewManager(ctx, module.Options{
+		Dir:            opts.ModuleDir,
+		EnabledModules: opts.EnabledModules,
+	})
 	if err != nil {
 		return xerrors.Errorf("WASM module error: %w", err)
 	}

@@ -8,8 +8,8 @@ import (
 	"github.com/owenrumney/go-sarif/v2/sarif"
 	"github.com/stretchr/testify/assert"
 
-	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
+	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
+	"github.com/deepfactor-io/trivy-db/pkg/vulnsrc/vulnerability"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/report"
 	"github.com/deepfactor-io/trivy/pkg/types"

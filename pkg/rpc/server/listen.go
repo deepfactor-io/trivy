@@ -11,13 +11,13 @@ import (
 	"github.com/twitchtv/twirp"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy-db/pkg/db"
-	"github.com/aquasecurity/trivy-db/pkg/metadata"
+	"github.com/deepfactor-io/trivy-db/pkg/db"
+	"github.com/deepfactor-io/trivy-db/pkg/metadata"
 	dbFile "github.com/deepfactor-io/trivy/pkg/db"
 	dbc "github.com/deepfactor-io/trivy/pkg/db"
 	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
 	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/utils"
+	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
 	rpcCache "github.com/deepfactor-io/trivy/rpc/cache"
 	rpcScanner "github.com/deepfactor-io/trivy/rpc/scanner"
 )
@@ -160,12 +160,12 @@ func (w dbWorker) hotUpdate(ctx context.Context, cacheDir string, dbUpdateWg, re
 	}
 
 	// Copy trivy.db
-	if _, err = utils.CopyFile(db.Path(tmpDir), db.Path(cacheDir)); err != nil {
+	if _, err = fsutils.CopyFile(db.Path(tmpDir), db.Path(cacheDir)); err != nil {
 		return xerrors.Errorf("failed to copy the database file: %w", err)
 	}
 
 	// Copy metadata.json
-	if _, err = utils.CopyFile(metadata.Path(tmpDir), metadata.Path(cacheDir)); err != nil {
+	if _, err = fsutils.CopyFile(metadata.Path(tmpDir), metadata.Path(cacheDir)); err != nil {
 		return xerrors.Errorf("failed to copy the metadata file: %w", err)
 	}
 

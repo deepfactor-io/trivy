@@ -10,7 +10,7 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/amazon"
+	"github.com/deepfactor-io/trivy-db/pkg/vulnsrc/amazon"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/scanner/utils"

@@ -7,7 +7,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
+	dbTypes "github.com/deepfactor-io/trivy-db/pkg/types"
 	cr "github.com/deepfactor-io/trivy/pkg/compliance/report"
 	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
 	"github.com/deepfactor-io/trivy/pkg/log"

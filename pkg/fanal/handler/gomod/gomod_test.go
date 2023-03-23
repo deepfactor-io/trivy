@@ -37,7 +37,7 @@ func Test_gomodMergeHook_Hook(t *testing.T) {
 						FilePath: "/app/go.mod",
 						Libraries: []types.Package{
 							{
-								Name:    "github.com/aquasecurity/go-dep-parser",
+								Name:    "github.com/deepfactor-io/go-dep-parser",
 								Version: "v0.0.0-20220412145205-d0501f906d90",
 							},
 							{
@@ -80,7 +80,7 @@ func Test_gomodMergeHook_Hook(t *testing.T) {
 						FilePath: "/app/go.mod",
 						Libraries: []types.Package{
 							{
-								Name:    "github.com/aquasecurity/go-dep-parser",
+								Name:    "github.com/deepfactor-io/go-dep-parser",
 								Version: "v0.0.0-20220412145205-d0501f906d90",
 							},
 							{
@@ -106,7 +106,7 @@ func Test_gomodMergeHook_Hook(t *testing.T) {
 						FilePath: "app/go.mod",
 						Libraries: []types.Package{
 							{
-								Name:    "github.com/aquasecurity/go-dep-parser",
+								Name:    "github.com/deepfactor-io/go-dep-parser",
 								Version: "v0.0.0-20220412145205-d0501f906d90",
 							},
 							{
@@ -138,7 +138,7 @@ func Test_gomodMergeHook_Hook(t *testing.T) {
 						FilePath: "app/go.mod",
 						Libraries: []types.Package{
 							{
-								Name:    "github.com/aquasecurity/go-dep-parser",
+								Name:    "github.com/deepfactor-io/go-dep-parser",
 								Version: "v0.0.0-20220412145205-d0501f906d90",
 							},
 							{
@@ -164,7 +164,7 @@ func Test_gomodMergeHook_Hook(t *testing.T) {
 						FilePath: "app/go.mod",
 						Libraries: []types.Package{
 							{
-								Name:    "github.com/aquasecurity/go-dep-parser",
+								Name:    "github.com/deepfactor-io/go-dep-parser",
 								Version: "v0.0.0-20220412145205-d0501f906d90",
 							},
 							{
@@ -182,7 +182,7 @@ func Test_gomodMergeHook_Hook(t *testing.T) {
 						FilePath: "app/go.mod",
 						Libraries: []types.Package{
 							{
-								Name:    "github.com/aquasecurity/go-dep-parser",
+								Name:    "github.com/deepfactor-io/go-dep-parser",
 								Version: "v0.0.0-20220412145205-d0501f906d90",
 							},
 							{
