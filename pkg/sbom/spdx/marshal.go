@@ -28,7 +28,7 @@ const (
 )
 
 const (
-	CategoryPackageManager = "PACKAGE_MANAGER"
+	CategoryPackageManager = "PACKAGE-MANAGER"
 	RefTypePurl            = "purl"
 
 	PropertySchemaVersion = "SchemaVersion"
@@ -109,16 +109,24 @@ func NewMarshaler(opts ...marshalOption) *Marshaler {
 
 // The function augmentSpdxData updates each package in packages key,
 // ensuring the spdx json is valid as per https://tools.spdx.org/app/validate/
-// The following keys are being updated
-//  1. licenseConcluded (incorrect delimiter and string value throws error)
-//  2. licenseDeclared (incorrect delimiter and string value throws error)
-//  3. copyrightText (throws a warning if the value is empty)
-//  4. downloadLocation (throws a warning if the value is empty)
+// The following keys are being updated to circumvent the warning
+//  1. licenseConcluded
+//  2. licenseDeclared
+//  3. copyrightText
+//  4. downloadLocation
 func augmentSpdxData(p *spdx.Package2_2) {
-	p.PackageLicenseConcluded = NoAssertion
-	p.PackageLicenseDeclared = NoAssertion
-	p.PackageCopyrightText = NoAssertion
-	p.PackageDownloadLocation = NoAssertion
+	if p.PackageLicenseConcluded == "" {
+		p.PackageLicenseConcluded = NoAssertion
+	}
+	if p.PackageLicenseDeclared == "" {
+		p.PackageLicenseDeclared = NoAssertion
+	}
+	if p.PackageCopyrightText == "" {
+		p.PackageCopyrightText = NoAssertion
+	}
+	if p.PackageDownloadLocation == "" {
+		p.PackageDownloadLocation = NoAssertion
+	}
 }
 
 func (m *Marshaler) Marshal(r types.Report) (*spdx.Document2_2, error) {
