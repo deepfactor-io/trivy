@@ -161,6 +161,9 @@ func (m *Marshaler) Marshal(r types.Report) (*spdx.Document2_2, error) {
 	if len(relationShips) > 1 {
 		// for consistent report generation accross UI and CLI
 		// sort relationships except for the first item
+		// the first relationship will reference the DOCUMENT (root-package/image)
+		// eg: Relationship: SPDXRef-DOCUMENT DESCRIBES SPDXRef-ContainerImage-7eef1cebfe0e056b
+		// and is expected to be at start
 		from := 1
 		sort.Slice(relationShips[from:], func(i, j int) bool {
 			r1 := relationShips[i+from]
