@@ -222,6 +222,7 @@ func bind(cmd *cobra.Command, flag *Flag) error {
 
 func bindEnv(flag *Flag) error {
 	// We don't use viper.AutomaticEnv, so we need to add a prefix manually here.
+	fmt.Printf("[bindEnv], env vars are. TRIVY_USERNAME: %s, TRIVY_PASSWORD: %s", os.Getenv("TRIVY_USERNAME"), os.Getenv("TRIVY_PASSWORD"))
 	envName := strings.ToUpper("trivy_" + strings.ReplaceAll(flag.Name, "-", "_"))
 	if err := viper.BindEnv(flag.ConfigName, envName); err != nil {
 		return xerrors.Errorf("bind env error: %w", err)
@@ -395,6 +396,7 @@ func (f *Flags) Usages(cmd *cobra.Command) string {
 }
 
 func (f *Flags) Bind(cmd *cobra.Command) error {
+	fmt.Printf("[Bind] with a loop, env vars are. TRIVY_USERNAME: %s, TRIVY_PASSWORD: %s", os.Getenv("TRIVY_USERNAME"), os.Getenv("TRIVY_PASSWORD"))
 	for _, group := range f.groups() {
 		if group == nil {
 			continue

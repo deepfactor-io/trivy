@@ -2,6 +2,7 @@ package daemon
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/docker/docker/client"
@@ -32,6 +33,7 @@ func DockerImage(ref name.Reference, host string) (Image, func(), error) {
 			_ = c.Close()
 		}
 	}()
+	fmt.Printf("from trivy, env vars are. TRIVY_USERNAME: %s, TRIVY_PASSWORD: %s", os.Getenv("TRIVY_USERNAME"), os.Getenv("TRIVY_PASSWORD"))
 
 	// <image_name>:<tag> pattern like "alpine:3.15"
 	// or
