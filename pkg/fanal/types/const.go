@@ -84,3 +84,5 @@ const (
 
 	MixLock = "mix.lock"
 )
+
+var NodeLockFiles = []string{NpmPkgLock, YarnLock, PnpmLock}

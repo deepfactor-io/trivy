@@ -25,6 +25,7 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/scanner/post"
 	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/utils"
 	"github.com/deepfactor-io/trivy/pkg/vulnerability"
 )
 
@@ -207,6 +208,10 @@ func (s Scanner) osPkgsToResult(target string, detail ftypes.ArtifactDetail, opt
 
 func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail) types.Results {
 	var results types.Results
+
+	// Map to store nodejs lock file packages
+	nodeLockFilePackages := map[string]ftypes.Package{}
+
 	for _, app := range detail.Applications {
 		if len(app.Libraries) == 0 {
 			continue
@@ -217,6 +222,26 @@ func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail) types.Results {
 			target = t
 		}
 
+		// Get parents map for current target
+		parents := ftypes.Packages(app.Libraries).ParentDeps()
+
+		// Get app directory info for node
+		nodeAppDirInfo := utils.NodeAppDirInfo(target)
+
+		for i, pkg := range app.Libraries {
+
+			// Add root dependencies info
+			if len(parents) != 0 {
+				pkg.RootDependencies = utils.FindAncestor(pkg.ID, parents, map[string]struct{}{})
+				app.Libraries[i] = pkg
+			}
+
+			// Append nodejs lock file packages
+			if nodeAppDirInfo.IsNodeLockFile {
+				nodeLockFilePackages[nodeAppDirInfo.GetPackageKey(pkg)] = pkg
+			}
+		}
+
 		results = append(results, types.Result{
 			Target:   target,
 			Class:    types.ClassLangPkg,
@@ -224,6 +249,8 @@ func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail) types.Results {
 			Packages: app.Libraries,
 		})
 	}
+
+	results = utils.DedupeNodePackages(nodeLockFilePackages, results)
 	return results
 }
 

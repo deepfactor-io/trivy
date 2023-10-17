@@ -99,6 +99,9 @@ type Package struct {
 
 	// store warnings
 	Warnings []string `json:",omitempty"`
+
+	// Root dependencies of this package
+	RootDependencies []string `json:",omitempty"`
 }
 
 type Location struct {
