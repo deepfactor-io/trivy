@@ -237,7 +237,7 @@ func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail) types.Results {
 			}
 
 			// Append nodejs lock file packages
-			if nodeAppDirInfo.IsNodeLockFile {
+			if nodeAppDirInfo.IsNodeLockFile && nodeAppDirInfo.IsFileinAppDir {
 				nodeLockFilePackages[nodeAppDirInfo.GetPackageKey(pkg)] = pkg
 			}
 		}

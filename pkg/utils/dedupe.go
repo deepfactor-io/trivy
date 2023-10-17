@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/types"
 	"github.com/samber/lo"
 )
@@ -75,12 +76,14 @@ type nodeAppDirInfo struct {
 	AppDir         string
 	IsNodeAppDir   bool
 	IsNodeLockFile bool
+	IsFileinAppDir bool
 }
 
 func NodeAppDirInfo(path string) nodeAppDirInfo {
 	fileName := filepath.Base(path)
 	isNodeAppDir := false
 	isNodeLockFile := false
+	isFileinAppDir := false
 
 	if fileName == ftypes.NpmPkg {
 		isNodeAppDir = true
@@ -92,11 +95,16 @@ func NodeAppDirInfo(path string) nodeAppDirInfo {
 		return nodeAppDirInfo{Path: path}
 	}
 
-	appDir := strings.Split(filepath.Dir(path), "node_modules")[0]
+	appDir := strings.Split(filepath.Dir(path)+"/", "node_modules")[0]
 
 	// When path is empty filepath.Dir will return "."
 	if appDir == "." {
 		appDir = ""
+	}
+
+	log.Logger.Debug(appDir, " ", fileName, " ", path, " ", appDir+fileName == path)
+	if appDir+fileName == path {
+		isFileinAppDir = true
 	}
 
 	return nodeAppDirInfo{
@@ -105,6 +113,7 @@ func NodeAppDirInfo(path string) nodeAppDirInfo {
 		AppDir:         appDir,
 		IsNodeAppDir:   isNodeAppDir,
 		IsNodeLockFile: isNodeLockFile,
+		IsFileinAppDir: isFileinAppDir,
 	}
 }
 
