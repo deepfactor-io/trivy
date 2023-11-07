@@ -207,8 +207,7 @@ var (
 	// TypeIndividualPkgs has all analyzers for individual packages
 	TypeIndividualPkgs = []Type{
 		TypeGemSpec,
-		// Commenting to enable the analyzers for filesystem scans
-		// TypeNodePkg,
+		TypeNodePkg,
 		TypeCondaPkg,
 		TypePythonPkg,
 		TypeGoBinary,
