@@ -36,6 +36,7 @@ func DedupeNodePackages(lockFilePackages map[string]ftypes.Package, results []ty
 				pkg.Indirect = lPkg.Indirect
 				pkg.RootDependencies = lPkg.RootDependencies
 				pkg.DependsOn = lPkg.DependsOn
+				pkg.NodeDedupeMatchFound = true
 
 				result.Packages[j] = pkg
 				matchFoundInNode[key] = struct{}{}
@@ -46,26 +47,10 @@ func DedupeNodePackages(lockFilePackages map[string]ftypes.Package, results []ty
 		results[i] = result
 	}
 
-	// Clean up lock file packages
-	for i, result := range results {
-		nodeAppDirInfo := NodeAppDirInfo(result.Target)
-		if !nodeAppDirInfo.IsNodeLockFile {
-			continue
-		}
-
-		// Remove packages that had corresponding match in Node.js target
-		pkgs := lo.Filter(result.Packages, func(p ftypes.Package, i int) bool {
-			key := nodeAppDirInfo.GetPackageKey(p)
-			if _, ok := matchFoundInNode[key]; ok {
-				return false
-			}
-
-			return true
-		})
-
-		result.Packages = pkgs
-		results[i] = result
-	}
+	// Remove node lock files from result
+	results = lo.Filter(results, func(r types.Result, i int) bool {
+		return lo.IndexOf(ftypes.NodeLockTypes, r.Type) == -1
+	})
 
 	return results
 }

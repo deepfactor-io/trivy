@@ -102,7 +102,10 @@ type Package struct {
 	Warnings []string `json:",omitempty"`
 
 	// Root dependencies of this package
-	RootDependencies []string `json:",omitempty"`
+	RootDependencies []string `json:"-"`
+
+	// Node dedupe match found
+	NodeDedupeMatchFound bool `json:"-"`
 }
 
 type Location struct {

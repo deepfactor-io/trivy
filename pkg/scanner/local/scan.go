@@ -235,7 +235,7 @@ func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail) types.Results {
 		for i, pkg := range app.Libraries {
 
 			// Add root dependencies info
-			if len(parents) != 0 {
+			if pkg.Indirect && len(parents) != 0 {
 				pkg.RootDependencies = utils.FindAncestor(pkg.ID, parents, map[string]struct{}{})
 				app.Libraries[i] = pkg
 			}

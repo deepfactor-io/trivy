@@ -88,3 +88,4 @@ const (
 )
 
 var NodeLockFiles = []string{NpmPkgLock, YarnLock, PnpmLock}
+var NodeLockTypes = []string{Npm, Yarn, Pnpm}
