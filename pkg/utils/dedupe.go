@@ -12,8 +12,6 @@ import (
 )
 
 func DedupeNodePackages(lockFilePackages map[string]ftypes.Package, results []types.Result) []types.Result {
-	// Map to store package keys that have to removed from lock file targets
-	matchFoundInNode := map[string]struct{}{}
 
 	// Resource deduplication for Node.js
 	for i, result := range results {
@@ -39,7 +37,6 @@ func DedupeNodePackages(lockFilePackages map[string]ftypes.Package, results []ty
 				pkg.NodeDedupeMatchFound = true
 
 				result.Packages[j] = pkg
-				matchFoundInNode[key] = struct{}{}
 			}
 
 		}
