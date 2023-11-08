@@ -59,19 +59,25 @@ type OspkgDetector interface {
 	Detect(imageName, osFamily, osName string, repo *ftypes.Repository, created time.Time, pkgs []ftypes.Package) (detectedVulns []types.DetectedVulnerability, eosl bool, err error)
 }
 
+type ScannerOptions struct {
+	IsImageScan bool
+}
+
 // Scanner implements the OspkgDetector and LibraryDetector
 type Scanner struct {
-	applier       Applier
-	ospkgDetector OspkgDetector
-	vulnClient    vulnerability.Client
+	applier        Applier
+	ospkgDetector  OspkgDetector
+	vulnClient     vulnerability.Client
+	scannerOptions ScannerOptions
 }
 
 // NewScanner is the factory method for Scanner
-func NewScanner(applier Applier, ospkgDetector OspkgDetector, vulnClient vulnerability.Client) Scanner {
+func NewScanner(applier Applier, ospkgDetector OspkgDetector, vulnClient vulnerability.Client, options ScannerOptions) Scanner {
 	return Scanner{
-		applier:       applier,
-		ospkgDetector: ospkgDetector,
-		vulnClient:    vulnClient,
+		applier:        applier,
+		ospkgDetector:  ospkgDetector,
+		vulnClient:     vulnClient,
+		scannerOptions: options,
 	}
 }
 
@@ -254,7 +260,10 @@ func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail) types.Results {
 		})
 	}
 
-	results = utils.DedupeNodePackages(nodeLockFilePackages, results)
+	if s.scannerOptions.IsImageScan {
+		results = utils.DedupeNodePackages(nodeLockFilePackages, results)
+	}
+
 	return results
 }
 
