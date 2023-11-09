@@ -90,6 +90,7 @@ type ScanOptions struct {
 	SBOMSources    []string
 	RekorURL       string
 	IncludeDevDeps bool
+	IsImageScan    bool
 }
 
 func NewScanFlagGroup() *ScanFlagGroup {

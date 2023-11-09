@@ -22,7 +22,7 @@ func initializeScanServer(localArtifactCache cache.LocalArtifactCache) *ScanServ
 	detector := ospkg.Detector{}
 	config := db.Config{}
 	client := vulnerability.NewClient(config)
-	scanner := local.NewScanner(applierApplier, detector, client, local.ScannerOptions{})
+	scanner := local.NewScanner(applierApplier, detector, client)
 	scanServer := NewScanServer(scanner)
 	return scanServer
 }

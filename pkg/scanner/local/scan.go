@@ -59,25 +59,19 @@ type OspkgDetector interface {
 	Detect(imageName, osFamily, osName string, repo *ftypes.Repository, created time.Time, pkgs []ftypes.Package) (detectedVulns []types.DetectedVulnerability, eosl bool, err error)
 }
 
-type ScannerOptions struct {
-	IsImageScan bool
-}
-
 // Scanner implements the OspkgDetector and LibraryDetector
 type Scanner struct {
-	applier        Applier
-	ospkgDetector  OspkgDetector
-	vulnClient     vulnerability.Client
-	scannerOptions ScannerOptions
+	applier       Applier
+	ospkgDetector OspkgDetector
+	vulnClient    vulnerability.Client
 }
 
 // NewScanner is the factory method for Scanner
-func NewScanner(applier Applier, ospkgDetector OspkgDetector, vulnClient vulnerability.Client, options ScannerOptions) Scanner {
+func NewScanner(applier Applier, ospkgDetector OspkgDetector, vulnClient vulnerability.Client) Scanner {
 	return Scanner{
-		applier:        applier,
-		ospkgDetector:  ospkgDetector,
-		vulnClient:     vulnClient,
-		scannerOptions: options,
+		applier:       applier,
+		ospkgDetector: ospkgDetector,
+		vulnClient:    vulnClient,
 	}
 }
 
@@ -121,7 +115,7 @@ func (s Scanner) Scan(ctx context.Context, target, artifactKey string, blobKeys 
 		if res := s.osPkgsToResult(target, artifactDetail, options); res != nil {
 			pkgResults = append(pkgResults, *res)
 		}
-		pkgResults = append(pkgResults, s.langPkgsToResult(artifactDetail)...)
+		pkgResults = append(pkgResults, s.langPkgsToResult(artifactDetail, options)...)
 	}
 
 	// Scan packages for vulnerabilities
@@ -216,7 +210,7 @@ func (s Scanner) osPkgsToResult(target string, detail ftypes.ArtifactDetail, opt
 	}
 }
 
-func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail) types.Results {
+func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail, options types.ScanOptions) types.Results {
 	var results types.Results
 
 	// Map to store nodejs lock file packages
@@ -260,7 +254,7 @@ func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail) types.Results {
 		})
 	}
 
-	if s.scannerOptions.IsImageScan {
+	if options.IsImageScan {
 		results = utils.DedupeNodePackages(nodeLockFilePackages, results)
 	}
 

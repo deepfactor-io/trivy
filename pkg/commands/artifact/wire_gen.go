@@ -35,9 +35,7 @@ func initializeDockerScanner(ctx context.Context, imageName string, artifactCach
 	detector := ospkg.Detector{}
 	config := db.Config{}
 	client := vulnerability.NewClient(config)
-	localScanner := local.NewScanner(applierApplier, detector, client, local.ScannerOptions{
-		IsImageScan: true,
-	})
+	localScanner := local.NewScanner(applierApplier, detector, client)
 	v := _wireValue
 	typesImage, cleanup, err := image.NewContainerImage(ctx, imageName, imageOpt, v...)
 	if err != nil {
@@ -65,7 +63,7 @@ func initializeArchiveScanner(ctx context.Context, filePath string, artifactCach
 	detector := ospkg.Detector{}
 	config := db.Config{}
 	client := vulnerability.NewClient(config)
-	localScanner := local.NewScanner(applierApplier, detector, client, local.ScannerOptions{})
+	localScanner := local.NewScanner(applierApplier, detector, client)
 	typesImage, err := image.NewArchiveImage(filePath)
 	if err != nil {
 		return scanner.Scanner{}, err
@@ -84,7 +82,7 @@ func initializeFilesystemScanner(ctx context.Context, path string, artifactCache
 	detector := ospkg.Detector{}
 	config := db.Config{}
 	client := vulnerability.NewClient(config)
-	localScanner := local.NewScanner(applierApplier, detector, client,local.ScannerOptions{})
+	localScanner := local.NewScanner(applierApplier, detector, client)
 	artifactArtifact, err := local2.NewArtifact(path, artifactCache, artifactOption)
 	if err != nil {
 		return scanner.Scanner{}, nil, err
@@ -99,7 +97,7 @@ func initializeRepositoryScanner(ctx context.Context, url string, artifactCache 
 	detector := ospkg.Detector{}
 	config := db.Config{}
 	client := vulnerability.NewClient(config)
-	localScanner := local.NewScanner(applierApplier, detector, client, local.ScannerOptions{})
+	localScanner := local.NewScanner(applierApplier, detector, client)
 	artifactArtifact, cleanup, err := remote.NewArtifact(url, artifactCache, artifactOption)
 	if err != nil {
 		return scanner.Scanner{}, nil, err
@@ -115,7 +113,7 @@ func initializeSBOMScanner(ctx context.Context, filePath string, artifactCache c
 	detector := ospkg.Detector{}
 	config := db.Config{}
 	client := vulnerability.NewClient(config)
-	localScanner := local.NewScanner(applierApplier, detector, client,local.ScannerOptions{})
+	localScanner := local.NewScanner(applierApplier, detector, client)
 	artifactArtifact, err := sbom.NewArtifact(filePath, artifactCache, artifactOption)
 	if err != nil {
 		return scanner.Scanner{}, nil, err
@@ -130,7 +128,7 @@ func initializeVMScanner(ctx context.Context, filePath string, artifactCache cac
 	detector := ospkg.Detector{}
 	config := db.Config{}
 	client := vulnerability.NewClient(config)
-	localScanner := local.NewScanner(applierApplier, detector, client, local.ScannerOptions{})
+	localScanner := local.NewScanner(applierApplier, detector, client)
 	artifactArtifact, err := vm.NewArtifact(filePath, artifactCache, artifactOption)
 	if err != nil {
 		return scanner.Scanner{}, nil, err

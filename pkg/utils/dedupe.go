@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/types"
 	"github.com/samber/lo"
 )
@@ -84,7 +83,6 @@ func NodeAppDirInfo(path string) nodeAppDirInfo {
 		appDir = ""
 	}
 
-	log.Logger.Debug(appDir, " ", fileName, " ", path, " ", appDir+fileName == path)
 	if appDir+fileName == path {
 		isFileinAppDir = true
 	}

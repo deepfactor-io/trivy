@@ -184,6 +184,7 @@ func (r *runner) ScanImage(ctx context.Context, opts flag.Options) (types.Report
 		s = imageRemoteScanner
 	}
 
+	opts.ScanOptions.IsImageScan = true
 	return r.scanArtifact(ctx, opts, s)
 }
 
@@ -557,6 +558,7 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 		FilePatterns:        opts.FilePatterns,
 		OnlyInspectArtifact: opts.OnlyInspectArtifact,
 		IncludeDevDeps:      opts.IncludeDevDeps,
+		IsImageScan:         opts.IsImageScan,
 	}
 
 	if len(opts.ImageConfigScanners) != 0 {
