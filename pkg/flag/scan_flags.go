@@ -4,6 +4,7 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
@@ -90,7 +91,7 @@ type ScanOptions struct {
 	SBOMSources    []string
 	RekorURL       string
 	IncludeDevDeps bool
-	IsImageScan    bool
+	ArtifactType   ftypes.ArtifactType
 }
 
 func NewScanFlagGroup() *ScanFlagGroup {

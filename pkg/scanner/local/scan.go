@@ -254,7 +254,7 @@ func (s Scanner) langPkgsToResult(detail ftypes.ArtifactDetail, options types.Sc
 		})
 	}
 
-	if options.IsImageScan {
+	if options.ArtifactType == ftypes.ArtifactContainerImage {
 		results = utils.DedupeNodePackages(nodeLockFilePackages, results)
 	}
 
