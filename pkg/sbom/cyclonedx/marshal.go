@@ -44,6 +44,7 @@ const (
 	PropertyFilePath        = "FilePath"
 	PropertyLayerDigest     = "LayerDigest"
 	PropertyLayerDiffID     = "LayerDiffID"
+	PropertyIsDev           = "PkgIsDev"
 )
 
 var (
@@ -431,6 +432,13 @@ func pkgComponent(pkg Package) (*core.Component, error) {
 			Name:  PropertyLayerDiffID,
 			Value: pkg.Layer.DiffID,
 		},
+	}
+
+	if pkg.Dev {
+		properties = append(properties, core.Property{
+			Name:  PropertyIsDev,
+			Value: "true",
+		})
 	}
 
 	return &core.Component{
