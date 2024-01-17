@@ -22,6 +22,7 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/scanner/ospkg"
 	"github.com/deepfactor-io/trivy/pkg/scanner/post"
 	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/utils"
 	"github.com/deepfactor-io/trivy/pkg/vulnerability"
 
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/all"
@@ -90,7 +91,7 @@ func (s Scanner) Scan(ctx context.Context, targetName, artifactKey string, blobK
 		OS:                detail.OS,
 		Repository:        detail.Repository,
 		Packages:          mergePkgs(detail.Packages, detail.ImageConfig.Packages, options),
-		Applications:      detail.Applications,
+		Applications:      postProcessApplications(detail.Applications, options),
 		Misconfigurations: mergeMisconfigurations(targetName, detail),
 		Secrets:           mergeSecrets(targetName, detail),
 		Licenses:          detail.Licenses,
@@ -98,6 +99,71 @@ func (s Scanner) Scan(ctx context.Context, targetName, artifactKey string, blobK
 	}
 
 	return s.ScanTarget(ctx, target, options)
+}
+
+func postProcessApplications(apps []ftypes.Application, options types.ScanOptions) []ftypes.Application {
+	// Map to store nodejs lock file packages
+	nodeLockFilePackages := map[string]ftypes.Package{}
+	reqPHPPackages := make(map[string]struct{})
+	reqDevPHPPackages := make(map[string]struct{})
+
+	for i, app := range apps {
+		if len(app.Libraries) == 0 {
+			continue
+		}
+
+		isPkgSplitRequired := utils.IsPkgSplitRequired(app.Type)
+
+		// Get parents map for current target
+		parents := ftypes.Packages(app.Libraries).ParentDeps()
+
+		// Get app directory info for node
+		nodeAppDirInfo := utils.NodeAppDirInfo(app.FilePath)
+
+		for i, pkg := range app.Libraries {
+
+			// calculate rootDep
+			if len(parents) != 0 && (pkg.Indirect || isPkgSplitRequired) {
+				pkg.RootDependencies = utils.FindAncestor(pkg.ID, parents, map[string]struct{}{})
+				app.Libraries[i] = pkg
+
+				if isPkgSplitRequired && !pkg.Indirect && len(pkg.RootDependencies) > 0 {
+					indirectPkg := pkg
+					indirectPkg.Indirect = true
+					app.Libraries = append(app.Libraries, indirectPkg)
+
+					// set [] root dep for direct dep
+					app.Libraries[i].RootDependencies = []string{}
+				}
+			}
+
+			// Append nodejs lock file packages
+			if nodeAppDirInfo.IsNodeLockFile && nodeAppDirInfo.IsFileinAppDir {
+				nodeLockFilePackages[nodeAppDirInfo.GetPackageKey(pkg)] = pkg
+			}
+
+			if app.Type == ftypes.ComposerJSON {
+				if pkg.Dev {
+					reqDevPHPPackages[pkg.Name] = struct{}{}
+				} else {
+					reqPHPPackages[pkg.Name] = struct{}{}
+				}
+			}
+		}
+
+		// update apps
+		apps[i] = app
+	}
+
+	if options.ArtifactType == ftypes.ArtifactContainerImage {
+		apps = utils.DedupePackages(utils.DedupeFilter{
+			NodeLockFilePackages: nodeLockFilePackages,
+			ReqDevPHPPackages:    reqDevPHPPackages,
+			ReqPHPPackages:       reqPHPPackages,
+		}, apps)
+	}
+
+	return apps
 }
 
 func (s Scanner) ScanTarget(ctx context.Context, target types.ScanTarget, options types.ScanOptions) (types.Results, ftypes.OS, error) {
