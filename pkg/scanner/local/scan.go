@@ -127,12 +127,17 @@ func postProcessApplications(apps []ftypes.Application, options types.ScanOption
 				pkg.RootDependencies = utils.FindAncestor(pkg.ID, parents, map[string]struct{}{})
 				app.Libraries[i] = pkg
 
+				// if a pkg which direct and has atleast one root dependency
+				// we will consisder it as both direct and indirect
+				// so we append new entry for indirect and move root deps to the new entry
+				// note: for node-pkg this will done when we dedupe (at this point of time node-pkg won't have transitive info)
+				// splitting of vulnerabilties is handle automatically as vuln.detect operates on app.Libraries
 				if isPkgSplitRequired && !pkg.Indirect && len(pkg.RootDependencies) > 0 {
 					indirectPkg := pkg
 					indirectPkg.Indirect = true
 					app.Libraries = append(app.Libraries, indirectPkg)
 
-					// set [] root dep for direct dep
+					// remove rootdeps from direct dep
 					app.Libraries[i].RootDependencies = []string{}
 				}
 			}

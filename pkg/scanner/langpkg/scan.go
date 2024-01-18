@@ -9,7 +9,6 @@ import (
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/utils"
 )
 
 var (
@@ -88,8 +87,6 @@ func (s *scanner) Scan(target types.ScanTarget, _ types.ScanOptions) (types.Resu
 			Type:            app.Type,
 		})
 	}
-
-	results = utils.SplitDirectDepsVuln(results)
 
 	sort.Slice(results, func(i, j int) bool {
 		return results[i].Target < results[j].Target
