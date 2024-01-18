@@ -28,7 +28,8 @@ func dedupeNodePackages(app ftypes.Application, lockFilePackages map[string]ftyp
 			pkg.DependsOn = lPkg.DependsOn
 			pkg.NodeDedupeMatchFound = true
 
-			// split indirect/direct
+			// handle splitting of indirect & direct package
+			// as we have the transitive info from the lockFilePackages
 			if !pkg.Indirect && len(pkg.RootDependencies) > 0 {
 				indirectPkg := pkg
 				indirectPkg.Indirect = true
@@ -36,6 +37,7 @@ func dedupeNodePackages(app ftypes.Application, lockFilePackages map[string]ftyp
 
 				app.Libraries = append(app.Libraries, indirectPkg)
 
+				// remove rootdeps from direct dep
 				pkg.RootDependencies = []string{}
 			}
 

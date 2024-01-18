@@ -101,6 +101,11 @@ func (s Scanner) Scan(ctx context.Context, targetName, artifactKey string, blobK
 	return s.ScanTarget(ctx, target, options)
 }
 
+// post process applications to
+// 1. Add root dependency info
+// 2. Split package which is both direct and indirect to two entries
+// 3. Dedupe node packages (image scan): get transitive info from lock files and copy it to node installed packages
+// 4. Dedupe composer packages (image scan): get isDev info from composer.json and copy it to composer installed packages
 func postProcessApplications(apps []ftypes.Application, options types.ScanOptions) []ftypes.Application {
 	// Map to store nodejs lock file packages
 	nodeLockFilePackages := map[string]ftypes.Package{}
@@ -127,11 +132,11 @@ func postProcessApplications(apps []ftypes.Application, options types.ScanOption
 				pkg.RootDependencies = utils.FindAncestor(pkg.ID, parents, map[string]struct{}{})
 				app.Libraries[i] = pkg
 
-				// if a pkg which direct and has atleast one root dependency
-				// we will consisder it as both direct and indirect
-				// so we append new entry for indirect and move root deps to the new entry
-				// note: for node-pkg this will done when we dedupe (at this point of time node-pkg won't have transitive info)
-				// splitting of vulnerabilties is handle automatically as vuln.detect operates on app.Libraries
+				// if a pkg which is direct and has atleast one root dependency we will consisder it as both direct and indirect
+				// so we split the entry into two and move root deps to the new entry (i.e the indirect entry).
+				// note: for image scans, node installed package won't have transitive info at this point of time, so we handle that in dedupe process.
+				// since vulnerability detect function operates on app.Libraries, we will get two vulnerability (of same ID)
+				// one for pkgA-direct and one for pkgA-indirect, this is required because we need to highlight them separately in the final report
 				if isPkgSplitRequired && !pkg.Indirect && len(pkg.RootDependencies) > 0 {
 					indirectPkg := pkg
 					indirectPkg.Indirect = true
@@ -142,11 +147,14 @@ func postProcessApplications(apps []ftypes.Application, options types.ScanOption
 				}
 			}
 
-			// Append nodejs lock file packages
+			// store node lockfile (npm, yarn, pnpm) package info
+			// will be utilzed for node dedupe (tansitive & rootDep info)
 			if nodeAppDirInfo.IsNodeLockFile && nodeAppDirInfo.IsFileinAppDir {
 				nodeLockFilePackages[nodeAppDirInfo.GetPackageKey(pkg)] = pkg
 			}
 
+			// store PHP dev package info
+			// will be utilized for PHP deduping (isDev info)
 			if app.Type == ftypes.ComposerJSON {
 				if pkg.Dev {
 					reqDevPHPPackages[pkg.Name] = struct{}{}
@@ -160,6 +168,8 @@ func postProcessApplications(apps []ftypes.Application, options types.ScanOption
 		apps[i] = app
 	}
 
+	// dedupe data for image scans
+	// combining data from lock files to the installed packages for node and composer
 	if options.ArtifactType == ftypes.ArtifactContainerImage {
 		apps = utils.DedupePackages(utils.DedupeFilter{
 			NodeLockFilePackages: nodeLockFilePackages,
