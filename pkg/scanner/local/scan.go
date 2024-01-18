@@ -122,7 +122,8 @@ func postProcessApplications(apps []ftypes.Application, options types.ScanOption
 		// Get parents map for current target
 		parents := ftypes.Packages(app.Libraries).ParentDeps()
 
-		// Get app directory info for node
+		// get node application directory info from the filepath
+		// required for deduplication
 		nodeAppDirInfo := utils.NodeAppDirInfo(app.FilePath)
 
 		for i, pkg := range app.Libraries {
@@ -147,7 +148,7 @@ func postProcessApplications(apps []ftypes.Application, options types.ScanOption
 				}
 			}
 
-			// store node lockfile (npm, yarn, pnpm) package info
+			// store node lockfile (npm, yarn, pnpm) package info (ignore lock files which are present in locations other than App Directory eg: node_modules/pkg/{lockfile})
 			// will be utilzed for node dedupe (tansitive & rootDep info)
 			if nodeAppDirInfo.IsNodeLockFile && nodeAppDirInfo.IsFileinAppDir {
 				nodeLockFilePackages[nodeAppDirInfo.GetPackageKey(pkg)] = pkg
