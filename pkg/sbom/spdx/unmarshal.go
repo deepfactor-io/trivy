@@ -28,6 +28,7 @@ var (
 
 type SPDX struct {
 	*types.SBOM
+	FilePath string
 }
 
 func NewTVDecoder(r io.Reader) *TVDecoder {
@@ -186,6 +187,7 @@ func (s *SPDX) parsePackages(pkgs map[common.ElementID]*spdx.Package) error {
 			app, ok := apps[pkgType]
 			if !ok {
 				app.Type = pkgType
+				app.FilePath = s.FilePath
 			}
 			app.Libraries = append(app.Libraries, *pkg)
 			apps[pkgType] = app

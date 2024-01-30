@@ -255,7 +255,7 @@ func TestUnmarshaler_Unmarshal(t *testing.T) {
 			require.NoError(t, err)
 			defer f.Close()
 
-			v := &spdx.SPDX{SBOM: &types.SBOM{}}
+			v := &spdx.SPDX{SBOM: &types.SBOM{}, FilePath: tt.inputFile}
 			err = json.NewDecoder(f).Decode(v)
 			if tt.wantErr != "" {
 				require.Error(t, err)

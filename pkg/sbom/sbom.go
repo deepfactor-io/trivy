@@ -178,7 +178,7 @@ func decodeAttestCycloneDXJSONFormat(r io.ReadSeeker) (Format, bool) {
 	return FormatAttestCycloneDXJSON, true
 }
 
-func Decode(f io.Reader, format Format) (types.SBOM, error) {
+func Decode(f io.Reader, format Format, filePath string) (types.SBOM, error) {
 	var (
 		v       interface{}
 		bom     types.SBOM
@@ -209,10 +209,10 @@ func Decode(f io.Reader, format Format) (types.SBOM, error) {
 		}
 		decoder = json.NewDecoder(f)
 	case FormatSPDXJSON:
-		v = &spdx.SPDX{SBOM: &bom}
+		v = &spdx.SPDX{SBOM: &bom, FilePath: filePath}
 		decoder = json.NewDecoder(f)
 	case FormatSPDXTV:
-		v = &spdx.SPDX{SBOM: &bom}
+		v = &spdx.SPDX{SBOM: &bom, FilePath: filePath}
 		decoder = spdx.NewTVDecoder(f)
 
 	default:
