@@ -116,7 +116,8 @@ func GuessBaseImageIndex(histories []v1.History) int {
 	var entrypointIndexFound bool
 	baseImageIndex := -1
 	var foundNonEmpty bool
-	for i := len(histories) - 1; i >= 0; i-- {
+	n := len(histories)
+	for i := n - 1; i >= 0; i-- {
 		h := histories[i]
 
 		// Skip the last CMD, ENTRYPOINT, etc.
@@ -138,16 +139,18 @@ func GuessBaseImageIndex(histories []v1.History) int {
 			WORKDIR $GOPATH
 		*/
 		// We are looking for an occurence of the same
-		if i != len(histories)-1 && (strings.HasPrefix(h.CreatedBy, "/bin/sh -c #(nop) WORKDIR ") ||
+		if i != n-1 && (strings.HasPrefix(h.CreatedBy, "/bin/sh -c #(nop) WORKDIR ") ||
 			strings.HasPrefix(h.CreatedBy, "WORKDIR ")) {
 
 			// check if we have a subset of 5 layers available since WORKDIR is encountered
-			if (i-4) >= 0 && i+1 < len(histories) {
+			if (i-4) >= 0 && i+1 < n {
 				golangBaseLayer := ""
 				for _, cmd := range histories[i-4 : i+1] {
 					golangBaseLayer = golangBaseLayer + cmd.CreatedBy + " "
 				}
-				if match, _ := regexp.MatchString(golangBaseLayersRegex, golangBaseLayer); match {
+				match, _ := regexp.MatchString(golangBaseLayersRegex, golangBaseLayer)
+				occuranceOfWorkdir := strings.Count(golangBaseLayer, "WORKDIR")
+				if match && occuranceOfWorkdir == 1 {
 					baseImageIndex = i
 					break
 				}
@@ -184,11 +187,11 @@ func GuessBaseImageIndex(histories []v1.History) int {
 			    rustc --version;
 		*/
 		// We are looking for an occurence of the same
-		if i != len(histories)-1 && (strings.HasPrefix(h.CreatedBy, "/bin/sh -c #(nop) RUN ") ||
+		if i != n-1 && (strings.HasPrefix(h.CreatedBy, "/bin/sh -c #(nop) RUN ") ||
 			strings.HasPrefix(h.CreatedBy, "RUN ") && strings.Contains(h.CreatedBy, "RUST")) {
 
 			// check if we have a subset of 2 layers available since RUN is encountered
-			if (i-1) >= 0 && i+1 < len(histories) {
+			if (i-1) >= 0 && i+1 < n {
 				rustBaseImageLayer := ""
 				for _, cmd := range histories[i-1 : i+1] {
 					rustBaseImageLayer = rustBaseImageLayer + cmd.CreatedBy + " "
