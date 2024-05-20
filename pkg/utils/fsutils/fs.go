@@ -4,13 +4,22 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"math"
 	"os"
+	"path"
 	"path/filepath"
+	"strings"
 
+	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
+	godeptypes "github.com/deepfactor-io/go-dep-parser/pkg/types"
 	"go.uber.org/zap"
 	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
+	licenseutils "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/licensing"
+
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/licensing"
 	"github.com/deepfactor-io/trivy/pkg/log"
 )
 
@@ -108,6 +117,153 @@ func WalkDir(fsys fs.FS, root string, required WalkDirRequiredFunc, fn WalkDirFu
 		}
 		return nil
 	})
+}
+
+type RecursiveWalkerInput struct {
+	Parser                    godeptypes.PackageManifestParser
+	PackageManifestFile       string
+	PackageDependencyDir      string
+	Licenses                  map[string][]types.License
+	ClassifierConfidenceLevel float64
+}
+
+// Recursive walker walks the given fs and gets the concluded licenses
+// It's Used for deep license scanning.
+func RecursiveWalkDir(
+	fsys fs.FS,
+	root string,
+	parentPkgID string,
+	input RecursiveWalkerInput,
+) (bool, error) {
+	var pkgID string
+	var foundPackageManifest, foundPackageDependencyDir bool
+
+	// check if package Manifest file exists, if yes, then parse then we parse it
+	if f, err := fs.Stat(fsys, path.Join(root, input.PackageManifestFile)); err == nil {
+		if f.Size() != 0 {
+			pkg, err := input.Parser.ParseManifest(fsys, path.Join(root, input.PackageManifestFile))
+			if err != nil {
+				return false, xerrors.Errorf("unable to parse package manifest, err: %s", err.Error())
+			}
+
+			foundPackageManifest = true
+			pkgID = pkg.PackageID()
+
+			// If package was already found in the scan, we skip it from license scanning
+			if _, ok := input.Licenses[pkgID]; ok {
+				log.Logger.Debugf("pkgID is already present, skipping recursive walk. (pkgID: %s, path: %s)", pkgID, root)
+				return true, nil
+			}
+
+			input.Licenses[pkgID] = []types.License{
+				{
+					Name:       pkg.DeclaredLicense(),
+					IsDeclared: true,
+				},
+			}
+		}
+	}
+
+	if !foundPackageManifest {
+		if parentPkgID == "" {
+			log.Logger.Debugf("Package manifest was not found & parent pkgID is empty, returning. (path: %s)", root)
+			return true, nil
+		}
+
+		log.Logger.Debugf("Package manifest was not found, using parent pkgID: %s", parentPkgID)
+		pkgID = parentPkgID
+	}
+
+	// check if Package dependency dir is present in given root directory
+	if _, err := fs.Stat(fsys, path.Join(root, input.PackageDependencyDir)); err == nil {
+		foundPackageDependencyDir = true
+	}
+
+	required := func(filepath string, d fs.DirEntry) bool {
+		pkgDependencyDir := path.Join(root, input.PackageDependencyDir)
+
+		// Skip PkgDependency Dir (Ex: node_modules) directory for walk utils
+		requiredDirs := (!strings.HasPrefix(filepath, ".") && !strings.HasPrefix(filepath, pkgDependencyDir))
+
+		// skip checking for Package manifest file and also temporary files
+		requiredFiles := (!d.IsDir() && !strings.HasPrefix(d.Name(), "~") && d.Name() != input.PackageManifestFile)
+
+		return requiredDirs && requiredFiles
+	}
+
+	classifier := func(path string, d fs.DirEntry, r io.Reader) error {
+		// apply google license classifier on the given file
+		// get the license findings and append to the licenses map
+		file, ok := r.(dio.ReadSeekerAt)
+		if !ok {
+			return xerrors.Errorf("type assertion error, filepath: %s", path)
+		}
+
+		concludedLicenses, err := checkForConcludedLicenses(file, path, input.ClassifierConfidenceLevel)
+		if err != nil {
+			return xerrors.Errorf("failed to get concluded licenses, err: %s", err.Error())
+		}
+
+		input.Licenses[pkgID] = append(input.Licenses[pkgID], concludedLicenses...)
+		return nil
+	}
+
+	// Walk through every file present in given directory except PackageDepepdencyDir
+	// Ex: For nested dependency management, like Npm, we skip node_modules dir
+	// some files and dirs are skipped via the required func
+	if err := WalkDir(fsys, root, required, classifier); err != nil {
+		log.Logger.Errorf("walkDir utils failed for root: %s, err: %s\n", root, err.Error())
+	}
+
+	// Recursively Walk through the dependencies present in Package dependency directory
+	if foundPackageDependencyDir {
+		dirEntries, err := fs.ReadDir(fsys, path.Join(root, input.PackageDependencyDir))
+		if err != nil {
+			return false, xerrors.Errorf("failed to read dir contents, err: %s\n", err.Error())
+		}
+
+		for _, dirEntry := range dirEntries {
+			if dirEntry.IsDir() {
+				dependencyPath := path.Join(root, input.PackageDependencyDir, dirEntry.Name())
+
+				if ret, err := RecursiveWalkDir(fsys, dependencyPath, pkgID, input); !ret || err != nil {
+					return false, err
+				}
+			}
+		}
+	}
+
+	return true, nil
+}
+
+func checkForConcludedLicenses(
+	r dio.ReadSeekerAt,
+	filePath string,
+	classifierConfidenceLevel float64,
+) ([]types.License, error) {
+	var concludedLicenses []types.License
+	if readable, err := licenseutils.IsHumanReadable(r, math.MaxInt); err != nil || !readable {
+		return concludedLicenses, nil
+	}
+
+	lf, err := licensing.Classify(filePath, r, classifierConfidenceLevel)
+	if err != nil {
+		return concludedLicenses, err
+	}
+
+	for _, finding := range lf.Findings {
+		license := types.License{
+			Name:        finding.Name,
+			Type:        lf.Type,
+			IsDeclared:  false,
+			LicenseText: finding.Link, // TODO TBD
+			FilePath:    lf.FilePath,
+		}
+
+		concludedLicenses = append(concludedLicenses, license)
+	}
+
+	return concludedLicenses, nil
 }
 
 func RequiredExt(exts ...string) WalkDirRequiredFunc {

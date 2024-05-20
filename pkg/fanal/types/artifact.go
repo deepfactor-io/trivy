@@ -74,7 +74,9 @@ type Package struct {
 	SrcRelease string   `json:",omitempty"`
 	SrcEpoch   int      `json:",omitempty"`
 	Licenses   []string `json:",omitempty"`
-	Maintainer string   `json:",omitempty"`
+	// For deep license scanning, licensesV2 field is used
+	LicensesV2 []License `json:",omitempty"`
+	Maintainer string    `json:",omitempty"`
 
 	Modularitylabel string     `json:",omitempty"` // only for Red Hat based distributions
 	BuildInfo       *BuildInfo `json:",omitempty"` // only for Red Hat
@@ -116,6 +118,14 @@ type Package struct {
 type Location struct {
 	StartLine int `json:",omitempty"`
 	EndLine   int `json:",omitempty"`
+}
+
+type License struct {
+	Name        string
+	Type        LicenseType
+	IsDeclared  bool
+	FilePath    string
+	LicenseText string // for file license
 }
 
 // BuildInfo represents information under /root/buildinfo in RHEL

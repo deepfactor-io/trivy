@@ -2,6 +2,10 @@ module github.com/deepfactor-io/trivy
 
 go 1.21
 
+toolchain go1.22.0
+
+replace github.com/deepfactor-io/go-dep-parser => github.com/deepfactor-io/go-dep-parser v0.0.0-20240522103904-43746d7ad0c4
+
 require (
 	github.com/Azure/azure-sdk-for-go v68.0.0+incompatible
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.9.0

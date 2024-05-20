@@ -686,6 +686,7 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 
 			// For license scanning
 			LicenseScannerOption: analyzer.LicenseScannerOption{
+				Enabled:                   opts.Scanners.Enabled(types.LicenseScanner),
 				Full:                      opts.LicenseFull,
 				ClassifierConfidenceLevel: opts.LicenseConfidenceLevel,
 			},

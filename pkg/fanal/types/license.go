@@ -56,3 +56,8 @@ type LicenseFinding struct {
 	Confidence float64
 	Link       string
 }
+
+type LicenseScanConfig struct {
+	EnableDeepLicenseScan     bool
+	ClassifierConfidenceLevel float64
+}

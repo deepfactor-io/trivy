@@ -56,7 +56,14 @@ type SecretScannerOption struct {
 
 type LicenseScannerOption struct {
 	// Use license classifier to get better results though the classification is expensive.
-	Full                      bool
+	// Flag indicates whether license scanner is enabled or not
+	Enabled bool
+
+	// Flag indicates whether full license scanning is enabled or not
+	Full bool
+
+	// License scanner internally uses google license classifier
+	// Confidence level can be set via this field
 	ClassifierConfidenceLevel float64
 }
 
@@ -79,7 +86,12 @@ type analyzer interface {
 type PostAnalyzer interface {
 	Type() Type
 	Version() int
+
+	// Post Analyze API does the required post analysis on the filtered file system
 	PostAnalyze(ctx context.Context, input PostAnalysisInput) (*AnalysisResult, error)
+
+	// Checks whether given file is required for the PostAnalyzer or not
+	// It is used to filter the File system for PostAnalyze API
 	Required(filePath string, info os.FileInfo) bool
 }
 
