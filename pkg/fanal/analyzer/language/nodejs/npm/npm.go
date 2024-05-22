@@ -68,7 +68,7 @@ func (a npmLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAn
 	err := fsutils.WalkDir(input.FS, ".", required, func(filePath string, d fs.DirEntry, r io.Reader) error {
 		// Find all licenses from package.json files under node_modules dirs
 		// If deep license scanning is enabled, it also gets the concluded licenses.
-		licenses, err := a.findLicenses(input.FS, filePath)
+		licensesMap, err := a.findLicenses(input.FS, filePath)
 		if err != nil {
 			log.Logger.Errorf("Unable to collect licenses: %s", err.Error())
 		}
@@ -82,7 +82,7 @@ func (a npmLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAn
 
 		// Fill licenses
 		for i, lib := range app.Libraries {
-			if licenses, ok := licenses[lib.ID]; ok {
+			if licenses, ok := licensesMap[lib.ID]; ok {
 				for _, license := range licenses {
 					app.Libraries[i].Licenses = append(app.Libraries[i].Licenses, license.Name)
 				}
@@ -235,28 +235,6 @@ func (a npmLibraryAnalyzer) findLicensesV2(fsys fs.FS, lockPath string) (map[str
 		}
 	}
 
-	/*
-		// Apply Recursive Walker on the repo root directory
-		if ret, err := a.recursiveWalkDir(fsys, dir, "", licenses); !ret || err != nil {
-			log.Logger.Errorf("recursive walk has failed for dir: %s", dir)
-		}
-
-		dirEntries, err := fs.ReadDir(fsys, root)
-		if err != nil {
-			return nil, xerrors.Errorf("failed to read dir contents, err: %s", err.Error())
-		}
-
-		// Apply Recursive Walker on each dependency present in node_modules
-		for _, dirEntry := range dirEntries {
-			if dirEntry.IsDir() {
-				dependencyPath := path.Join(root, dirEntry.Name())
-				if ret, err := a.recursiveWalkDir(fsys, dependencyPath, "", licenses); !ret || err != nil {
-					log.Logger.Errorf("recursive walk has failed for dir: %s", dependencyPath)
-				}
-			}
-		}
-	*/
-
 	return walkerInput.Licenses, nil
 }
 
@@ -278,145 +256,3 @@ func (a npmLibraryAnalyzer) ParseManifest(
 
 	return pkg, nil
 }
-
-/*
-func (a npmLibraryAnalyzer) recursiveWalkDir(
-	fsys fs.FS,
-	root string,
-	parentPkgID string,
-	licenses map[string][]types.License,
-) (bool, error) {
-	var pkgID string
-	var foundPackageManifest, foundPackageDependencyDir bool
-
-	// check if package.json exists, if yes, then parse the package.json
-	if f, err := fs.Stat(fsys, path.Join(root, types.NpmPkg)); err == nil {
-		if f.Size() != 0 {
-			f, err := fsys.Open(path.Join(root, types.NpmPkg))
-			if err != nil {
-				return false, xerrors.Errorf("failed to open manifest file, err: %s", err.Error())
-			}
-
-			pkg, err := a.ParseManifest(f)
-			f.Close()
-			if err != nil {
-				return false, xerrors.Errorf("unable to parse package manifest, err: %s", err.Error())
-			}
-
-			foundPackageManifest = true
-			pkgID = pkg.PackageID()
-
-			// If package was already found in the scan, we skip it from license scanning
-			if _, ok := licenses[pkgID]; ok {
-				log.Logger.Debugf("pkgID is already present, skipping recursive walk. (pkgID: %s, path: %s)", pkgID, root)
-				return true, nil
-			}
-
-			licenses[pkgID] = []types.License{
-				{
-					Name:       pkg.DeclaredLicense(),
-					IsDeclared: true,
-				},
-			}
-		}
-	}
-
-	if !foundPackageManifest {
-		if parentPkgID == "" {
-			log.Logger.Debugf("Package manifest was not found & parent pkgID is empty, returning. (path: %s)", root)
-			return true, nil
-		}
-
-		log.Logger.Debugf("Package manifest was not found, using parent pkgID: %s", parentPkgID)
-		pkgID = parentPkgID
-	}
-
-	// check if node_modules is present in given root directory
-	if _, err := fs.Stat(fsys, path.Join(root, types.NpmDependencyDir)); err == nil {
-		foundPackageDependencyDir = true
-	}
-
-	required := func(filepath string, d fs.DirEntry) bool {
-		pkgDependencyDir := path.Join(root, types.NpmDependencyDir)
-
-		// Skip node_modules directory for walk utils
-		requiredDirs := (!strings.HasPrefix(filepath, ".") && !strings.HasPrefix(filepath, pkgDependencyDir))
-
-		// skip checking for package.json and also temporary files
-		requiredFiles := (!d.IsDir() && !strings.HasPrefix(d.Name(), "~") && d.Name() != types.NpmPkg)
-
-		return requiredDirs && requiredFiles
-	}
-
-	classifier := func(path string, d fs.DirEntry, r io.Reader) error {
-		// apply google license classifier on the given file
-		// get the license findings and append to the licenses map
-		file, ok := r.(dio.ReadSeekerAt)
-		if !ok {
-			return xerrors.Errorf("type assertion error: failed to convert to dio.ReadSeekerAt (filepath: %s)", path)
-		}
-
-		concludedLicenses, err := a.checkForConcludedLicenses(file, path)
-		if err != nil {
-			return xerrors.Errorf("failed to get concluded licenses, err: %s", err.Error())
-		}
-
-		licenses[pkgID] = append(licenses[pkgID], concludedLicenses...)
-		return nil
-	}
-
-	// Walk through every file present in given directory except node_modules.
-	// some files and dirs are skipped via the required func
-	if err := fsutils.WalkDir(fsys, root, required, classifier); err != nil {
-		log.Logger.Errorf("walkDir utils failed, err: %s", err.Error())
-	}
-
-	// Recursively Walk through the dependencies present in node_modules directory
-	if foundPackageDependencyDir {
-		dirEntries, err := fs.ReadDir(fsys, path.Join(root, types.NpmDependencyDir))
-		if err != nil {
-			return false, xerrors.Errorf("failed to read dir contents, err: %s", err.Error())
-		}
-
-		for _, dirEntry := range dirEntries {
-			if dirEntry.IsDir() {
-				dependencyPath := path.Join(root, types.NpmDependencyDir, dirEntry.Name())
-				if ret, err := a.recursiveWalkDir(fsys, dependencyPath, pkgID, licenses); !ret || err != nil {
-					return false, err
-				}
-			}
-		}
-	}
-
-	return true, nil
-}
-
-func (a npmLibraryAnalyzer) checkForConcludedLicenses(
-	r dio.ReadSeekerAt,
-	filePath string,
-) ([]types.License, error) {
-	var concludedLicenses []types.License
-	if readable, err := licenseutils.IsHumanReadable(r, math.MaxInt); err != nil || !readable {
-		return concludedLicenses, nil
-	}
-
-	lf, err := licensing.Classify(filePath, r, a.licenseConfig.ClassifierConfidenceLevel)
-	if err != nil {
-		return concludedLicenses, err
-	}
-
-	for _, finding := range lf.Findings {
-		license := types.License{
-			Name:        finding.Name,
-			Type:        lf.Type,
-			IsDeclared:  false,
-			LicenseText: finding.Link, // TODO TBD
-			FilePath:    lf.FilePath,
-		}
-
-		concludedLicenses = append(concludedLicenses, license)
-	}
-
-	return concludedLicenses, nil
-}
-*/

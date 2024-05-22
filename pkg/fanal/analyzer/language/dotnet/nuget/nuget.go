@@ -18,6 +18,7 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
 )
 
@@ -39,17 +40,28 @@ type nugetLibraryAnalyzer struct {
 	licenseParser nuspecParser
 }
 
-func newNugetLibraryAnalyzer(_ analyzer.AnalyzerOptions) (analyzer.PostAnalyzer, error) {
-	return &nugetLibraryAnalyzer{
+func newNugetLibraryAnalyzer(opt analyzer.AnalyzerOptions) (analyzer.PostAnalyzer, error) {
+	analyzer := &nugetLibraryAnalyzer{
 		lockParser:    lock.NewParser(),
 		configParser:  config.NewParser(),
 		licenseParser: newNuspecParser(),
-	}, nil
+	}
+
+	if opt.LicenseScannerOption.Enabled && opt.LicenseScannerOption.Full {
+		analyzer.licenseParser.licenseConfig = types.LicenseScanConfig{
+			EnableDeepLicenseScan:     true,
+			ClassifierConfidenceLevel: opt.LicenseScannerOption.ClassifierConfidenceLevel,
+		}
+
+		log.Logger.Debug("Deep license scanning enabled for Nuget Library Analyzer")
+	}
+
+	return analyzer, nil
 }
 
 func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAnalysisInput) (*analyzer.AnalysisResult, error) {
 	var apps []types.Application
-	foundLicenses := make(map[string][]string)
+	foundLicenses := make(map[string][]types.License)
 
 	// We saved only config and lock files in the FS,
 	// so we need to parse all saved files
@@ -76,17 +88,25 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 			return nil
 		}
 
+		var licenses []types.License
+		var ok bool
+
 		for i, lib := range app.Libraries {
-			license, ok := foundLicenses[lib.ID]
+			licenses, ok = foundLicenses[lib.ID]
 			if !ok {
-				license, err = a.licenseParser.findLicense(lib.Name, lib.Version)
+				licenses, err = a.licenseParser.findLicense(lib.Name, lib.Version)
 				if err != nil && !errors.Is(err, fs.ErrNotExist) {
 					return xerrors.Errorf("license find error: %w", err)
 				}
-				foundLicenses[lib.ID] = license
+
+				foundLicenses[lib.ID] = licenses
 			}
 
-			app.Libraries[i].Licenses = license
+			for _, license := range licenses {
+				app.Libraries[i].Licenses = append(app.Libraries[i].Licenses, license.Name)
+			}
+
+			app.Libraries[i].LicensesV2 = append(app.Libraries[i].LicensesV2, licenses...)
 		}
 
 		sort.Sort(app.Libraries)
@@ -103,6 +123,9 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 }
 
 func (a *nugetLibraryAnalyzer) Required(filePath string, _ os.FileInfo) bool {
+	// Note: this is the main step where the file system is filtered and passed to above PostAnalyze API
+	// Only files which pass this Required check would be added to the filtered file system
+
 	fileName := filepath.Base(filePath)
 	return slices.Contains(requiredFiles, fileName)
 }
