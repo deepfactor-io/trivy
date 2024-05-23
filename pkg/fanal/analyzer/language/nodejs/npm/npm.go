@@ -65,6 +65,8 @@ func (a npmLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAn
 	}
 
 	var apps []types.Application
+	var looseLicenses []types.LicenseFile
+
 	err := fsutils.WalkDir(input.FS, ".", required, func(filePath string, d fs.DirEntry, r io.Reader) error {
 		// Find all licenses from package.json files under node_modules dirs
 		// If deep license scanning is enabled, it also gets the concluded licenses.
@@ -80,7 +82,7 @@ func (a npmLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAn
 			return nil
 		}
 
-		// Fill licenses
+		// Fill library licenses
 		for i, lib := range app.Libraries {
 			if licenses, ok := licensesMap[lib.ID]; ok {
 				for _, license := range licenses {
@@ -89,6 +91,17 @@ func (a npmLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAn
 
 				app.Libraries[i].LicensesV2 = append(app.Libraries[i].LicensesV2, licenses...)
 			}
+		}
+
+		// Fill loose licenses if any
+		for _, license := range licensesMap[types.LOOSE_LICENSES] {
+			looseLicense := types.LicenseFile{
+				Type:     license.Type,
+				FilePath: license.FilePath,
+				Findings: license.Findings,
+			}
+
+			looseLicenses = append(looseLicenses, looseLicense)
 		}
 
 		apps = append(apps, *app)
@@ -100,6 +113,7 @@ func (a npmLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAn
 
 	return &analyzer.AnalysisResult{
 		Applications: apps,
+		Licenses:     looseLicenses,
 	}, nil
 }
 
@@ -216,7 +230,7 @@ func (a npmLibraryAnalyzer) findLicensesV2(fsys fs.FS, lockPath string) (map[str
 	}
 
 	if ret, err := fsutils.RecursiveWalkDir(fsys, dir, "", walkerInput); !ret || err != nil {
-		log.Logger.Errorf("recursive walk has failed for dir: %s", dir)
+		log.Logger.Errorf("Recursive walker has failed for dir: %s", dir)
 	}
 
 	dirEntries, err := fs.ReadDir(fsys, root)
@@ -230,7 +244,7 @@ func (a npmLibraryAnalyzer) findLicensesV2(fsys fs.FS, lockPath string) (map[str
 			dependencyPath := path.Join(root, dirEntry.Name())
 
 			if ret, err := fsutils.RecursiveWalkDir(fsys, dependencyPath, "", walkerInput); !ret || err != nil {
-				log.Logger.Errorf("recursive walk has failed for dir: %s", dependencyPath)
+				log.Logger.Errorf("Recursive walker has failed for dir: %s", dependencyPath)
 			}
 		}
 	}

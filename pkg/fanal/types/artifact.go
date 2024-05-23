@@ -125,7 +125,8 @@ type License struct {
 	Type        LicenseType
 	IsDeclared  bool
 	FilePath    string
-	LicenseText string // for file license
+	LicenseText string
+	Findings    LicenseFindings `json:"-"`
 }
 
 // BuildInfo represents information under /root/buildinfo in RHEL

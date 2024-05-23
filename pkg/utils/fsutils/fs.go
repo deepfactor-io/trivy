@@ -138,10 +138,34 @@ func RecursiveWalkDir(
 	var pkgID string
 	var foundPackageManifest, foundPackageDependencyDir bool
 
+	log.Logger.Debugf("Input root Path: %s", root)
+	// For special packages (like scoped packages in npm), we need to recurse further for scanning
+	if strings.HasPrefix(filepath.Base(root), "@") {
+		dirEntries, err := fs.ReadDir(fsys, root)
+		if err != nil {
+			return false, xerrors.Errorf("failed to read dir contents, err: %s\n", err.Error())
+		}
+
+		for _, dirEntry := range dirEntries {
+			if dirEntry.IsDir() {
+				dependencyPath := path.Join(root, dirEntry.Name())
+
+				if ret, err := RecursiveWalkDir(fsys, dependencyPath, pkgID, input); !ret || err != nil {
+					log.Logger.Errorf("Recursive walker has failed for path: %s", dependencyPath)
+				}
+			}
+		}
+
+		return true, nil
+	}
+
 	// check if package Manifest file exists, if yes, then parse then we parse it
-	if f, err := fs.Stat(fsys, path.Join(root, input.PackageManifestFile)); err == nil {
+	packageManifestPath := path.Join(root, input.PackageManifestFile)
+	if f, err := fs.Stat(fsys, packageManifestPath); err == nil && root != "." {
+		// Note: We do not want to parse the manifest file in the repo base path (".")
+		// If we find concluded licenses in files present in repo base path, we add them as loose licenses
 		if f.Size() != 0 {
-			pkg, err := input.Parser.ParseManifest(fsys, path.Join(root, input.PackageManifestFile))
+			pkg, err := input.Parser.ParseManifest(fsys, packageManifestPath)
 			if err != nil {
 				return false, xerrors.Errorf("unable to parse package manifest, err: %s", err.Error())
 			}
@@ -165,30 +189,33 @@ func RecursiveWalkDir(
 	}
 
 	if !foundPackageManifest {
-		if parentPkgID == "" {
-			log.Logger.Debugf("Package manifest was not found & parent pkgID is empty, returning. (path: %s)", root)
-			return true, nil
-		}
+		log.Logger.Debugf("Package manifest file was not found, checking for parent Pkg ID... (path: %s)", root)
 
-		log.Logger.Debugf("Package manifest was not found, using parent pkgID: %s", parentPkgID)
-		pkgID = parentPkgID
+		if parentPkgID == "" {
+			log.Logger.Debugf("Parent PkgID is empty. Adding to loose licenses (path: %s)", root)
+			pkgID = types.LOOSE_LICENSES
+		} else {
+			log.Logger.Debugf("Found Parent Pkg ID, using it (path: %s, parent PkgID: %s)", root, parentPkgID)
+			pkgID = parentPkgID
+		}
 	}
 
 	// check if Package dependency dir is present in given root directory
-	if _, err := fs.Stat(fsys, path.Join(root, input.PackageDependencyDir)); err == nil {
+	if _, err := fs.Stat(fsys, path.Join(root, input.PackageDependencyDir)); err == nil && root != "." {
 		foundPackageDependencyDir = true
 	}
 
-	required := func(filepath string, d fs.DirEntry) bool {
+	required := func(filePath string, d fs.DirEntry) bool {
 		pkgDependencyDir := path.Join(root, input.PackageDependencyDir)
+		// basePath := filepath.Base(filePath)
 
 		// Skip PkgDependency Dir (Ex: node_modules) directory for walk utils
-		requiredDirs := (!strings.HasPrefix(filepath, ".") && !strings.HasPrefix(filepath, pkgDependencyDir))
+		// Skip checking for Package manifest file and also temporary files
+		requiredChecks := (!strings.HasPrefix(filePath, pkgDependencyDir) &&
+			!d.IsDir() && !strings.HasPrefix(d.Name(), "~") &&
+			filePath != packageManifestPath)
 
-		// skip checking for Package manifest file and also temporary files
-		requiredFiles := (!d.IsDir() && !strings.HasPrefix(d.Name(), "~") && d.Name() != input.PackageManifestFile)
-
-		return requiredDirs && requiredFiles
+		return requiredChecks
 	}
 
 	classifier := func(path string, d fs.DirEntry, r io.Reader) error {
@@ -227,7 +254,7 @@ func RecursiveWalkDir(
 				dependencyPath := path.Join(root, input.PackageDependencyDir, dirEntry.Name())
 
 				if ret, err := RecursiveWalkDir(fsys, dependencyPath, pkgID, input); !ret || err != nil {
-					return false, err
+					log.Logger.Errorf("Recursive walker has failed for path: %s", dependencyPath)
 				}
 			}
 		}
@@ -258,6 +285,7 @@ func checkForConcludedLicenses(
 			IsDeclared:  false,
 			LicenseText: finding.Link, // TODO TBD
 			FilePath:    lf.FilePath,
+			Findings:    lf.Findings, // for loose licenses we need license findings object
 		}
 
 		concludedLicenses = append(concludedLicenses, license)

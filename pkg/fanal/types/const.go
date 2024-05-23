@@ -137,5 +137,10 @@ const (
 	MixLock = "mix.lock"
 )
 
+// license scanning constants
+const (
+	LOOSE_LICENSES = "loose-licenses"
+)
+
 var NodeLockFiles = []string{NpmPkgLock, YarnLock, PnpmLock}
 var DedupeFilterTypes = []TargetType{Npm, Yarn, Pnpm, ComposerJSON}

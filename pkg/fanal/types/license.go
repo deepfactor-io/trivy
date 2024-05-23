@@ -23,11 +23,12 @@ const (
 )
 
 type LicenseFile struct {
-	Type     LicenseType
-	FilePath string
-	PkgName  string
-	Findings LicenseFindings
-	Layer    Layer `json:",omitempty"`
+	Type       LicenseType
+	FilePath   string
+	PkgName    string
+	PkgVersion string
+	Findings   LicenseFindings
+	Layer      Layer `json:",omitempty"`
 }
 
 type LicenseFindings []LicenseFinding
