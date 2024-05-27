@@ -129,6 +129,7 @@ type RecursiveWalkerInput struct {
 
 // Recursive walker walks the given fs and gets the concluded licenses
 // It's Used for deep license scanning.
+// Note: For root as ".", we have special handling, please refer below
 func RecursiveWalkDir(
 	fsys fs.FS,
 	root string,
@@ -140,7 +141,7 @@ func RecursiveWalkDir(
 
 	log.Logger.Debugf("Input root Path: %s", root)
 	// For special packages (like scoped packages in npm), we need to recurse further for scanning
-	if strings.HasPrefix(filepath.Base(root), "@") {
+	if isSpecialPath(root) {
 		dirEntries, err := fs.ReadDir(fsys, root)
 		if err != nil {
 			return false, xerrors.Errorf("failed to read dir contents, err: %s\n", err.Error())
@@ -159,31 +160,36 @@ func RecursiveWalkDir(
 		return true, nil
 	}
 
-	// check if package Manifest file exists, if yes, then parse then we parse it
-	packageManifestPath := path.Join(root, input.PackageManifestFile)
-	if f, err := fs.Stat(fsys, packageManifestPath); err == nil && root != "." {
-		// Note: We do not want to parse the manifest file in the repo base path (".")
-		// If we find concluded licenses in files present in repo base path, we add them as loose licenses
-		if f.Size() != 0 {
-			pkg, err := input.Parser.ParseManifest(fsys, packageManifestPath)
-			if err != nil {
-				return false, xerrors.Errorf("unable to parse package manifest, err: %s", err.Error())
-			}
+	// Note: For root base path ("."), we scan all the files and add them as loose licenses
+	// We don't want to scan pkg manifest file (since they come under loose licenses),
+	// nor recursively go to dependency dir (since that's called explicitly from the caller)
 
-			foundPackageManifest = true
-			pkgID = pkg.PackageID()
+	var packageManifestPath string
+	if root != "." && input.PackageManifestFile != "" {
+		// check if package Manifest file exists, if yes, then parse then we parse it
+		packageManifestPath = path.Join(root, input.PackageManifestFile)
+		if f, err := fs.Stat(fsys, packageManifestPath); err == nil {
+			if f.Size() != 0 {
+				pkg, err := input.Parser.ParseManifest(fsys, packageManifestPath)
+				if err != nil {
+					return false, xerrors.Errorf("unable to parse package manifest, err: %s", err.Error())
+				}
 
-			// If package was already found in the scan, we skip it from license scanning
-			if _, ok := input.Licenses[pkgID]; ok {
-				log.Logger.Debugf("pkgID is already present, skipping recursive walk. (pkgID: %s, path: %s)", pkgID, root)
-				return true, nil
-			}
+				foundPackageManifest = true
+				pkgID = pkg.PackageID()
 
-			input.Licenses[pkgID] = []types.License{
-				{
-					Name:       pkg.DeclaredLicense(),
-					IsDeclared: true,
-				},
+				// If package was already found in the scan, we skip it from license scanning
+				if _, ok := input.Licenses[pkgID]; ok {
+					log.Logger.Debugf("pkgID is already present, skipping recursive walk. (pkgID: %s, path: %s)", pkgID, root)
+					return true, nil
+				}
+
+				input.Licenses[pkgID] = []types.License{
+					{
+						Name:       pkg.DeclaredLicense(),
+						IsDeclared: true,
+					},
+				}
 			}
 		}
 	}
@@ -201,14 +207,14 @@ func RecursiveWalkDir(
 	}
 
 	// check if Package dependency dir is present in given root directory
-	if _, err := fs.Stat(fsys, path.Join(root, input.PackageDependencyDir)); err == nil && root != "." {
-		foundPackageDependencyDir = true
+	if root != "." && input.PackageDependencyDir != "" {
+		if _, err := fs.Stat(fsys, path.Join(root, input.PackageDependencyDir)); err == nil {
+			foundPackageDependencyDir = true
+		}
 	}
 
 	required := func(filePath string, d fs.DirEntry) bool {
 		pkgDependencyDir := path.Join(root, input.PackageDependencyDir)
-		// basePath := filepath.Base(filePath)
-
 		// Skip PkgDependency Dir (Ex: node_modules) directory for walk utils
 		// Skip checking for Package manifest file and also temporary files
 		requiredChecks := (!strings.HasPrefix(filePath, pkgDependencyDir) &&
@@ -292,6 +298,11 @@ func checkForConcludedLicenses(
 	}
 
 	return concludedLicenses, nil
+}
+
+func isSpecialPath(path string) bool {
+	// In case of NPM, scoped packages come under this.
+	return strings.HasPrefix(filepath.Base(path), "@")
 }
 
 func RequiredExt(exts ...string) WalkDirRequiredFunc {

@@ -2,7 +2,6 @@ package nuget
 
 import (
 	"context"
-	"errors"
 	"io"
 	"io/fs"
 	"os"
@@ -63,10 +62,16 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 	var apps []types.Application
 	foundLicenses := make(map[string][]types.License)
 
-	// We saved only config and lock files in the FS,
+	var looseLicenses []types.LicenseFile
+
+	// We save only config and lock files in the filtered FS,
 	// so we need to parse all saved files
+	// Note: If deep license scan is enabled, we'll save every file in the FS,
+	// so exquiste check is required here
 	required := func(path string, d fs.DirEntry) bool {
-		return true
+		fileName := filepath.Base(path)
+		return slices.Contains(requiredFiles, fileName)
+		// return true
 	}
 
 	err := fsutils.WalkDir(input.FS, ".", required, func(path string, d fs.DirEntry, r io.Reader) error {
@@ -91,11 +96,12 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 		var licenses []types.License
 		var ok bool
 
+		// Fill library licenses
 		for i, lib := range app.Libraries {
 			licenses, ok = foundLicenses[lib.ID]
 			if !ok {
 				licenses, err = a.licenseParser.findLicense(lib.Name, lib.Version)
-				if err != nil && !errors.Is(err, fs.ErrNotExist) {
+				if err != nil {
 					return xerrors.Errorf("license find error: %w", err)
 				}
 
@@ -111,6 +117,23 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 
 		sort.Sort(app.Libraries)
 		apps = append(apps, *app)
+
+		// Fill loose licenses found in the FS base path (i.e in "." dir of the FS)
+		rootPathLicenses, err := a.licenseParser.findLicensesAtRootPath(input.FS)
+		if err != nil {
+			return xerrors.Errorf("license find error: %w", err)
+		}
+
+		for _, license := range rootPathLicenses {
+			looseLicense := types.LicenseFile{
+				Type:     license.Type,
+				FilePath: license.FilePath,
+				Findings: license.Findings,
+			}
+
+			looseLicenses = append(looseLicenses, looseLicense)
+		}
+
 		return nil
 	})
 	if err != nil {
@@ -119,12 +142,16 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 
 	return &analyzer.AnalysisResult{
 		Applications: apps,
+		Licenses:     looseLicenses,
 	}, nil
 }
 
 func (a *nugetLibraryAnalyzer) Required(filePath string, _ os.FileInfo) bool {
 	// Note: this is the main step where the file system is filtered and passed to above PostAnalyze API
 	// Only files which pass this Required check would be added to the filtered file system
+	if a.licenseParser.licenseConfig.EnableDeepLicenseScan {
+		return true
+	}
 
 	fileName := filepath.Base(filePath)
 	return slices.Contains(requiredFiles, fileName)
