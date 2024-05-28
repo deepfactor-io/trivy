@@ -86,10 +86,14 @@ func (a npmLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAn
 		for i, lib := range app.Libraries {
 			if licenses, ok := licensesMap[lib.ID]; ok {
 				for _, license := range licenses {
-					app.Libraries[i].Licenses = append(app.Libraries[i].Licenses, license.Name)
+					// Declared license would be going to Licenses field as before
+					// Concluded licenses would be going to LicensesV2 field
+					if license.IsDeclared {
+						app.Libraries[i].Licenses = append(app.Libraries[i].Licenses, license.Name)
+					} else {
+						app.Libraries[i].LicensesV2 = append(app.Libraries[i].LicensesV2, license)
+					}
 				}
-
-				app.Libraries[i].LicensesV2 = append(app.Libraries[i].LicensesV2, licenses...)
 			}
 		}
 
