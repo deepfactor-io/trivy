@@ -357,7 +357,7 @@ func (s Scanner) secretsToResults(secrets []ftypes.Secret, options types.ScanOpt
 }
 
 func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions) types.Results {
-	if !options.Scanners.Enabled(types.LicenseScanner) {
+	if !options.Scanners.Enabled(types.LicenseScanner) || !options.LicenseFull {
 		return nil
 	}
 
@@ -366,27 +366,37 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 
 	// License - OS packages
 	var osPkgLicenses []types.DetectedLicense
+	var osPkgTarget = fmt.Sprintf("%s (%s %s)", target.Name, target.OS.Family, target.OS.Name)
 	for _, pkg := range target.Packages {
 		for _, license := range pkg.Licenses {
 			category, severity := scanner.Scan(license)
 			osPkgLicenses = append(osPkgLicenses, types.DetectedLicense{
-				Severity:   severity,
-				Category:   category,
-				PkgName:    pkg.Name,
-				Name:       license,
-				Confidence: 1.0,
+				Severity:    severity,
+				Category:    category,
+				Name:        license,
+				PkgName:     pkg.Name,
+				PkgFilePath: pkg.FilePath,
+				PkgType:     target.OS.Family,
+				PkgVersion:  pkg.Version,
+				PkgClass:    types.ClassOSPkg,
+				PkgTarget:   osPkgTarget,
 			})
 		}
-
 	}
 	results = append(results, types.Result{
-		Target:   "OS Packages",
+		Target:   types.LicenseTargetOSPkg,
 		Class:    types.ClassLicense,
 		Licenses: osPkgLicenses,
 	})
 
 	// License - language-specific packages
 	for _, app := range target.Applications {
+		targetName := app.FilePath
+		if t, ok := langpkg.PkgTargets[app.Type]; ok && targetName == "" {
+			// When the file path is empty, we will overwrite it with the pre-defined value.
+			targetName = t
+		}
+
 		var langLicenses []types.DetectedLicense
 		for _, lib := range app.Libraries {
 			for _, license := range lib.LicensesV2 {
@@ -394,22 +404,20 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 				langLicenses = append(langLicenses, types.DetectedLicense{
 					Severity:    severity,
 					Category:    category,
-					PkgName:     lib.Name,
-					PkgVersion:  lib.Version,
 					Name:        license.Name,
 					IsDeclared:  license.IsDeclared,
 					FilePath:    license.FilePath,
 					LicenseText: license.LicenseText,
-					Confidence:  1.0,
+					PkgName:     lib.Name,
+					PkgFilePath: lib.FilePath,
+					PkgVersion:  lib.Version,
+					PkgClass:    types.ClassLangPkg,
+					PkgType:     app.Type,
+					PkgTarget:   targetName,
 				})
 			}
 		}
 
-		targetName := app.FilePath
-		if t, ok := langpkg.PkgTargets[app.Type]; ok && targetName == "" {
-			// When the file path is empty, we will overwrite it with the pre-defined value.
-			targetName = t
-		}
 		results = append(results, types.Result{
 			Target:   targetName,
 			Class:    types.ClassLicense,
@@ -434,7 +442,7 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 		}
 	}
 	results = append(results, types.Result{
-		Target:   "Loose File License(s)",
+		Target:   types.LicenseTargetLicenseFile,
 		Class:    types.ClassLicenseFile,
 		Licenses: fileLicenses,
 	})

@@ -564,6 +564,7 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 		ImageConfigScanners: opts.ImageConfigScanners, // this is valid only for 'image' subcommand
 		ScanRemovedPackages: opts.ScanRemovedPkgs,     // this is valid only for 'image' subcommand
 		ListAllPackages:     opts.ListAllPkgs,
+		LicenseFull:         opts.LicenseFull,
 		LicenseCategories:   opts.LicenseCategories,
 		FilePatterns:        opts.FilePatterns,
 		OnlyInspectArtifact: opts.OnlyInspectArtifact,

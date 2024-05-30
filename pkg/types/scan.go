@@ -27,6 +27,7 @@ type ScanOptions struct {
 	ImageConfigScanners Scanners // Scanners for container image configuration
 	ScanRemovedPackages bool
 	ListAllPackages     bool
+	LicenseFull         bool
 	LicenseCategories   map[types.LicenseCategory][]string
 	FilePatterns        []string
 	IncludeDevDeps      bool
