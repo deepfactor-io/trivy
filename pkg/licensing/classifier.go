@@ -1,9 +1,12 @@
 package licensing
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
 	"io"
 	"sort"
+	"strings"
 	"sync"
 
 	classifier "github.com/google/licenseclassifier/v2"
@@ -49,7 +52,8 @@ func Classify(filePath string, r io.Reader, confidenceLevel float64) (*types.Lic
 	m.Lock()
 
 	// Use 'github.com/google/licenseclassifier' to find licenses
-	result := cf.Match(cf.Normalize(content))
+	normalizedFileContent := cf.Normalize(content)
+	result := cf.Match(normalizedFileContent)
 
 	m.Unlock()
 
@@ -69,18 +73,52 @@ func Classify(filePath string, r io.Reader, confidenceLevel float64) (*types.Lic
 		case "License":
 			matchType = types.LicenseTypeFile
 		}
+
 		licenseLink := fmt.Sprintf("https://spdx.org/licenses/%s.html", match.Name)
 
+		// get the license text from the match findings
+		licenseText := getLicenseText(&normalizedFileContent, match.StartLine, match.EndLine)
+
+		// TODO extract copyright text from license text using regex parse
+		// copyrightText := ""
+
 		findings = append(findings, types.LicenseFinding{
-			Name:       match.Name,
-			Confidence: match.Confidence,
-			Link:       licenseLink,
+			Name:        match.Name,
+			Confidence:  match.Confidence,
+			Link:        licenseLink,
+			LicenseText: licenseText,
 		})
 	}
+
 	sort.Sort(findings)
 	return &types.LicenseFile{
 		Type:     matchType,
 		FilePath: filePath,
 		Findings: findings,
 	}, nil
+}
+
+// gets the license text found in the file content from given start and end lines
+func getLicenseText(fileContent *[]byte, startLine, endLine int) *string {
+	scanner := bufio.NewScanner(bytes.NewReader(*fileContent))
+	currentLine := 1
+
+	var licenseText string
+	var builder strings.Builder
+
+	for scanner.Scan() {
+		if currentLine >= startLine && currentLine <= endLine {
+			line := scanner.Text()
+			line = strings.TrimPrefix(line, "//")
+			builder.WriteString(line)
+			builder.WriteString("\n")
+		}
+		if currentLine > endLine {
+			break
+		}
+		currentLine++
+	}
+
+	licenseText = builder.String()
+	return &licenseText
 }

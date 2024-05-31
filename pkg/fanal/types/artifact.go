@@ -121,12 +121,13 @@ type Location struct {
 }
 
 type License struct {
-	Name        string
-	Type        LicenseType
-	IsDeclared  bool
-	FilePath    string
-	LicenseText string
-	Findings    LicenseFindings `json:"-"`
+	Name          string
+	Type          LicenseType
+	IsDeclared    bool
+	FilePath      string
+	LicenseText   *string         `json:"-"`
+	CopyrightText *string         `json:"-"`
+	Findings      LicenseFindings `json:"-"`
 }
 
 // BuildInfo represents information under /root/buildinfo in RHEL

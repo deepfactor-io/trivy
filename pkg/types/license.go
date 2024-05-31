@@ -29,9 +29,12 @@ type DetectedLicense struct {
 	// Filepath where the package was found
 	PkgFilePath string `json:",omitempty"`
 
-	// PkgName holds a file path of the license.
-	// It will be empty if PkgName is filled.
-	FilePath string // for file license `json:",omitempty"`
+	// Is Package direct or indirect
+	IsPkgIndirect bool `json:",omitempty"`
+
+	// For loose licenses, file path indicates where license was found
+	// It will be empty if PkgName is filled
+	FilePath string `json:",omitempty"`
 
 	// Name holds a detected license name
 	Name string
@@ -43,14 +46,14 @@ type DetectedLicense struct {
 	IsDeclared bool
 
 	// Entire license text found in LICENSE file or within source code
-	LicenseText string // for license files
+	LicenseText *string `json:"-"`
 
 	// Copyright text found as a file or within the source code
-	CopyrightText string `json:",omitempty"`
+	CopyrightText *string `json:"-"`
 
 	// Confidence is level of the match. The confidence level is between 0.0 and 1.0, with 1.0 indicating an
 	// exact match and 0.0 indicating a complete mismatch
-	Confidence float64 `json:",omitempty"`
+	Confidence float64 `json:"-"`
 
 	// Link is a SPDX link of the license
 	Link string `json:",omitempty"`

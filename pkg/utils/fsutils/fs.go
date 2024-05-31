@@ -286,12 +286,13 @@ func checkForConcludedLicenses(
 
 	for _, finding := range lf.Findings {
 		license := types.License{
-			Name:        finding.Name,
-			Type:        lf.Type,
-			IsDeclared:  false,
-			LicenseText: finding.Link, // TODO TBD
-			FilePath:    lf.FilePath,
-			Findings:    lf.Findings, // for loose licenses we need license findings object
+			Name:          finding.Name,
+			Type:          lf.Type,
+			IsDeclared:    false,
+			LicenseText:   finding.LicenseText,
+			CopyrightText: finding.CopyRightText,
+			FilePath:      lf.FilePath,
+			Findings:      lf.Findings, // for loose licenses we need these license findings
 		}
 
 		concludedLicenses = append(concludedLicenses, license)
