@@ -2,8 +2,6 @@ module github.com/deepfactor-io/trivy
 
 go 1.21
 
-toolchain go1.22.0
-
 replace github.com/deepfactor-io/go-dep-parser => github.com/deepfactor-io/go-dep-parser v0.0.0-20240522114955-c3b72fb971a8
 
 require (

@@ -356,11 +356,10 @@ func (s Scanner) secretsToResults(secrets []ftypes.Secret, options types.ScanOpt
 	return results
 }
 
+// Func gets the licenses for os-pkgs, lang-pkgs, license-file and wrap around types.Result
+// If full license scanning is disabled -- it adds os-pkgs & lang-pkgs (declared) licenses
+// If full license scanning is enabled -- it adds os-pkgs & lang-pkgs (declared + concluded) + loose file licenses
 func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions) types.Results {
-	if !options.Scanners.Enabled(types.LicenseScanner) || !options.LicenseFull {
-		return nil
-	}
-
 	var results types.Results
 	scanner := licensing.NewScanner(options.LicenseCategories)
 
@@ -374,6 +373,7 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 				Severity:      severity,
 				Category:      category,
 				Name:          license,
+				IsDeclared:    true,
 				PkgName:       pkg.Name,
 				PkgFilePath:   pkg.FilePath,
 				PkgType:       target.OS.Family,
@@ -445,6 +445,10 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 			Class:    types.ClassLicense,
 			Licenses: langLicenses,
 		})
+	}
+
+	if !options.Scanners.Enabled(types.LicenseScanner) || !options.LicenseFull {
+		return results
 	}
 
 	// License - file header or license file

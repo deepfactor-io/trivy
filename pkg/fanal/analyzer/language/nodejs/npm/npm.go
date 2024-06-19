@@ -20,6 +20,7 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/utils"
 	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
 	xpath "github.com/deepfactor-io/trivy/pkg/x/path"
 )
@@ -89,7 +90,10 @@ func (a npmLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAn
 					// Declared license would be going to Licenses field as before
 					// Concluded licenses would be going to LicensesV2 field
 					if license.IsDeclared {
-						app.Libraries[i].Licenses = append(app.Libraries[i].Licenses, license.Name)
+						// declared licenses can be combination of licenses (ex: (MIT OR Apache-2.0))
+						// we need to split those combined licenses
+						splitLicenses := utils.SplitNGetLicenses(license.Name)
+						app.Libraries[i].Licenses = append(app.Libraries[i].Licenses, splitLicenses...)
 					} else {
 						app.Libraries[i].LicensesV2 = append(app.Libraries[i].LicensesV2, license)
 					}
