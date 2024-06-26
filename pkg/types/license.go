@@ -17,6 +17,11 @@ type DetectedLicense struct {
 	// It will be empty if FilePath is filled
 	PkgVersion string `json:",omitempty"`
 
+	PkgEpoch int `json:",omitempty"`
+
+	// Release of the Package
+	PkgRelease string `json:",omitempty"`
+
 	// Type of the Package it belongs to
 	PkgType types.TargetType `json:",omitempty"`
 
@@ -44,6 +49,9 @@ type DetectedLicense struct {
 
 	// true if license is a declared license, else it's a concluded license
 	IsDeclared bool
+
+	// true if license is a SPDX classified license, false otherwise
+	IsSPDXClassified bool
 
 	// Entire license text found in LICENSE file or within source code
 	LicenseText *string `json:"-"`

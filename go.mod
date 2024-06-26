@@ -120,6 +120,7 @@ require (
 require (
 	github.com/bitnami/go-version v0.0.0-20231130084017-bb00604d650c
 	github.com/deepfactor-io/javadb v0.0.0-20240327135105-453eb42d4707
+	github.com/github/go-spdx/v2 v2.3.1
 )
 
 require (
