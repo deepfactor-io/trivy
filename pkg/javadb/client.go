@@ -103,7 +103,7 @@ func NewUpdater(
 	registryOption ftypes.RegistryOptions,
 ) *Updater {
 	updater = &Updater{
-		repo:           fmt.Sprintf("%s:%d", javaDBRepository, db.SchemaVersion),
+		repo:           fmt.Sprintf("%s:%d", javaDBRepository, 4),
 		dbDir:          filepath.Join(cacheDir, "java-db"),
 		skip:           skip,
 		quiet:          quiet,
