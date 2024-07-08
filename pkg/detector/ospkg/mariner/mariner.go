@@ -1,6 +1,8 @@
 package mariner
 
 import (
+	"context"
+
 	version "github.com/knqyf263/go-rpm-version"
 	"golang.org/x/xerrors"
 
@@ -25,14 +27,12 @@ func NewScanner() *Scanner {
 }
 
 // Detect vulnerabilities in package using CBL-Mariner scanner
-func (s *Scanner) Detect(osVer string, _ *ftypes.Repository, pkgs []ftypes.Package) ([]types.DetectedVulnerability, error) {
-	log.Logger.Info("Detecting CBL-Mariner vulnerabilities...")
-
+func (s *Scanner) Detect(ctx context.Context, osVer string, _ *ftypes.Repository, pkgs []ftypes.Package) ([]types.DetectedVulnerability, error) {
 	// e.g. 1.0.20210127
 	osVer = osver.Minor(osVer)
 
-	log.Logger.Debugf("CBL-Mariner: os version: %s", osVer)
-	log.Logger.Debugf("CBL-Mariner: the number of packages: %d", len(pkgs))
+	log.InfoContext(ctx, "Detecting vulnerabilities...", log.String("os_version", osVer),
+		log.Int("pkg_num", len(pkgs)))
 
 	var vulns []types.DetectedVulnerability
 	for _, pkg := range pkgs {
@@ -49,7 +49,7 @@ func (s *Scanner) Detect(osVer string, _ *ftypes.Repository, pkgs []ftypes.Packa
 				VulnerabilityID:  adv.VulnerabilityID,
 				PkgName:          pkg.Name,
 				InstalledVersion: utils.FormatVersion(pkg),
-				PkgRef:           pkg.Ref,
+				PkgIdentifier:    pkg.Identifier,
 				Layer:            pkg.Layer,
 				DataSource:       adv.DataSource,
 			}
@@ -73,7 +73,7 @@ func (s *Scanner) Detect(osVer string, _ *ftypes.Repository, pkgs []ftypes.Packa
 }
 
 // IsSupportedVersion checks if the version is supported.
-func (s *Scanner) IsSupportedVersion(_ ftypes.OSType, _ string) bool {
+func (s *Scanner) IsSupportedVersion(_ context.Context, _ ftypes.OSType, _ string) bool {
 	// EOL is not in public at the moment.
 	return true
 }

@@ -2,24 +2,29 @@
 Trivy supports the scanners listed in the table below.
 
 |     Scanner      | Supported |
-| :--------------: | :-------: |
+|:----------------:|:---------:|
 | Misconfiguration |     ✓     |
 |      Secret      |     ✓     |
 
 It supports the following formats:
 
-|  Format   | Supported |
-| :-------: | :-------: |
-|   JSON    |     ✓     |
-|    HCL    |     ✓     |
-| Plan JSON |     ✓     |
+|     Format    | Supported |
+|:-------------:|:---------:|
+|     JSON      |     ✓     |
+|      HCL      |     ✓     |
+| Plan Snapshot |     ✓     |
+|   Plan JSON   |     ✓     |
 
-Trivy can scan the results of `terraform plan`.
-You can scan by passing the file generated as shown below to Trivy:
-
+Trivy can scan Terraform Plan files (snapshots) or their JSON representations. To create a Terraform Plan and scan it, run the following command:
+```bash
+terraform plan --out tfplan
+trivy conf tfplan
 ```
-$ terraform plan --out tfplan.binary
-$ terraform show -json tfplan.binary > tfplan.json
+
+To scan a Terraform Plan representation in JSON format, run the following command:
+```bash
+terraform show -json tfplan > tfplan.json
+trivy conf tfplan.json
 ```
 
 ## Misconfiguration
@@ -35,7 +40,7 @@ trivy conf --tf-vars dev.terraform.tfvars ./infrastructure/tf
 
 ### Exclude Downloaded Terraform Modules
 By default, downloaded modules are also scanned.
-If you don't want to scan modules downloaded into the `.terraform` directory, you can use the `--tf-exclude-downloaded-modules` flag.
+If you don't want to scan them, you can use the `--tf-exclude-downloaded-modules` flag.
 
 ```bash
 trivy conf --tf-exclude-downloaded-modules ./configs

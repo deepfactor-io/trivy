@@ -3,19 +3,14 @@
 package integration
 
 import (
+	"fmt"
 	"os"
-	"path/filepath"
 	"strings"
 	"testing"
-	"time"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-
-	"github.com/aquasecurity/trivy/pkg/clock"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
 	"github.com/aquasecurity/trivy/pkg/types"
-	"github.com/aquasecurity/trivy/pkg/uuid"
+	"github.com/stretchr/testify/require"
 )
 
 // TestRepository tests `trivy repo` with the local code repositories
@@ -36,12 +31,13 @@ func TestRepository(t *testing.T) {
 		command        string
 		format         types.Format
 		includeDevDeps bool
+		parallel       int
 	}
 	tests := []struct {
 		name     string
 		args     args
 		golden   string
-		override func(*types.Report)
+		override func(t *testing.T, want, got *types.Report)
 	}{
 		{
 			name: "gomod",
@@ -68,6 +64,15 @@ func TestRepository(t *testing.T) {
 				skipDirs: []string{"testdata/fixtures/repo/gomod/submod2"},
 			},
 			golden: "testdata/gomod-skip.json.golden",
+		},
+		{
+			name: "gomod in series",
+			args: args{
+				scanner:  types.VulnerabilityScanner,
+				input:    "testdata/fixtures/repo/gomod",
+				parallel: 1,
+			},
+			golden: "testdata/gomod.json.golden",
 		},
 		{
 			name: "npm",
@@ -100,8 +105,9 @@ func TestRepository(t *testing.T) {
 		{
 			name: "pnpm",
 			args: args{
-				scanner: types.VulnerabilityScanner,
-				input:   "testdata/fixtures/repo/pnpm",
+				scanner:     types.VulnerabilityScanner,
+				input:       "testdata/fixtures/repo/pnpm",
+				listAllPkgs: true,
 			},
 			golden: "testdata/pnpm.json.golden",
 		},
@@ -149,6 +155,14 @@ func TestRepository(t *testing.T) {
 			golden: "testdata/gradle.json.golden",
 		},
 		{
+			name: "sbt",
+			args: args{
+				scanner: types.VulnerabilityScanner,
+				input:   "testdata/fixtures/repo/sbt",
+			},
+			golden: "testdata/sbt.json.golden",
+		},
+		{
 			name: "conan",
 			args: args{
 				scanner:     types.VulnerabilityScanner,
@@ -174,6 +188,15 @@ func TestRepository(t *testing.T) {
 				input:       "testdata/fixtures/repo/dotnet",
 			},
 			golden: "testdata/dotnet.json.golden",
+		},
+		{
+			name: "packages-props",
+			args: args{
+				scanner:     types.VulnerabilityScanner,
+				listAllPkgs: true,
+				input:       "testdata/fixtures/repo/packagesprops",
+			},
+			golden: "testdata/packagesprops.json.golden",
 		},
 		{
 			name: "swift",
@@ -219,6 +242,24 @@ func TestRepository(t *testing.T) {
 				input:       "testdata/fixtures/repo/composer",
 			},
 			golden: "testdata/composer.lock.json.golden",
+		},
+		{
+			name: "multiple lockfiles",
+			args: args{
+				scanner: types.VulnerabilityScanner,
+				input:   "testdata/fixtures/repo/trivy-ci-test",
+			},
+			golden: "testdata/test-repo.json.golden",
+		},
+		{
+			name: "installed.json",
+			args: args{
+				command:     "rootfs",
+				scanner:     types.VulnerabilityScanner,
+				listAllPkgs: true,
+				input:       "testdata/fixtures/repo/composer-vendor",
+			},
+			golden: "testdata/composer.vendor.json.golden",
 		},
 		{
 			name: "dockerfile",
@@ -328,6 +369,15 @@ func TestRepository(t *testing.T) {
 			golden: "testdata/conda-cyclonedx.json.golden",
 		},
 		{
+			name: "conda environment.yaml generating CycloneDX SBOM",
+			args: args{
+				command: "fs",
+				format:  "cyclonedx",
+				input:   "testdata/fixtures/repo/conda-environment",
+			},
+			golden: "testdata/conda-environment-cyclonedx.json.golden",
+		},
+		{
 			name: "pom.xml generating CycloneDX SBOM (with vulnerabilities)",
 			args: args{
 				command: "fs",
@@ -355,23 +405,32 @@ func TestRepository(t *testing.T) {
 				skipFiles: []string{"testdata/fixtures/repo/gomod/submod2/go.mod"},
 			},
 			golden: "testdata/gomod-skip.json.golden",
-			override: func(report *types.Report) {
-				report.ArtifactType = ftypes.ArtifactFilesystem
+			override: func(_ *testing.T, want, _ *types.Report) {
+				want.ArtifactType = artifact.TypeFilesystem
 			},
 		},
 		{
-			name: "dockerfile with fs subcommand",
+			name: "dockerfile with fs subcommand and an alias scanner",
 			args: args{
 				command:     "fs",
-				scanner:     types.MisconfigScanner,
+				scanner:     "config", // for backward compatibility
 				policyPaths: []string{"testdata/fixtures/repo/custom-policy/policy"},
 				namespaces:  []string{"user"},
 				input:       "testdata/fixtures/repo/custom-policy",
 			},
 			golden: "testdata/dockerfile-custom-policies.json.golden",
-			override: func(report *types.Report) {
-				report.ArtifactType = ftypes.ArtifactFilesystem
+			override: func(_ *testing.T, want, got *types.Report) {
+				want.ArtifactType = artifact.TypeFilesystem
 			},
+		},
+		{
+			name: "julia generating SPDX SBOM",
+			args: args{
+				command: "rootfs",
+				format:  "spdx-json",
+				input:   "testdata/fixtures/repo/julia",
+			},
+			golden: "testdata/julia-spdx.json.golden",
 		},
 	}
 
@@ -383,7 +442,6 @@ func TestRepository(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
 			command := "repo"
 			if tt.args.command != "" {
 				command = tt.args.command
@@ -403,7 +461,10 @@ func TestRepository(t *testing.T) {
 				"--skip-policy-update",
 				"--format",
 				string(format),
+				"--parallel",
+				fmt.Sprint(tt.args.parallel),
 				"--offline-scan",
+				tt.args.input,
 			}
 
 			if tt.args.scanner != "" {
@@ -425,7 +486,7 @@ func TestRepository(t *testing.T) {
 			if len(tt.args.ignoreIDs) != 0 {
 				trivyIgnore := ".trivyignore"
 				err := os.WriteFile(trivyIgnore, []byte(strings.Join(tt.args.ignoreIDs, "\n")), 0444)
-				assert.NoError(t, err, "failed to write .trivyignore")
+				require.NoError(t, err, "failed to write .trivyignore")
 				defer os.Remove(trivyIgnore)
 			}
 
@@ -459,12 +520,6 @@ func TestRepository(t *testing.T) {
 				}
 			}
 
-			// Setup the output file
-			outputFile := filepath.Join(t.TempDir(), "output.json")
-			if *update && tt.override == nil {
-				outputFile = tt.golden
-			}
-
 			if tt.args.listAllPkgs {
 				osArgs = append(osArgs, "--list-all-pkgs")
 			}
@@ -477,27 +532,10 @@ func TestRepository(t *testing.T) {
 				osArgs = append(osArgs, "--secret-config", tt.args.secretConfig)
 			}
 
-			osArgs = append(osArgs, "--output", outputFile)
-			osArgs = append(osArgs, tt.args.input)
-
-			clock.SetFakeTime(t, time.Date(2020, 9, 10, 14, 20, 30, 5, time.UTC))
-			uuid.SetFakeUUID(t, "3ff14136-e09f-4df9-80ea-%012d")
-
-			// Run "trivy repo"
-			err := execute(osArgs)
-			require.NoError(t, err)
-
-			// Compare want and got
-			switch format {
-			case types.FormatCycloneDX:
-				compareCycloneDX(t, tt.golden, outputFile)
-			case types.FormatSPDXJSON:
-				compareSPDXJson(t, tt.golden, outputFile)
-			case types.FormatJSON:
-				compareReports(t, tt.golden, outputFile, tt.override)
-			default:
-				require.Fail(t, "invalid format", "format: %s", format)
-			}
+			runTest(t, osArgs, tt.golden, "", format, runOptions{
+				fakeUUID: "3ff14136-e09f-4df9-80ea-%012d",
+				override: tt.override,
+			})
 		})
 	}
 }

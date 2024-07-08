@@ -1,14 +1,14 @@
 package fsutils
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"io/fs"
 	"os"
 	"path/filepath"
+	"slices"
 
-	"go.uber.org/zap"
-	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
 	"github.com/aquasecurity/trivy/pkg/log"
@@ -17,30 +17,6 @@ import (
 const (
 	xdgDataHome = "XDG_DATA_HOME"
 )
-
-var cacheDir string
-
-// defaultCacheDir returns/creates the cache-dir to be used for trivy operations
-func defaultCacheDir() string {
-	tmpDir, err := os.UserCacheDir()
-	if err != nil {
-		tmpDir = os.TempDir()
-	}
-	return filepath.Join(tmpDir, "trivy")
-}
-
-// CacheDir returns the directory used for caching
-func CacheDir() string {
-	if cacheDir == "" {
-		return defaultCacheDir()
-	}
-	return cacheDir
-}
-
-// SetCacheDir sets the trivy cacheDir
-func SetCacheDir(dir string) {
-	cacheDir = dir
-}
 
 func HomeDir() string {
 	dataHome := os.Getenv(xdgDataHome)
@@ -85,6 +61,14 @@ func DirExists(path string) bool {
 	return true
 }
 
+func FileExists(filename string) bool {
+	_, err := os.Stat(filename)
+	if errors.Is(err, os.ErrNotExist) {
+		return false
+	}
+	return err == nil
+}
+
 type WalkDirRequiredFunc func(path string, d fs.DirEntry) bool
 
 type WalkDirFunc func(path string, d fs.DirEntry, r io.Reader) error
@@ -104,7 +88,7 @@ func WalkDir(fsys fs.FS, root string, required WalkDirRequiredFunc, fn WalkDirFu
 		defer f.Close()
 
 		if err = fn(path, d, f); err != nil {
-			log.Logger.Debugw("Walk error", zap.String("file_path", path), zap.Error(err))
+			log.Debug("Walk error", log.FilePath(path), log.Err(err))
 		}
 		return nil
 	})

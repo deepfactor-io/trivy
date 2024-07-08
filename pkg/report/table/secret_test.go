@@ -9,18 +9,19 @@ import (
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/report/table"
+	"github.com/aquasecurity/trivy/pkg/types"
 )
 
 func TestSecretRenderer(t *testing.T) {
 
 	tests := []struct {
 		name  string
-		input []ftypes.SecretFinding
+		input []types.DetectedSecret
 		want  string
 	}{
 		{
 			name: "single line",
-			input: []ftypes.SecretFinding{
+			input: []types.DetectedSecret{
 				{
 					RuleID:    "rule-id",
 					Category:  ftypes.SecretRuleCategory("category"),
@@ -62,7 +63,7 @@ this is a title
 		},
 		{
 			name: "multiple line",
-			input: []ftypes.SecretFinding{
+			input: []types.DetectedSecret{
 				{
 					RuleID:   "rule-id",
 					Category: ftypes.SecretRuleCategory("category"),
@@ -135,7 +136,10 @@ this is a title
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			renderer := table.NewSecretRenderer("my-file", test.input, false, []dbTypes.Severity{dbTypes.SeverityHigh, dbTypes.SeverityMedium})
+			renderer := table.NewSecretRenderer("my-file", test.input, false, []dbTypes.Severity{
+				dbTypes.SeverityHigh,
+				dbTypes.SeverityMedium,
+			})
 			assert.Equal(t, test.want, strings.ReplaceAll(renderer.Render(), "\r\n", "\n"))
 		})
 	}

@@ -1,6 +1,7 @@
 package report
 
 import (
+	"context"
 	"fmt"
 	"html"
 	"io"
@@ -12,6 +13,7 @@ import (
 	"github.com/owenrumney/go-sarif/v2/sarif"
 	"golang.org/x/xerrors"
 
+	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
 	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
 	"github.com/aquasecurity/trivy/pkg/types"
 )
@@ -121,7 +123,7 @@ func getRuleIndex(id string, indexes map[string]int) int {
 	}
 }
 
-func (sw *SarifWriter) Write(report types.Report) error {
+func (sw *SarifWriter) Write(ctx context.Context, report types.Report) error {
 	sarifReport, err := sarif.New(sarif.Version210)
 	if err != nil {
 		return xerrors.Errorf("error creating a new sarif template: %w", err)
@@ -130,11 +132,12 @@ func (sw *SarifWriter) Write(report types.Report) error {
 	sw.run.Tool.Driver.WithVersion(sw.Version)
 	sw.run.Tool.Driver.WithFullName("Trivy Vulnerability Scanner")
 	sw.locationCache = make(map[string][]location)
-	if report.ArtifactType == ftypes.ArtifactContainerImage {
+	if report.ArtifactType == artifact.TypeContainerImage {
 		sw.run.Properties = sarif.Properties{
 			"imageName":   report.ArtifactName,
 			"repoTags":    report.Metadata.RepoTags,
 			"repoDigests": report.Metadata.RepoDigests,
+			"imageID":     report.Metadata.ImageID,
 		}
 	}
 	if sw.Target != "" {
@@ -177,6 +180,7 @@ func (sw *SarifWriter) Write(report types.Report) error {
 			})
 		}
 		for _, misconf := range res.Misconfigurations {
+			locationURI := clearURI(res.Target)
 			sw.addSarifResult(&sarifData{
 				title:            "misconfiguration",
 				vulnerabilityId:  misconf.ID,
@@ -184,8 +188,8 @@ func (sw *SarifWriter) Write(report types.Report) error {
 				cvssScore:        severityToScore(misconf.Severity),
 				url:              misconf.PrimaryURL,
 				resourceClass:    res.Class,
-				artifactLocation: target,
-				locationMessage:  target,
+				artifactLocation: locationURI,
+				locationMessage:  locationURI,
 				locations: []location{
 					{
 						startLine: misconf.CauseMetadata.StartLine,
@@ -200,7 +204,7 @@ func (sw *SarifWriter) Write(report types.Report) error {
 				helpMarkdown: fmt.Sprintf("**Misconfiguration %v**\n| Type | Severity | Check | Message | Link |\n| --- | --- | --- | --- | --- |\n|%v|%v|%v|%s|[%v](%v)|\n\n%v",
 					misconf.ID, misconf.Type, misconf.Severity, misconf.Title, misconf.Message, misconf.ID, misconf.PrimaryURL, misconf.Description),
 				message: fmt.Sprintf("Artifact: %v\nType: %v\nVulnerability %v\nSeverity: %v\nMessage: %v\nLink: [%v](%v)",
-					res.Target, res.Type, misconf.ID, misconf.Severity, misconf.Message, misconf.ID, misconf.PrimaryURL),
+					locationURI, res.Type, misconf.ID, misconf.Severity, misconf.Message, misconf.ID, misconf.PrimaryURL),
 			})
 		}
 		for _, secret := range res.Secrets {
@@ -337,7 +341,11 @@ func ToPathUri(input string, resultClass types.ResultClass) string {
 		input = ref.Context().RepositoryStr()
 	}
 
-	return strings.ReplaceAll(strings.ReplaceAll(input, "\\", "/"), "git::https:/", "")
+	return clearURI(input)
+}
+
+func clearURI(s string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(s, "\\", "/"), "git::https:/", "")
 }
 
 func (sw *SarifWriter) getLocations(name, version, path string, pkgs []ftypes.Package) []location {
