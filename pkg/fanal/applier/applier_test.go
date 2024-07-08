@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/cache"
-	"github.com/aquasecurity/trivy/pkg/fanal/applier"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/cache"
+	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 type dummyData struct {

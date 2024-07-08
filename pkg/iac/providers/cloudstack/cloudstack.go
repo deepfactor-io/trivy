@@ -1,7 +1,7 @@
 package cloudstack
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/cloudstack/compute"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/cloudstack/compute"
 )
 
 type CloudStack struct {

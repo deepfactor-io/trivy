@@ -14,13 +14,13 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/dependency"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/purl"
-	"github.com/aquasecurity/trivy/pkg/sbom/core"
-	"github.com/aquasecurity/trivy/pkg/types"
-	"github.com/aquasecurity/trivy/pkg/uuid"
+	"github.com/deepfactor-io/trivy/pkg/dependency"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/purl"
+	"github.com/deepfactor-io/trivy/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/uuid"
 )
 
 var (
@@ -260,7 +260,7 @@ func (m *Decoder) pkgName(pkg *ftypes.Package, c *core.Component) string {
 	// `maven purl type` has no restrictions on using lowercase letters.
 	// Also, `spdx-maven-plugin` uses `name` instead of `artifactId` for the `package name` field.
 	// So we need to use `purl` for maven/gradle packages
-	// See https://github.com/aquasecurity/trivy/issues/7007 for more information.
+	// See https://github.com/deepfactor-io/trivy/issues/7007 for more information.
 	if p.Type == packageurl.TypeMaven || p.Type == packageurl.TypeGradle {
 		return pkg.Name
 	}
@@ -268,7 +268,7 @@ func (m *Decoder) pkgName(pkg *ftypes.Package, c *core.Component) string {
 	// TODO(backward compatibility): Remove after 03/2025
 	// Bitnami used different pkg.Name and the name from PURL.
 	// For backwards compatibility - we need to use PURL.
-	// cf. https://github.com/aquasecurity/trivy/issues/6981
+	// cf. https://github.com/deepfactor-io/trivy/issues/6981
 	if c.PkgIdentifier.PURL.Type == packageurl.TypeBitnami {
 		return pkg.Name
 	}

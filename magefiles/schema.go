@@ -9,7 +9,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/aquasecurity/trivy/pkg/iac/rego/schemas"
+	"github.com/deepfactor-io/trivy/pkg/iac/rego/schemas"
 )
 
 const (

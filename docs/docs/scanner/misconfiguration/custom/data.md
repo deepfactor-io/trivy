@@ -9,7 +9,7 @@ Given the following yaml file:
 
 ```bash
 $ cd examples/misconf/custom-data
-$ cat data/ports.yaml                                                                                                                                                                      [~/src/github.com/aquasecurity/trivy/examples/misconf/custom-data]
+$ cat data/ports.yaml                                                                                                                                                                      [~/src/github.com/deepfactor-io/trivy/examples/misconf/custom-data]
 services:
   ports:
     - "20"

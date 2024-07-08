@@ -1,9 +1,9 @@
 package computing
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/nifcloud/computing"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/nifcloud/computing"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 type sgAdapter struct {

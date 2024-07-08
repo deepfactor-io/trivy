@@ -16,13 +16,13 @@ import (
 
 	dtypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
-	"github.com/aquasecurity/trivy/pkg/clock"
-	"github.com/aquasecurity/trivy/pkg/digest"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/sbom/core"
-	sbomio "github.com/aquasecurity/trivy/pkg/sbom/io"
-	"github.com/aquasecurity/trivy/pkg/types"
-	"github.com/aquasecurity/trivy/pkg/uuid"
+	"github.com/deepfactor-io/trivy/pkg/clock"
+	"github.com/deepfactor-io/trivy/pkg/digest"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/sbom/core"
+	sbomio "github.com/deepfactor-io/trivy/pkg/sbom/io"
+	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/uuid"
 )
 
 const (
@@ -335,7 +335,7 @@ func (*Marshaler) advisories(refs []string) *[]cdx.Advisory {
 	advs := lo.FilterMap(refs, func(ref string, _ int) (cdx.Advisory, bool) {
 		// There are cases when `ref` contains extra info
 		// But we need to use only URL.
-		// cf. https://github.com/aquasecurity/trivy/issues/6801
+		// cf. https://github.com/deepfactor-io/trivy/issues/6801
 		ref = trimNonUrlInfo(ref)
 		return cdx.Advisory{URL: ref}, ref != ""
 	})

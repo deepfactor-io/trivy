@@ -9,13 +9,13 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/digest"
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/purl"
-	"github.com/aquasecurity/trivy/pkg/sbom/core"
-	"github.com/aquasecurity/trivy/pkg/scanner/utils"
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/digest"
+	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/purl"
+	"github.com/deepfactor-io/trivy/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/pkg/scanner/utils"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 type Encoder struct {
@@ -91,7 +91,7 @@ func (e *Encoder) rootComponent(r types.Report) (*core.Component, error) {
 		}
 		// When we scan a `json` file (meaning a file in `json` format) which was created from the SBOM file.
 		// e.g. for use in `convert` mode.
-		// See https://github.com/aquasecurity/trivy/issues/6780
+		// See https://github.com/deepfactor-io/trivy/issues/6780
 		root.Type = core.TypeFilesystem
 	}
 
@@ -289,9 +289,9 @@ func (*Encoder) component(result types.Result, pkg ftypes.Package) *core.Compone
 		}
 
 		// Use `group` field for GroupID and `name` for ArtifactID for java files
-		// https://github.com/aquasecurity/trivy/issues/4675
+		// https://github.com/deepfactor-io/trivy/issues/4675
 		// Use `group` field for npm scopes
-		// https://github.com/aquasecurity/trivy/issues/5908
+		// https://github.com/deepfactor-io/trivy/issues/5908
 		if pu.Type == packageurl.TypeMaven || pu.Type == packageurl.TypeNPM {
 			name = pu.Name
 			group = pu.Namespace

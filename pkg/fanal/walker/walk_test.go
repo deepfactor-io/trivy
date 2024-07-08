@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/walker"
+	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
 )
 
 func TestSkipFile(t *testing.T) {

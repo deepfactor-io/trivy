@@ -4,9 +4,9 @@ import (
 	cdx "github.com/CycloneDX/cyclonedx-go"
 	"github.com/samber/lo"
 
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/sbom/core"
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 type CycloneDX struct {

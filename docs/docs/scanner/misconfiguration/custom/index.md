@@ -141,11 +141,11 @@ The ID is based on the AVD_ID. For instance if the `avd_id` is `AVD-AWS-0176`, t
 
 #### custom.provider
 
-The `provider` field references the [provider](https://github.com/aquasecurity/trivy/tree/main/pkg/iac/providers) available in Trivy. This should be the same as the provider name in the `pkg/iac/providers` directory, e.g. `aws`. 
+The `provider` field references the [provider](https://github.com/deepfactor-io/trivy/tree/main/pkg/iac/providers) available in Trivy. This should be the same as the provider name in the `pkg/iac/providers` directory, e.g. `aws`. 
 
 #### custom.service
 
-Services are defined within a provider. For instance, RDS is a service and AWS is a provider. This should be the same as the service name in one of the provider directories. ([Link](https://github.com/aquasecurity/trivy/tree/main/pkg/iac/providers)), e.g. `aws/rds`.
+Services are defined within a provider. For instance, RDS is a service and AWS is a provider. This should be the same as the service name in one of the provider directories. ([Link](https://github.com/deepfactor-io/trivy/tree/main/pkg/iac/providers)), e.g. `aws/rds`.
 
 #### custom.input
 
@@ -222,4 +222,4 @@ See [here](schema.md) for the detail.
 
 [rego]: https://www.openpolicyagent.org/docs/latest/policy-language/
 [package]: https://www.openpolicyagent.org/docs/latest/policy-language/#packages
-[source-types]: https://github.com/aquasecurity/trivy/blob/9361cdb7e28fd304d6fd2a1091feac64a6786672/pkg/iac/types/sources.go#L4
+[source-types]: https://github.com/deepfactor-io/trivy/blob/9361cdb7e28fd304d6fd2a1091feac64a6786672/pkg/iac/types/sources.go#L4

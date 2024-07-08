@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/c/conan"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/c/conan"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 func TestParse(t *testing.T) {

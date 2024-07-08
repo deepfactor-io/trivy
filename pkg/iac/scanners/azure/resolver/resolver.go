@@ -1,9 +1,9 @@
 package resolver
 
 import (
-	azure2 "github.com/aquasecurity/trivy/pkg/iac/scanners/azure"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/azure/expressions"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	azure2 "github.com/deepfactor-io/trivy/pkg/iac/scanners/azure"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure/expressions"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 type Resolver interface {

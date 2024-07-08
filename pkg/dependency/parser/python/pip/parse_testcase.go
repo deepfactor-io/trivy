@@ -1,6 +1,6 @@
 package pip
 
-import ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+import ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 
 var (
 	requirementsFlask = []ftypes.Package{

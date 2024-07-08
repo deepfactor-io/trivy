@@ -3,7 +3,7 @@ package ecs
 import (
 	"encoding/json"
 
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 type ECS struct {

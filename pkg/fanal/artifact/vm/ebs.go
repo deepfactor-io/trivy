@@ -8,10 +8,10 @@ import (
 	ebsfile "github.com/masahiro331/go-ebs-file"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/cache"
-	"github.com/aquasecurity/trivy/pkg/cloud/aws/config"
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
-	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/cache"
+	"github.com/deepfactor-io/trivy/pkg/cloud/aws/config"
+	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/pkg/log"
 )
 
 // default block size 512 KB

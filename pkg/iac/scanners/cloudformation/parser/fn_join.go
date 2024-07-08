@@ -3,7 +3,7 @@ package parser
 import (
 	"strings"
 
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/cftypes"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/cftypes"
 )
 
 func ResolveJoin(property *Property) (resolved *Property, success bool) {

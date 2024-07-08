@@ -6,11 +6,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/internal/testutil"
-	"github.com/aquasecurity/trivy/pkg/iac/adapters/terraform/tftestutil"
-	"github.com/aquasecurity/trivy/pkg/iac/providers/google/iam"
-	"github.com/aquasecurity/trivy/pkg/iac/providers/google/storage"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/internal/testutil"
+	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/tftestutil"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/iam"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/storage"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func Test_Adapt(t *testing.T) {

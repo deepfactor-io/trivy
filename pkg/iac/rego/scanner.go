@@ -15,13 +15,13 @@ import (
 	"github.com/open-policy-agent/opa/storage"
 	"github.com/open-policy-agent/opa/util"
 
-	"github.com/aquasecurity/trivy/pkg/iac/debug"
-	"github.com/aquasecurity/trivy/pkg/iac/framework"
-	"github.com/aquasecurity/trivy/pkg/iac/providers"
-	"github.com/aquasecurity/trivy/pkg/iac/rego/schemas"
-	"github.com/aquasecurity/trivy/pkg/iac/scan"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/options"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers"
+	"github.com/deepfactor-io/trivy/pkg/iac/rego/schemas"
+	"github.com/deepfactor-io/trivy/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 var checkTypesWithSubtype = map[types.Source]struct{}{

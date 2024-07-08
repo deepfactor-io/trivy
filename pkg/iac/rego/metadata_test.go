@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/iac/framework"
-	"github.com/aquasecurity/trivy/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/pkg/iac/scan"
 )
 
 func Test_UpdateStaticMetadata(t *testing.T) {

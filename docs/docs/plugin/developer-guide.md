@@ -54,7 +54,7 @@ This makes it easier to search/group plugins that are about a specific vendor.
 ### Choosing a language
 Since Trivy plugins are standalone executables, you can write them in any programming language.
 
-If you are planning to write a plugin with Go, check out [the Report struct](https://github.com/aquasecurity/trivy/blob/787b466e069e2d04e73b3eddbda621e5eec8543b/pkg/types/report.go#L13-L24),
+If you are planning to write a plugin with Go, check out [the Report struct](https://github.com/deepfactor-io/trivy/blob/787b466e069e2d04e73b3eddbda621e5eec8543b/pkg/types/report.go#L13-L24),
 which is the output of Trivy scan.
 
 

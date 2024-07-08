@@ -5,9 +5,9 @@ import (
 
 	"github.com/samber/lo"
 
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/types"
-	xstrings "github.com/aquasecurity/trivy/pkg/x/strings"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/types"
+	xstrings "github.com/deepfactor-io/trivy/pkg/x/strings"
 )
 
 var (
@@ -48,7 +48,7 @@ var (
 				case "misconf", "misconfiguration":
 					return string(types.MisconfigScanner)
 				case "config":
-					log.Warn("'--scanners config' is deprecated. Use '--scanners misconfig' instead. See https://github.com/aquasecurity/trivy/discussions/5586 for the detail.")
+					log.Warn("'--scanners config' is deprecated. Use '--scanners misconfig' instead. See https://github.com/deepfactor-io/trivy/discussions/5586 for the detail.")
 					return string(types.MisconfigScanner)
 				}
 				return s

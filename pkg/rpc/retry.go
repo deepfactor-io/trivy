@@ -6,7 +6,7 @@ import (
 	"github.com/cenkalti/backoff/v4"
 	"github.com/twitchtv/twirp"
 
-	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/log"
 )
 
 const (

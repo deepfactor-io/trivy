@@ -9,13 +9,13 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/java/jar"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/language"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/javadb"
-	"github.com/aquasecurity/trivy/pkg/parallel"
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/java/jar"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/javadb"
+	"github.com/deepfactor-io/trivy/pkg/parallel"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 func init() {

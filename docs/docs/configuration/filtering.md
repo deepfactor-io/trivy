@@ -427,7 +427,7 @@ For advanced filtering, Trivy allows you to use Rego language to filter vulnerab
 
 Use the `--ignore-policy` flag which takes a path to a Rego file that defines the filtering policy.
 The Rego package name must be `trivy` and it must include a "rule" named `ignore` which determines if each individual scan result should be excluded (ignore=true) or not (ignore=false).
-The `input` for the evaluation is each [DetectedVulnerability](https://github.com/aquasecurity/trivy/blob/00f2059e5d7bc2ca2e3e8b1562bdfede1ed570e3/pkg/types/vulnerability.go#L9) and [DetectedMisconfiguration](https://github.com/aquasecurity/trivy/blob/00f2059e5d7bc2ca2e3e8b1562bdfede1ed570e3/pkg/types/misconfiguration.go#L6).
+The `input` for the evaluation is each [DetectedVulnerability](https://github.com/deepfactor-io/trivy/blob/00f2059e5d7bc2ca2e3e8b1562bdfede1ed570e3/pkg/types/vulnerability.go#L9) and [DetectedMisconfiguration](https://github.com/deepfactor-io/trivy/blob/00f2059e5d7bc2ca2e3e8b1562bdfede1ed570e3/pkg/types/misconfiguration.go#L6).
 
 A practical way to observe the filtering policy input in your case, is to run a scan with the `--format json` option and look at the resulting structure:
 
@@ -481,9 +481,9 @@ trivy image --ignore-policy contrib/example_policy/basic.rego centos:7
 ```
 
 For more advanced use cases, there is a built-in Rego library with helper functions that you can import into your policy using: `import data.lib.trivy`.
-More info about the helper functions are in the library [here](https://github.com/aquasecurity/trivy/tree/{{ git.tag }}/pkg/result/module.go).
+More info about the helper functions are in the library [here](https://github.com/deepfactor-io/trivy/tree/{{ git.tag }}/pkg/result/module.go).
 
-You can find more example checks [here](https://github.com/aquasecurity/trivy/tree/{{ git.tag }}/pkg/result/module.go)
+You can find more example checks [here](https://github.com/deepfactor-io/trivy/tree/{{ git.tag }}/pkg/result/module.go)
 
 ### By Vulnerability Exploitability Exchange (VEX)
 |     Scanner      | Supported |

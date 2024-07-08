@@ -14,11 +14,11 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/digest"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/fanal/utils"
-	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/digest"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/fanal/utils"
+	"github.com/deepfactor-io/trivy/pkg/log"
 )
 
 func init() {
@@ -243,7 +243,7 @@ func splitFileName(filename string) (name, ver, rel string, err error) {
 func packageProvidedByVendor(pkg *rpmdb.PackageInfo) bool {
 	if pkg.Vendor == "" {
 		// Official Amazon packages may not contain `Vendor` field:
-		// https://github.com/aquasecurity/trivy/issues/5887
+		// https://github.com/deepfactor-io/trivy/issues/5887
 		return strings.Contains(pkg.Release, "amzn")
 	}
 

@@ -7,7 +7,7 @@
 package scanner
 
 import (
-	common "github.com/aquasecurity/trivy/rpc/common"
+	common "github.com/deepfactor-io/trivy/rpc/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -267,7 +267,7 @@ func (x *ScanResponse) GetResults() []*Result {
 	return nil
 }
 
-// Result is the same as github.com/aquasecurity/trivy/pkg/report.Result
+// Result is the same as github.com/deepfactor-io/trivy/pkg/report.Result
 type Result struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

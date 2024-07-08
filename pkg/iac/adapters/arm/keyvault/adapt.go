@@ -1,8 +1,8 @@
 package keyvault
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/azure/keyvault"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/azure"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/azure/keyvault"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure"
 )
 
 func Adapt(deployment azure.Deployment) keyvault.KeyVault {

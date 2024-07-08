@@ -3,9 +3,9 @@ package neptune
 import (
 	"testing"
 
-	"github.com/aquasecurity/trivy/pkg/iac/adapters/cloudformation/testutil"
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/neptune"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/adapters/cloudformation/testutil"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/neptune"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func TestAdapt(t *testing.T) {

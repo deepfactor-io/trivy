@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/aquasecurity/trivy/internal/testutil"
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/internal/testutil"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 func TestVM(t *testing.T) {

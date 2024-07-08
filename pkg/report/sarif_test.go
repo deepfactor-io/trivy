@@ -13,10 +13,10 @@ import (
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/report"
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/report"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 func TestReportWriter_Sarif(t *testing.T) {
@@ -377,7 +377,7 @@ func TestReportWriter_Sarif(t *testing.T) {
 										DefaultConfiguration: &sarif.ReportingConfiguration{
 											Level: "error",
 										},
-										HelpURI: lo.ToPtr("https://github.com/aquasecurity/trivy/blob/main/pkg/fanal/secret/builtin-rules.go"),
+										HelpURI: lo.ToPtr("https://github.com/deepfactor-io/trivy/blob/main/pkg/fanal/secret/builtin-rules.go"),
 										Properties: map[string]any{
 											"tags": []any{
 												"secret",

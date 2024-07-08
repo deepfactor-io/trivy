@@ -20,15 +20,15 @@ import (
 	testcontainers "github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
-	"github.com/aquasecurity/trivy/pkg/cache"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	_ "github.com/aquasecurity/trivy/pkg/fanal/analyzer/all"
-	"github.com/aquasecurity/trivy/pkg/fanal/applier"
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
-	aimage "github.com/aquasecurity/trivy/pkg/fanal/artifact/image"
-	"github.com/aquasecurity/trivy/pkg/fanal/image"
-	testdocker "github.com/aquasecurity/trivy/pkg/fanal/test/integration/docker"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/cache"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/all"
+	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
+	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
+	aimage "github.com/deepfactor-io/trivy/pkg/fanal/artifact/image"
+	"github.com/deepfactor-io/trivy/pkg/fanal/image"
+	testdocker "github.com/deepfactor-io/trivy/pkg/fanal/test/integration/docker"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 const (

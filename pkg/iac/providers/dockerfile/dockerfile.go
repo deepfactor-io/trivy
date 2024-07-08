@@ -3,7 +3,7 @@ package dockerfile
 import (
 	"reflect"
 
-	"github.com/aquasecurity/trivy/pkg/iac/rego/convert"
+	"github.com/deepfactor-io/trivy/pkg/iac/rego/convert"
 )
 
 // NOTE: we are currently preserving mixed case json here for backward compatibility

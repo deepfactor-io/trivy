@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	types2 "github.com/aquasecurity/trivy/pkg/iac/scanners/azure"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/azure/arm/parser/armjson"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	types2 "github.com/deepfactor-io/trivy/pkg/iac/scanners/azure"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure/arm/parser/armjson"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func Test_JSONUnmarshal(t *testing.T) {

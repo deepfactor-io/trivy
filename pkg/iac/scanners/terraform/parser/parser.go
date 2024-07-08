@@ -15,11 +15,11 @@ import (
 	"github.com/hashicorp/hcl/v2/hclparse"
 	"github.com/zclconf/go-cty/cty"
 
-	"github.com/aquasecurity/trivy/pkg/iac/debug"
-	"github.com/aquasecurity/trivy/pkg/iac/ignore"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/options"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
-	tfcontext "github.com/aquasecurity/trivy/pkg/iac/terraform/context"
+	"github.com/deepfactor-io/trivy/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/pkg/iac/ignore"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	tfcontext "github.com/deepfactor-io/trivy/pkg/iac/terraform/context"
 )
 
 type sourceFile struct {

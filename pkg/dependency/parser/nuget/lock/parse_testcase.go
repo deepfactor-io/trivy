@@ -1,6 +1,6 @@
 package lock
 
-import ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+import ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 
 var (
 	// docker run --rm -i -t mcr.microsoft.com/dotnet/sdk:latest

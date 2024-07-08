@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/nodejs/packagejson"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nodejs/packagejson"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 func TestParse(t *testing.T) {

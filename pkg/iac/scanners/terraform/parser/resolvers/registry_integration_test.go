@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/terraform/parser/resolvers"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform/parser/resolvers"
 )
 
 func TestResolveModuleFromOpenTofuRegistry(t *testing.T) {

@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/helm/parser"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/helm/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
 )
 
 func Test_helm_parser_with_options_with_values_file(t *testing.T) {

@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/golang/binary"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/golang/binary"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 func TestParse(t *testing.T) {
@@ -168,7 +168,7 @@ func TestParser_ParseLDFlags(t *testing.T) {
 					"-s",
 					"-w",
 					"-X=foo=bar",
-					"-X='github.com/aquasecurity/trivy/pkg/version/app.ver=v0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/version/app.ver=v0.50.1'",
 				},
 			},
 			want: "v0.50.1",
@@ -181,7 +181,7 @@ func TestParser_ParseLDFlags(t *testing.T) {
 					"-s",
 					"-w",
 					"-X=foo=bar",
-					"-X='github.com/aquasecurity/trivy/pkg/version.Version=v0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/version.Version=v0.50.1'",
 				},
 			},
 			want: "v0.50.1",
@@ -194,7 +194,7 @@ func TestParser_ParseLDFlags(t *testing.T) {
 					"-s",
 					"-w",
 					"-X=foo=bar",
-					"-X='github.com/aquasecurity/trivy/pkg/version/app.ver=v0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/version/app.ver=v0.50.1'",
 				},
 			},
 			want: "v0.50.1",
@@ -207,7 +207,7 @@ func TestParser_ParseLDFlags(t *testing.T) {
 					"-s",
 					"-w",
 					"-X=foo=bar",
-					"-X='github.com/aquasecurity/trivy/pkg/version.Ver=v0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/version.Ver=v0.50.1'",
 				},
 			},
 			want: "v0.50.1",
@@ -220,7 +220,7 @@ func TestParser_ParseLDFlags(t *testing.T) {
 					"-s",
 					"-w",
 					"-X=foo=bar",
-					"-X=\"github.com/aquasecurity/trivy/pkg/version.Ver=0.50.1\"",
+					"-X=\"github.com/deepfactor-io/trivy/pkg/version.Ver=0.50.1\"",
 				},
 			},
 			want: "0.50.1",
@@ -233,7 +233,7 @@ func TestParser_ParseLDFlags(t *testing.T) {
 					"-s",
 					"-w",
 					"-X=foo=bar",
-					"-X='github.com/aquasecurity/trivy/pkg/version.Ver=0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/version.Ver=0.50.1'",
 				},
 			},
 			want: "0.50.1",
@@ -243,8 +243,8 @@ func TestParser_ParseLDFlags(t *testing.T) {
 			args: args{
 				name: "github.com/aquasecurity/trivy",
 				flags: []string{
-					"-X='github.com/aquasecurity/trivy/cmd/Any.Ver=0.50.0'",
-					"-X='github.com/aquasecurity/trivy/pkg/version.Ver=0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/cmd/Any.Ver=0.50.0'",
+					"-X='github.com/deepfactor-io/trivy/pkg/version.Ver=0.50.1'",
 				},
 			},
 			want: "0.50.0",
@@ -254,7 +254,7 @@ func TestParser_ParseLDFlags(t *testing.T) {
 			args: args{
 				name: "github.com/aquasecurity/trivy",
 				flags: []string{
-					"-X='github.com/aquasecurity/trivy/cmd/Any.Ver=0.50.0'",
+					"-X='github.com/deepfactor-io/trivy/cmd/Any.Ver=0.50.0'",
 				},
 			},
 			want: "0.50.0",
@@ -264,8 +264,8 @@ func TestParser_ParseLDFlags(t *testing.T) {
 			args: args{
 				name: "github.com/aquasecurity/trivy",
 				flags: []string{
-					"-X='github.com/aquasecurity/trivy/cmd/Any.Ver=0.50.0'",
-					"-X='github.com/aquasecurity/trivy/pkg/Any.Ver=0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/cmd/Any.Ver=0.50.0'",
+					"-X='github.com/deepfactor-io/trivy/pkg/Any.Ver=0.50.1'",
 				},
 			},
 			want: "0.50.0",
@@ -275,7 +275,7 @@ func TestParser_ParseLDFlags(t *testing.T) {
 			args: args{
 				name: "github.com/aquasecurity/trivy",
 				flags: []string{
-					"-X='github.com/aquasecurity/trivy/pkg/Common.Ver=0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/Common.Ver=0.50.1'",
 				},
 			},
 			want: "0.50.1",
@@ -285,8 +285,8 @@ func TestParser_ParseLDFlags(t *testing.T) {
 			args: args{
 				name: "github.com/aquasecurity/trivy",
 				flags: []string{
-					"-X='github.com/aquasecurity/trivy/pkg/Any.Ver=0.50.0'",
-					"-X='github.com/aquasecurity/trivy/pkg/Common.Ver=0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/Any.Ver=0.50.0'",
+					"-X='github.com/deepfactor-io/trivy/pkg/Common.Ver=0.50.1'",
 				},
 			},
 			want: "0.50.1",
@@ -296,7 +296,7 @@ func TestParser_ParseLDFlags(t *testing.T) {
 			args: args{
 				name: "github.com/aquasecurity/trivy",
 				flags: []string{
-					"-X='github.com/aquasecurity/trivy/pkg/Any.Ver=0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/Any.Ver=0.50.1'",
 				},
 			},
 			want: "0.50.1",
@@ -306,8 +306,8 @@ func TestParser_ParseLDFlags(t *testing.T) {
 			args: args{
 				name: "github.com/aquasecurity/trivy",
 				flags: []string{
-					"-X='github.com/aquasecurity/trivy/pkg/Common.Ver=0.50.0'",
-					"-X='github.com/aquasecurity/trivy/pkg/Main.Ver=0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/Common.Ver=0.50.0'",
+					"-X='github.com/deepfactor-io/trivy/pkg/Main.Ver=0.50.1'",
 				},
 			},
 			want: "",
@@ -317,8 +317,8 @@ func TestParser_ParseLDFlags(t *testing.T) {
 			args: args{
 				name: "github.com/aquasecurity/trivy",
 				flags: []string{
-					"-X='github.com/aquasecurity/trivy/pkg/Any.Ver=0.50.1'",
-					"-X='github.com/aquasecurity/trivy/pkg/Any-pref.Ver=0.50.0'",
+					"-X='github.com/deepfactor-io/trivy/pkg/Any.Ver=0.50.1'",
+					"-X='github.com/deepfactor-io/trivy/pkg/Any-pref.Ver=0.50.0'",
 				},
 			},
 			want: "",

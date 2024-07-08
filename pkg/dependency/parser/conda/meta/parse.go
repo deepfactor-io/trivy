@@ -5,9 +5,9 @@ import (
 
 	"golang.org/x/xerrors"
 
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/licensing"
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/licensing"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 type packageJSON struct {

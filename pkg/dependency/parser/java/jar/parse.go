@@ -17,9 +17,9 @@ import (
 	mavenversion "github.com/masahiro331/go-mvn-version"
 	"golang.org/x/xerrors"
 
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 var (

@@ -5,10 +5,10 @@ import (
 	"gopkg.in/yaml.v3"
 
 	goversion "github.com/aquasecurity/go-version/pkg/version"
-	"github.com/aquasecurity/trivy/pkg/dependency"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/pkg/dependency"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 const (
@@ -78,7 +78,7 @@ func (p Parser) findSDKVersion(l *lock, name string, dep Dep) string {
 	// In this case dep.Version == `0.0.0`.
 	// We can't get versions for these dependencies.
 	// Therefore, we use the first version of the SDK constraint specified in the Description.
-	// See https://github.com/aquasecurity/trivy/issues/6017
+	// See https://github.com/deepfactor-io/trivy/issues/6017
 	constraint, ok := l.Sdks[string(dep.Description)]
 	if !ok {
 		return dep.Version

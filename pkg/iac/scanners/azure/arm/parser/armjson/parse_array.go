@@ -3,7 +3,7 @@ package armjson
 import (
 	"fmt"
 
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func (p *parser) parseArray(parentMetadata *types.Metadata) (Node, error) {

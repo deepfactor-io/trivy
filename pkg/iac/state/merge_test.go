@@ -5,10 +5,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws"
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/ec2"
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/rds"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ec2"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/rds"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func Test_Merging(t *testing.T) {

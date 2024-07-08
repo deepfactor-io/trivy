@@ -7,10 +7,10 @@ import (
 
 	"golang.org/x/xerrors"
 
-	props "github.com/aquasecurity/trivy/pkg/dependency/parser/nuget/packagesprops"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/language"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	props "github.com/deepfactor-io/trivy/pkg/dependency/parser/nuget/packagesprops"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 func init() {

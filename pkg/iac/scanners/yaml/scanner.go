@@ -6,13 +6,13 @@ import (
 	"io/fs"
 	"sync"
 
-	"github.com/aquasecurity/trivy/pkg/iac/debug"
-	"github.com/aquasecurity/trivy/pkg/iac/framework"
-	"github.com/aquasecurity/trivy/pkg/iac/rego"
-	"github.com/aquasecurity/trivy/pkg/iac/scan"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/options"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/yaml/parser"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/pkg/iac/rego"
+	"github.com/deepfactor-io/trivy/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/yaml/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 var _ options.ConfigurableScanner = (*Scanner)(nil)

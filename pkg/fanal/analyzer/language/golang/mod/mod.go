@@ -16,15 +16,15 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/golang/mod"
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/golang/sum"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/language"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/licensing"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/utils/fsutils"
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/golang/mod"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/golang/sum"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/licensing"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 func init() {
@@ -147,7 +147,7 @@ func (a *gomodAnalyzer) fillAdditionalData(apps []types.Application) error {
 				continue
 			}
 
-			// e.g. $GOPATH/pkg/mod/github.com/aquasecurity/go-dep-parser@v1.0.0
+			// e.g. $GOPATH/pkg/mod/github.com/deepfactor-io/go-dep-parser@v1.0.0
 			modDir := filepath.Join(modPath, fmt.Sprintf("%s@v%s", normalizeModName(lib.Name), lib.Version))
 
 			// Collect licenses
@@ -183,7 +183,7 @@ func (a *gomodAnalyzer) fillAdditionalData(apps []types.Application) error {
 }
 
 func (a *gomodAnalyzer) collectDeps(modDir, pkgID string) (types.Dependency, error) {
-	// e.g. $GOPATH/pkg/mod/github.com/aquasecurity/go-dep-parser@v0.0.0-20220406074731-71021a481237/go.mod
+	// e.g. $GOPATH/pkg/mod/github.com/deepfactor-io/go-dep-parser@v0.0.0-20220406074731-71021a481237/go.mod
 	modPath := filepath.Join(modDir, "go.mod")
 	f, err := os.Open(modPath)
 	if errors.Is(err, fs.ErrNotExist) {
@@ -275,7 +275,7 @@ func findLicense(dir string, classifierConfidenceLevel float64) ([]string, error
 		if !licenseRegexp.MatchString(filepath.Base(path)) {
 			return nil
 		}
-		// e.g. $GOPATH/pkg/mod/github.com/aquasecurity/go-dep-parser@v0.0.0-20220406074731-71021a481237/LICENSE
+		// e.g. $GOPATH/pkg/mod/github.com/deepfactor-io/go-dep-parser@v0.0.0-20220406074731-71021a481237/LICENSE
 		f, err := os.Open(path)
 		if err != nil {
 			return xerrors.Errorf("file (%s) open error: %w", path, err)

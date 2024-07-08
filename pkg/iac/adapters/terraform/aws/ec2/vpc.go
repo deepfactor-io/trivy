@@ -1,9 +1,9 @@
 package ec2
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/ec2"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ec2"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 type naclAdapter struct {

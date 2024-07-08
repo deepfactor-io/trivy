@@ -14,21 +14,21 @@ import (
 	"golang.org/x/xerrors"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	ospkgDetector "github.com/aquasecurity/trivy/pkg/detector/ospkg"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/applier"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/iac/rego"
-	"github.com/aquasecurity/trivy/pkg/licensing"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/scanner/langpkg"
-	"github.com/aquasecurity/trivy/pkg/scanner/ospkg"
-	"github.com/aquasecurity/trivy/pkg/scanner/post"
-	"github.com/aquasecurity/trivy/pkg/types"
-	"github.com/aquasecurity/trivy/pkg/vulnerability"
+	ospkgDetector "github.com/deepfactor-io/trivy/pkg/detector/ospkg"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/rego"
+	"github.com/deepfactor-io/trivy/pkg/licensing"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/scanner/langpkg"
+	"github.com/deepfactor-io/trivy/pkg/scanner/ospkg"
+	"github.com/deepfactor-io/trivy/pkg/scanner/post"
+	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/vulnerability"
 
-	_ "github.com/aquasecurity/trivy/pkg/fanal/analyzer/all"
-	_ "github.com/aquasecurity/trivy/pkg/fanal/handler/all"
+	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/all"
+	_ "github.com/deepfactor-io/trivy/pkg/fanal/handler/all"
 )
 
 // SuperSet binds dependencies for Local scan
@@ -289,8 +289,8 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 					Category: category,
 					PkgName:  lib.Name,
 					Name:     license,
-					// Lock files use app.FilePath - https://github.com/aquasecurity/trivy/blob/6ccc0a554b07b05fd049f882a1825a0e1e0aabe1/pkg/fanal/types/artifact.go#L245-L246
-					// Applications use lib.FilePath - https://github.com/aquasecurity/trivy/blob/6ccc0a554b07b05fd049f882a1825a0e1e0aabe1/pkg/fanal/types/artifact.go#L93-L94
+					// Lock files use app.FilePath - https://github.com/deepfactor-io/trivy/blob/6ccc0a554b07b05fd049f882a1825a0e1e0aabe1/pkg/fanal/types/artifact.go#L245-L246
+					// Applications use lib.FilePath - https://github.com/deepfactor-io/trivy/blob/6ccc0a554b07b05fd049f882a1825a0e1e0aabe1/pkg/fanal/types/artifact.go#L93-L94
 					FilePath:   lo.Ternary(lib.FilePath != "", lib.FilePath, app.FilePath),
 					Confidence: 1.0,
 				})

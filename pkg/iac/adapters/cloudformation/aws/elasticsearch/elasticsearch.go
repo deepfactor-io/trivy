@@ -1,8 +1,8 @@
 package elasticsearch
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/elasticsearch"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/elasticsearch"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
 )
 
 // Adapt adapts an ElasticSearch instance

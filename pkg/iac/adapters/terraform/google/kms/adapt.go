@@ -3,9 +3,9 @@ package kms
 import (
 	"strconv"
 
-	"github.com/aquasecurity/trivy/pkg/iac/providers/google/kms"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/kms"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func Adapt(modules terraform.Modules) kms.KMS {

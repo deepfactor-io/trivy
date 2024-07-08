@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ecr"
 	awstypes "github.com/aws/aws-sdk-go-v2/service/ecr/types"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 func TestCheckOptions(t *testing.T) {

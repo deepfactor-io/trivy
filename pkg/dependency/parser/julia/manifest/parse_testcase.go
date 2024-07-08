@@ -1,6 +1,6 @@
 package julia
 
-import ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+import ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 
 var (
 	juliaV1_6Pkgs = []ftypes.Package{

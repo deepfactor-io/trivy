@@ -14,7 +14,7 @@ import (
 	"github.com/spdx/tools-golang/tagvalue"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/pkg/sbom/core"
 )
 
 type SPDX struct {

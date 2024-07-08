@@ -10,14 +10,14 @@ import (
 	"github.com/bmatcuk/doublestar/v4"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/conda/environment"
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/conda/meta"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/language"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/version/doc"
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/conda/environment"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/conda/meta"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/version/doc"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 func init() {
@@ -99,7 +99,7 @@ func findLicenseFromEnvDir(pkg types.Package, prefix string) ([]string, error) {
 				return nil, xerrors.Errorf("unable to parse packageJSON file: %w", err)
 			}
 			// packageJson always contain only 1 element
-			// cf. https://github.com/aquasecurity/trivy/blob/c3192f061d7e84eaf38df8df7c879dc00b4ca137/pkg/dependency/parser/conda/meta/parse.go#L39-L45
+			// cf. https://github.com/deepfactor-io/trivy/blob/c3192f061d7e84eaf38df8df7c879dc00b4ca137/pkg/dependency/parser/conda/meta/parse.go#L39-L45
 			return packageJson[0].Licenses, nil
 		}
 	}

@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/ignore"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/ignore"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 type SourceFormat string

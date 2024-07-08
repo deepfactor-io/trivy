@@ -25,7 +25,7 @@ See [here](./index.md) for the detail.
 ## JAR/WAR/PAR/EAR
 To find information about your JAR[^2] file, Trivy parses `pom.properties` and `MANIFEST.MF` files in your JAR[^2] file and takes required properties[^3].
 
-If those files don't exist or don't contain enough information - Trivy will try to find this JAR[^2] file in [trivy-java-db](https://github.com/aquasecurity/trivy-java-db).
+If those files don't exist or don't contain enough information - Trivy will try to find this JAR[^2] file in [trivy-java-db](https://github.com/deepfactor-io/javadb).
 The Java DB will be automatically downloaded/updated when any JAR[^2] file is found.
 It is stored in [the cache directory](../../configuration/cache.md#cache-directory).
 

@@ -9,11 +9,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/aquasecurity/trivy/pkg/iac/rego"
-	"github.com/aquasecurity/trivy/pkg/iac/scan"
-	"github.com/aquasecurity/trivy/pkg/iac/state"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
-	types "github.com/aquasecurity/trivy/pkg/iac/types/rules"
+	"github.com/deepfactor-io/trivy/pkg/iac/rego"
+	"github.com/deepfactor-io/trivy/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/pkg/iac/state"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	types "github.com/deepfactor-io/trivy/pkg/iac/types/rules"
 )
 
 type Pool struct {

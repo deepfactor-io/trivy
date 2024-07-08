@@ -9,8 +9,8 @@ import (
 	"github.com/open-policy-agent/opa/ast"
 	"github.com/open-policy-agent/opa/util"
 
-	"github.com/aquasecurity/trivy/pkg/iac/rego/schemas"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/rego/schemas"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func BuildSchemaSetFromPolicies(policies map[string]*ast.Module, paths []string, fsys fs.FS) (*ast.SchemaSet, bool, error) {

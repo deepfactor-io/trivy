@@ -14,7 +14,7 @@
     "scanner": {
       "id": "trivy",
       "name": "Trivy",
-      "url": "https://github.com/aquasecurity/trivy/",
+      "url": "https://github.com/deepfactor-io/trivy/",
       "vendor": {
         "name": "Aqua Security"
       },
@@ -64,7 +64,7 @@
           },
           "version": "{{ .InstalledVersion }}"
         },
-        {{- /* TODO: No mapping available - https://github.com/aquasecurity/trivy/issues/332 */}}
+        {{- /* TODO: No mapping available - https://github.com/deepfactor-io/trivy/issues/332 */}}
         "operating_system": "Unknown",
         "image": "{{ $image }}"
       },

@@ -1,7 +1,7 @@
 package pnpm
 
 import (
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 var (

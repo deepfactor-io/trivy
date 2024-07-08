@@ -1,8 +1,8 @@
 package compute
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/google/compute"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/compute"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
 )
 
 func Adapt(modules terraform.Modules) compute.Compute {

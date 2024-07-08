@@ -8,7 +8,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 // cachedFile represents a file cached in memory or storage according to the file size.

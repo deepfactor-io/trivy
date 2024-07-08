@@ -1,10 +1,10 @@
 package apigateway
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/apigateway"
-	v1 "github.com/aquasecurity/trivy/pkg/iac/providers/aws/apigateway/v1"
-	v2 "github.com/aquasecurity/trivy/pkg/iac/providers/aws/apigateway/v2"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/apigateway"
+	v1 "github.com/deepfactor-io/trivy/pkg/iac/providers/aws/apigateway/v1"
+	v2 "github.com/deepfactor-io/trivy/pkg/iac/providers/aws/apigateway/v2"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
 )
 
 // Adapt adapts an APIGateway instance

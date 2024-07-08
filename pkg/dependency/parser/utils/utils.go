@@ -7,7 +7,7 @@ import (
 
 	"github.com/samber/lo"
 
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
 func UniqueStrings(ss []string) []string {
@@ -34,7 +34,7 @@ func UniquePackages(pkgs []ftypes.Package) []ftypes.Package {
 			unique[identifier] = pkg
 		} else {
 			// There are times when we get 2 same packages as root and dev dependencies.
-			// https://github.com/aquasecurity/trivy/issues/5532
+			// https://github.com/deepfactor-io/trivy/issues/5532
 			// In these cases, we need to mark the dependency as a root dependency.
 			if !pkg.Dev {
 				l.Dev = pkg.Dev

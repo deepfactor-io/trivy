@@ -17,16 +17,16 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/nodejs/packagejson"
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/nodejs/yarn"
-	"github.com/aquasecurity/trivy/pkg/detector/library/compare/npm"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/language"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/language/nodejs/license"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/utils/fsutils"
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nodejs/packagejson"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nodejs/yarn"
+	"github.com/deepfactor-io/trivy/pkg/detector/library/compare/npm"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language/nodejs/license"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 func init() {

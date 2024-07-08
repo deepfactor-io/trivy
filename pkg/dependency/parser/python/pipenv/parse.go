@@ -7,8 +7,8 @@ import (
 	"github.com/liamg/jfather"
 	"golang.org/x/xerrors"
 
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 type lockFile struct {

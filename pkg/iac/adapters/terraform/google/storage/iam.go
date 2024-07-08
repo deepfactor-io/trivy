@@ -1,8 +1,8 @@
 package storage
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/adapters/terraform/google/iam"
-	iamTypes "github.com/aquasecurity/trivy/pkg/iac/providers/google/iam"
+	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/google/iam"
+	iamTypes "github.com/deepfactor-io/trivy/pkg/iac/providers/google/iam"
 )
 
 type parentedBinding struct {

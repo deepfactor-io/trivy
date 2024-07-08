@@ -8,11 +8,11 @@ import (
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 
-	"github.com/aquasecurity/trivy/pkg/iac/framework"
-	"github.com/aquasecurity/trivy/pkg/iac/providers"
-	"github.com/aquasecurity/trivy/pkg/iac/severity"
-	"github.com/aquasecurity/trivy/pkg/iac/state"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers"
+	"github.com/deepfactor-io/trivy/pkg/iac/severity"
+	"github.com/deepfactor-io/trivy/pkg/iac/state"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
 )
 
 type CheckFunc func(s *state.State) (results Results)

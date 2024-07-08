@@ -3,10 +3,10 @@ package network
 import (
 	"testing"
 
-	"github.com/aquasecurity/trivy/internal/testutil"
-	"github.com/aquasecurity/trivy/pkg/iac/adapters/terraform/tftestutil"
-	"github.com/aquasecurity/trivy/pkg/iac/providers/nifcloud/network"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/internal/testutil"
+	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/tftestutil"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/nifcloud/network"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func Test_adaptLoadBalancers(t *testing.T) {

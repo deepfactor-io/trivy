@@ -13,12 +13,12 @@ import (
 	"github.com/google/go-containerregistry/pkg/name"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy-java-db/pkg/db"
-	"github.com/aquasecurity/trivy-java-db/pkg/types"
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/java/jar"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/oci"
+	"github.com/deepfactor-io/javadb/pkg/db"
+	"github.com/deepfactor-io/javadb/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/java/jar"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/oci"
 )
 
 const (

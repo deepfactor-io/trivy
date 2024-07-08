@@ -8,16 +8,16 @@ import (
 	"sort"
 	"sync"
 
-	adapter "github.com/aquasecurity/trivy/pkg/iac/adapters/cloudformation"
-	"github.com/aquasecurity/trivy/pkg/iac/debug"
-	"github.com/aquasecurity/trivy/pkg/iac/framework"
-	"github.com/aquasecurity/trivy/pkg/iac/rego"
-	"github.com/aquasecurity/trivy/pkg/iac/rules"
-	"github.com/aquasecurity/trivy/pkg/iac/scan"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/options"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	adapter "github.com/deepfactor-io/trivy/pkg/iac/adapters/cloudformation"
+	"github.com/deepfactor-io/trivy/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/pkg/iac/rego"
+	"github.com/deepfactor-io/trivy/pkg/iac/rules"
+	"github.com/deepfactor-io/trivy/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func WithParameters(params map[string]any) options.ScannerOption {

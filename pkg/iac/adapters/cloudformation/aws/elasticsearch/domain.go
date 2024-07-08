@@ -1,9 +1,9 @@
 package elasticsearch
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/elasticsearch"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/elasticsearch"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func getDomains(ctx parser.FileContext) (domains []elasticsearch.Domain) {

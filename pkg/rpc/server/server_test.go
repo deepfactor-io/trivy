@@ -15,13 +15,13 @@ import (
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/utils"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
-	"github.com/aquasecurity/trivy/pkg/cache"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/scanner"
-	"github.com/aquasecurity/trivy/pkg/types"
-	rpcCache "github.com/aquasecurity/trivy/rpc/cache"
-	"github.com/aquasecurity/trivy/rpc/common"
-	rpcScanner "github.com/aquasecurity/trivy/rpc/scanner"
+	"github.com/deepfactor-io/trivy/pkg/cache"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/scanner"
+	"github.com/deepfactor-io/trivy/pkg/types"
+	rpcCache "github.com/deepfactor-io/trivy/rpc/cache"
+	"github.com/deepfactor-io/trivy/rpc/common"
+	rpcScanner "github.com/deepfactor-io/trivy/rpc/scanner"
 )
 
 type mockCache struct {

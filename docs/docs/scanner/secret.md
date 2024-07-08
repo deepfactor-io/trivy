@@ -307,9 +307,9 @@ $ trivy fs --secret-config ./secret-config/trivy.yaml /path/to/your_project
 ## Credit
 This feature is inspired by [gitleaks][gitleaks].
 
-[builtin]: https://github.com/aquasecurity/trivy/blob/{{ git.tag }}/pkg/fanal/secret/builtin-rules.go
-[builtin-allow]: https://github.com/aquasecurity/trivy/blob/{{ git.tag }}/pkg/fanal/secret/builtin-allow-rules.go
+[builtin]: https://github.com/deepfactor-io/trivy/blob/{{ git.tag }}/pkg/fanal/secret/builtin-rules.go
+[builtin-allow]: https://github.com/deepfactor-io/trivy/blob/{{ git.tag }}/pkg/fanal/secret/builtin-allow-rules.go
 [gitleaks]: https://github.com/gitleaks/gitleaks
 
-[builtin]: https://github.com/aquasecurity/trivy/blob/main/pkg/fanal/secret/builtin-rules.go
-[builtin-allow]: https://github.com/aquasecurity/trivy/blob/main/pkg/fanal/secret/builtin-allow-rules.go
+[builtin]: https://github.com/deepfactor-io/trivy/blob/main/pkg/fanal/secret/builtin-rules.go
+[builtin-allow]: https://github.com/deepfactor-io/trivy/blob/main/pkg/fanal/secret/builtin-allow-rules.go

@@ -15,16 +15,16 @@ import (
 	"time"
 
 	"github.com/go-git/go-git/v5"
-	"github.com/google/go-containerregistry/pkg/v1"
+	v1 "github.com/google/go-containerregistry/pkg/v1"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/internal/gittest"
-	"github.com/aquasecurity/trivy/pkg/clock"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/plugin"
-	"github.com/aquasecurity/trivy/pkg/utils/fsutils"
+	"github.com/deepfactor-io/trivy/internal/gittest"
+	"github.com/deepfactor-io/trivy/pkg/clock"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/plugin"
+	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
 )
 
 func setupGitRepository(t *testing.T, repo, dir string) *httptest.Server {

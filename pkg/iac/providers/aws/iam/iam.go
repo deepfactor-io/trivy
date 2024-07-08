@@ -3,7 +3,7 @@ package iam
 import (
 	"github.com/liamg/iamgo"
 
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 type IAM struct {

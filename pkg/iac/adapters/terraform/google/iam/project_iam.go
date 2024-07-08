@@ -5,9 +5,9 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/aquasecurity/trivy/pkg/iac/providers/google/iam"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/iam"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 // see https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam

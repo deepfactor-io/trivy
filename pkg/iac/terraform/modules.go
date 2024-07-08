@@ -3,7 +3,7 @@ package terraform
 import (
 	"fmt"
 
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 type Modules []*Module

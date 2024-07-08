@@ -4,10 +4,10 @@ import (
 	"github.com/csaf-poc/csaf_distribution/v3/csaf"
 	"github.com/samber/lo"
 
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/purl"
-	"github.com/aquasecurity/trivy/pkg/sbom/core"
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/purl"
+	"github.com/deepfactor-io/trivy/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 type CSAF struct {

@@ -1,7 +1,7 @@
 package rds
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 type Classic struct {

@@ -1,8 +1,8 @@
 package ssm
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/ssm"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ssm"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
 )
 
 // Adapt adapts an SSM instance

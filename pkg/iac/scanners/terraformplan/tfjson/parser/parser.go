@@ -10,7 +10,7 @@ import (
 
 	"github.com/liamg/memoryfs"
 
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
 )
 
 type Parser struct {

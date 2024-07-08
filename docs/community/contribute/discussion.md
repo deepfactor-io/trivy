@@ -1,8 +1,8 @@
 # Discussions
 Thank you for taking interest in contributing to Trivy!
 
-Trivy uses [GitHub Discussion](https://github.com/aquasecurity/trivy/discussions) for bug reports, feature requests, and questions.
-If maintainers decide to accept a new feature or confirm that it is a bug, they will close the discussion and create a [GitHub Issue](https://github.com/aquasecurity/trivy/issues) associated with that discussion.
+Trivy uses [GitHub Discussion](https://github.com/deepfactor-io/trivy/discussions) for bug reports, feature requests, and questions.
+If maintainers decide to accept a new feature or confirm that it is a bug, they will close the discussion and create a [GitHub Issue](https://github.com/deepfactor-io/trivy/issues) associated with that discussion.
 
 - Feel free to open discussions for any reason. When you open a new discussion, you'll have to select a discussion category as described below.
 - Please spend a small amount of time giving due diligence to the issue/discussion tracker. Your discussion might be a duplicate. If it is, please add your comment to the existing issue/discussion.
@@ -11,13 +11,13 @@ If maintainers decide to accept a new feature or confirm that it is a bug, they 
 
 There are 4 categories:
 
-- 💡 [Ideas](https://github.com/aquasecurity/trivy/discussions/categories/ideas)
+- 💡 [Ideas](https://github.com/deepfactor-io/trivy/discussions/categories/ideas)
     - Share ideas for new features
-- 🔎 [False Detection](https://github.com/aquasecurity/trivy/discussions/categories/false-detection)
+- 🔎 [False Detection](https://github.com/deepfactor-io/trivy/discussions/categories/false-detection)
     - Report false positives/negatives
-- 🐛 [Bugs](https://github.com/aquasecurity/trivy/discussions/categories/bugs)
+- 🐛 [Bugs](https://github.com/deepfactor-io/trivy/discussions/categories/bugs)
     - Report something that is not working as expected
-- 🙏 [Q&A](https://github.com/aquasecurity/trivy/discussions/categories/q-a)
+- 🙏 [Q&A](https://github.com/deepfactor-io/trivy/discussions/categories/q-a)
     - Ask the community for help
 
 !!! note

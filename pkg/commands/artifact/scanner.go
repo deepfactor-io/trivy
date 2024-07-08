@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/scanner"
+	"github.com/deepfactor-io/trivy/pkg/scanner"
 )
 
 // imageStandaloneScanner initializes a container image scanner in standalone mode

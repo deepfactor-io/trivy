@@ -1,9 +1,9 @@
 package elb
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/elb"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/elb"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func Adapt(modules terraform.Modules) elb.ELB {

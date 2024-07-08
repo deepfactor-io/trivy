@@ -5,10 +5,10 @@ import (
 
 	"github.com/google/wire"
 
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/scanner"
-	"github.com/aquasecurity/trivy/pkg/scanner/local"
-	"github.com/aquasecurity/trivy/pkg/types"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/scanner"
+	"github.com/deepfactor-io/trivy/pkg/scanner/local"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 // ScanSuperSet binds the dependencies for k8s

@@ -5,10 +5,10 @@ import (
 
 	"github.com/liamg/iamgo"
 
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/ecr"
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/iam"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ecr"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/iam"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func getRepositories(ctx parser.FileContext) (repositories []ecr.Repository) {

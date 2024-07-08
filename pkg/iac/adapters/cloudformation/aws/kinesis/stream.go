@@ -1,8 +1,8 @@
 package kinesis
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/kinesis"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/kinesis"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
 )
 
 func getStreams(ctx parser.FileContext) (streams []kinesis.Stream) {

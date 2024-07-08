@@ -5,13 +5,13 @@ var (
 		Name:       "artifact-type",
 		ConfigName: "sbom.artifact-type",
 		Usage:      "deprecated",
-		Removed:    `Use 'trivy image' or other subcommands. See also https://github.com/aquasecurity/trivy/discussions/2407`,
+		Removed:    `Use 'trivy image' or other subcommands. See also https://github.com/deepfactor-io/trivy/discussions/2407`,
 	}
 	SBOMFormatFlag = Flag[string]{
 		Name:       "sbom-format",
 		ConfigName: "sbom.format",
 		Usage:      "deprecated",
-		Removed:    `Use 'trivy image' or other subcommands. See also https://github.com/aquasecurity/trivy/discussions/2407`,
+		Removed:    `Use 'trivy image' or other subcommands. See also https://github.com/deepfactor-io/trivy/discussions/2407`,
 	}
 )
 

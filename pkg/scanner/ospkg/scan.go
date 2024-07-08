@@ -8,9 +8,9 @@ import (
 
 	"golang.org/x/xerrors"
 
-	ospkgDetector "github.com/aquasecurity/trivy/pkg/detector/ospkg"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/types"
+	ospkgDetector "github.com/deepfactor-io/trivy/pkg/detector/ospkg"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 type Scanner interface {

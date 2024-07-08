@@ -47,7 +47,7 @@ Trivy is available in most common distribution channels. The complete list of in
 
 - `brew install trivy`
 - `docker run aquasec/trivy`
-- Download binary from <https://github.com/aquasecurity/trivy/releases/latest/>
+- Download binary from <https://github.com/deepfactor-io/trivy/releases/latest/>
 - See [Installation] for more
 
 Trivy is integrated with many popular platforms and applications. The complete list of integrations is available in the [Ecosystem] page. Here are a few popular options examples:
@@ -131,7 +131,7 @@ Contact us about any matter by opening a GitHub Discussion [here][discussions]
 
 [aquasec]: https://aquasec.com
 [oss]: https://www.aquasec.com/products/open-source-projects/
-[discussions]: https://github.com/aquasecurity/trivy/discussions
+[discussions]: https://github.com/deepfactor-io/trivy/discussions
 
 [homepage]: https://trivy.dev
 [Tutorials]: ./tutorials/overview

@@ -1,8 +1,8 @@
 package efs
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/efs"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/efs"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
 )
 
 // Adapt adapts an EFS instance

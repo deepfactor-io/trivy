@@ -1,8 +1,8 @@
 package elb
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/elb"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/elb"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
 )
 
 // Adapt adapts an ELB instance

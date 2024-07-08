@@ -15,13 +15,13 @@ import (
 	"golang.org/x/xerrors"
 
 	goversion "github.com/aquasecurity/go-version/pkg/version"
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/python/packaging"
-	"github.com/aquasecurity/trivy/pkg/dependency/parser/python/pip"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer/language"
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/utils/fsutils"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/python/packaging"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/python/pip"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
 )
 
 func init() {
@@ -122,7 +122,7 @@ func (a pipLibraryAnalyzer) pkgLicense(pkgName, pkgVer, spDir string) []string {
 	}
 
 	// METADATA file contains info about only 1 package
-	// cf. https://github.com/aquasecurity/trivy/blob/e66dbb935764908f0b2b9a55cbfe6c107f101a31/pkg/dependency/parser/python/packaging/parse.go#L86-L92
+	// cf. https://github.com/deepfactor-io/trivy/blob/e66dbb935764908f0b2b9a55cbfe6c107f101a31/pkg/dependency/parser/python/packaging/parse.go#L86-L92
 	return metadataPkg[0].Licenses
 }
 

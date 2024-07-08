@@ -5,8 +5,8 @@ import (
 
 	"github.com/samber/lo"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-	iacRules "github.com/aquasecurity/trivy/pkg/iac/rules"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	iacRules "github.com/deepfactor-io/trivy/pkg/iac/rules"
 )
 
 var (

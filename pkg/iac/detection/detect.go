@@ -9,9 +9,9 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/azure/arm/parser/armjson"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/terraformplan/snapshot"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure/arm/parser/armjson"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraformplan/snapshot"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 type FileType string

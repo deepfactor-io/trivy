@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/aquasecurity/trivy-db/pkg/metadata"
-	"github.com/aquasecurity/trivy/pkg/policy"
+	"github.com/deepfactor-io/trivy/pkg/policy"
 )
 
 func Test_BuildVersionInfo(t *testing.T) {

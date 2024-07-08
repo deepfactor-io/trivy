@@ -6,8 +6,8 @@ import (
 
 	"github.com/mitchellh/hashstructure/v2"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
 )
 
 // ID returns a unique ID for the given library.
@@ -25,7 +25,7 @@ func ID(ltype types.LangType, name, version string) string {
 	case types.GoModule, types.GoBinary:
 		// Return a module ID according the Go way.
 		// Format: <module_name>@v<module_version>
-		// e.g. github.com/aquasecurity/go-dep-parser@v0.0.0-20230130190635-5e31092b0621
+		// e.g. github.com/deepfactor-io/go-dep-parser@v0.0.0-20230130190635-5e31092b0621
 		if !strings.HasPrefix(version, "v") {
 			version = "v" + version
 		}

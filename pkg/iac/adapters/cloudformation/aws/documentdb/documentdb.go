@@ -1,8 +1,8 @@
 package documentdb
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/documentdb"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/documentdb"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
 )
 
 // Adapt adaps a documentDB instance

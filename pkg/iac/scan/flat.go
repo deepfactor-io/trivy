@@ -1,8 +1,8 @@
 package scan
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers"
-	"github.com/aquasecurity/trivy/pkg/iac/severity"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers"
+	"github.com/deepfactor-io/trivy/pkg/iac/severity"
 )
 
 type FlatResult struct {

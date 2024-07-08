@@ -14,7 +14,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/log"
 )
 
 func TestColorHandler(t *testing.T) {
@@ -187,7 +187,7 @@ func stripColorCodes(s string) string {
 	return s
 }
 
-// TODO: slogtest.Run was added in Go 1.22. Waiting for https://github.com/aquasecurity/trivy/pull/6075.
+// TODO: slogtest.Run was added in Go 1.22. Waiting for https://github.com/deepfactor-io/trivy/pull/6075.
 func TestSlogtest(t *testing.T) {
 	var buf bytes.Buffer
 	newHandler := func(*testing.T) slog.Handler {

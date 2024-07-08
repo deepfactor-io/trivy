@@ -8,7 +8,7 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/digest"
+	"github.com/deepfactor-io/trivy/pkg/digest"
 )
 
 type Relationship int

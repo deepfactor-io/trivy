@@ -1,9 +1,9 @@
 package msk
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/msk"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
-	iacTypes "github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/msk"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func getClusters(ctx parser.FileContext) (clusters []msk.Cluster) {

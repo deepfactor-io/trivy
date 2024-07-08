@@ -12,9 +12,9 @@ import (
 	"golang.org/x/mod/semver"
 	"golang.org/x/xerrors"
 
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	xio "github.com/aquasecurity/trivy/pkg/x/io"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 var (
@@ -76,7 +76,7 @@ func (p *Parser) Parse(r xio.ReadSeekerAt) ([]ftypes.Package, []ftypes.Dependenc
 			// Other binaries use the `(devel)` version, but still may contain a stamped version
 			// set via `go build -ldflags='-X main.version=<semver>'`, so we fallback to this as.
 			// as a secondary source.
-			// See https://github.com/aquasecurity/trivy/issues/1837#issuecomment-1832523477.
+			// See https://github.com/deepfactor-io/trivy/issues/1837#issuecomment-1832523477.
 			Version:      cmp.Or(p.checkVersion(info.Main.Path, info.Main.Version), p.ParseLDFlags(info.Main.Path, ldflags)),
 			Relationship: ftypes.RelationshipRoot,
 		})
@@ -181,7 +181,7 @@ func (p *Parser) ParseLDFlags(name string, flags []string) string {
 // chooseVersion chooses version from found versions
 // Categories order:
 // module name with `cmd` => versions with default prefixes => other versions
-// See more in https://github.com/aquasecurity/trivy/issues/6702#issuecomment-2122271427
+// See more in https://github.com/deepfactor-io/trivy/issues/6702#issuecomment-2122271427
 func (p *Parser) chooseVersion(moduleName string, vers [][]string) string {
 	for _, versions := range vers {
 		// Versions for this category was not found
@@ -217,11 +217,11 @@ func isValidSemVer(ver string) bool {
 
 // versionPrefix returns version prefix from `-ldflags` flag key
 // e.g.
-//   - `github.com/aquasecurity/trivy/pkg/version/app.ver` => `version`
+//   - `github.com/deepfactor-io/trivy/pkg/version/app.ver` => `version`
 //   - `github.com/google/go-containerregistry/cmd/crane/common.ver` => `common`
 func versionPrefix(s string) string {
 	// Trim module part.
-	// e.g. `github.com/aquasecurity/trivy/pkg/Version.version` => `Version.version`
+	// e.g. `github.com/deepfactor-io/trivy/pkg/Version.version` => `Version.version`
 	if lastIndex := strings.LastIndex(s, "/"); lastIndex > 0 {
 		s = s[lastIndex+1:]
 	}

@@ -35,7 +35,7 @@ The PR title will be like `release: v0.51.1 [release/v0.51]`.
 
 ### Manual Release PR Creation
 If you want to release commits like `chore`, a release PR is not automatically created, so you need to manually trigger the creation of a release PR.
-The [Release Please workflow](https://github.com/aquasecurity/trivy/actions/workflows/release-please.yaml) supports `workflow_dispatch` and can be triggered manually.
+The [Release Please workflow](https://github.com/deepfactor-io/trivy/actions/workflows/release-please.yaml) supports `workflow_dispatch` and can be triggered manually.
 Click "Run workflow" in the top right corner and specify the release branch.
 In Trivy, the following branches are the release branches.
 
@@ -46,7 +46,7 @@ Specify the release version (without the `v` prefix) and click "Run workflow" to
 
 ### Drafting the Release Notes
 Next, create release notes for this version.
-Draft a new post in GitHub Discussions, and maintainers edit these release notes (e.g., https://github.com/aquasecurity/trivy/discussions/6605).
+Draft a new post in GitHub Discussions, and maintainers edit these release notes (e.g., https://github.com/deepfactor-io/trivy/discussions/6605).
 Currently, the creation of this draft is done manually.
 For patch version updates, this step can be skipped since they only involve bug fixes.
 
@@ -55,7 +55,7 @@ Once the draft of the release notes is complete, merge the release PR.
 When the PR is merged, a tag is automatically created, and [GoReleaser][goreleaser] releases binaries, container images, etc.
 
 ### Updating the Release Notes
-If the release completes without errors, a page for the release notes is created in GitHub Discussions (e.g., https://github.com/aquasecurity/trivy/discussions/6622).
+If the release completes without errors, a page for the release notes is created in GitHub Discussions (e.g., https://github.com/deepfactor-io/trivy/discussions/6622).
 Copy the draft release notes, adjust the formatting, and finalize the release notes.
 
 ### Navigating to the Release Notes
@@ -64,15 +64,15 @@ To navigate to the release highlights and summary in GitHub Discussions, place a
 ```
 ## ⚡Release highlights and summary⚡
 
-👉 https://github.com/aquasecurity/trivy/discussions/6838
+👉 https://github.com/deepfactor-io/trivy/discussions/6838
 
 ## Changelog
-https://github.com/aquasecurity/trivy/blob/main/CHANGELOG.md#0520-2024-06-03
+https://github.com/deepfactor-io/trivy/blob/main/CHANGELOG.md#0520-2024-06-03
 ```
 
 Replace URLs with appropriate ones.
 
-Example: https://github.com/aquasecurity/trivy/releases/tag/v0.52.0
+Example: https://github.com/deepfactor-io/trivy/releases/tag/v0.52.0
 
 
 The release is now complete.
@@ -80,4 +80,4 @@ The release is now complete.
 [conventional-commits]: https://www.conventionalcommits.org/en/v1.0.0/
 [release-please]: https://github.com/googleapis/release-please 
 [goreleaser]: https://goreleaser.com/
-[workflows]: https://github.com/aquasecurity/trivy/tree/main/.github/workflows
+[workflows]: https://github.com/deepfactor-io/trivy/tree/main/.github/workflows

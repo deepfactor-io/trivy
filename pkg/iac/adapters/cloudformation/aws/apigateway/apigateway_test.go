@@ -3,11 +3,11 @@ package apigateway
 import (
 	"testing"
 
-	"github.com/aquasecurity/trivy/pkg/iac/adapters/cloudformation/testutil"
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/apigateway"
-	v1 "github.com/aquasecurity/trivy/pkg/iac/providers/aws/apigateway/v1"
-	v2 "github.com/aquasecurity/trivy/pkg/iac/providers/aws/apigateway/v2"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/adapters/cloudformation/testutil"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/apigateway"
+	v1 "github.com/deepfactor-io/trivy/pkg/iac/providers/aws/apigateway/v1"
+	v2 "github.com/deepfactor-io/trivy/pkg/iac/providers/aws/apigateway/v2"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func TestAdapt(t *testing.T) {

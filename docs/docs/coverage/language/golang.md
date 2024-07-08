@@ -90,7 +90,7 @@ empty if it cannot do so[^5]. For the second case, the version of such packages 
 
 [^1]: It doesn't require the Internet access.
 [^2]: Need to download modules to local cache beforehand
-[^3]: See https://github.com/aquasecurity/trivy/issues/1837#issuecomment-1832523477
+[^3]: See https://github.com/deepfactor-io/trivy/issues/1837#issuecomment-1832523477
 [^4]: Identify the Go version used to compile the binary and detect its vulnerabilities
 [^5]: See https://github.com/golang/go/issues/63432#issuecomment-1751610604
 

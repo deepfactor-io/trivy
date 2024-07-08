@@ -11,13 +11,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/internal/gittest"
-	"github.com/aquasecurity/trivy/pkg/cache"
-	"github.com/aquasecurity/trivy/pkg/fanal/artifact"
-	"github.com/aquasecurity/trivy/pkg/fanal/walker"
+	"github.com/deepfactor-io/trivy/internal/gittest"
+	"github.com/deepfactor-io/trivy/pkg/cache"
+	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
 
-	_ "github.com/aquasecurity/trivy/pkg/fanal/analyzer/config/all"
-	_ "github.com/aquasecurity/trivy/pkg/fanal/analyzer/secret"
+	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/all"
+	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/secret"
 )
 
 func setupGitRepository(t *testing.T, repo, dir string) (*httptest.Server, *git.Repository) {

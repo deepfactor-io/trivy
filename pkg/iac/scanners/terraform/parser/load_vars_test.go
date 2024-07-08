@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/zclconf/go-cty/cty"
 
-	"github.com/aquasecurity/trivy/internal/testutil"
+	"github.com/deepfactor-io/trivy/internal/testutil"
 )
 
 func Test_TFVarsFile(t *testing.T) {

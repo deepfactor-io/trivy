@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/cftypes"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/cftypes"
 )
 
 type pseudoParameter struct {

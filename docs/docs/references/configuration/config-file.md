@@ -297,25 +297,25 @@ license:
   confidenceLevel: 0.9
 
   # Set list of forbidden licenses
-  # Default is https://github.com/aquasecurity/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L171
+  # Default is https://github.com/deepfactor-io/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L171
   forbidden:
     - AGPL-1.0
     - AGPL-3.0
 
   # Set list of restricted licenses
-  # Default is https://github.com/aquasecurity/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L199
+  # Default is https://github.com/deepfactor-io/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L199
   restricted:
     - AGPL-1.0
     - AGPL-3.0
 
   # Set list of reciprocal licenses
-  # Default is https://github.com/aquasecurity/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L238
+  # Default is https://github.com/deepfactor-io/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L238
   reciprocal:
     - AGPL-1.0
     - AGPL-3.0
 
   # Set list of notice licenses
-  # Default is https://github.com/aquasecurity/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L260
+  # Default is https://github.com/deepfactor-io/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L260
   notice:
     - AGPL-1.0
     - AGPL-3.0  
@@ -327,7 +327,7 @@ license:
     - AGPL-3.0  
 
   # Set list of unencumbered licenses
-  # Default is https://github.com/aquasecurity/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L334
+  # Default is https://github.com/deepfactor-io/trivy/blob/164b025413c5fb9c6759491e9a306b46b869be93/pkg/licensing/category.go#L334
   unencumbered:
     - AGPL-1.0
     - AGPL-3.0    
@@ -605,4 +605,4 @@ module:
     - trivy-module-wordpress
 ```
 
-[example]: https://github.com/aquasecurity/trivy/tree/{{ git.tag }}/examples/trivy-conf/trivy.yaml
+[example]: https://github.com/deepfactor-io/trivy/tree/{{ git.tag }}/examples/trivy-conf/trivy.yaml

@@ -3,7 +3,7 @@ package resolvers
 import (
 	"strings"
 
-	"github.com/aquasecurity/trivy/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/pkg/iac/debug"
 )
 
 type Options struct {

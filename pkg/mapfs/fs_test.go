@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/mapfs"
+	"github.com/deepfactor-io/trivy/pkg/mapfs"
 )
 
 type fileInfo struct {

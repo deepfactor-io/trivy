@@ -11,14 +11,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/aquasecurity/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/types"
 
 	dockercontainer "github.com/docker/docker/api/types/container"
 	"github.com/docker/go-connections/nat"
 	"github.com/stretchr/testify/require"
 	"github.com/testcontainers/testcontainers-go"
 
-	"github.com/aquasecurity/trivy/pkg/report"
+	"github.com/deepfactor-io/trivy/pkg/report"
 )
 
 type csArgs struct {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/version/doc"
+	"github.com/deepfactor-io/trivy/pkg/version/doc"
 )
 
 func TestBaseURL(t *testing.T) {

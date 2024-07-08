@@ -1,6 +1,6 @@
 package cache
 
-import "github.com/aquasecurity/trivy/pkg/fanal/types"
+import "github.com/deepfactor-io/trivy/pkg/fanal/types"
 
 type NopCache struct{}
 

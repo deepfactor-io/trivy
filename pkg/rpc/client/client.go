@@ -7,11 +7,11 @@ import (
 
 	"golang.org/x/xerrors"
 
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	r "github.com/aquasecurity/trivy/pkg/rpc"
-	"github.com/aquasecurity/trivy/pkg/types"
-	xstrings "github.com/aquasecurity/trivy/pkg/x/strings"
-	rpc "github.com/aquasecurity/trivy/rpc/scanner"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	r "github.com/deepfactor-io/trivy/pkg/rpc"
+	"github.com/deepfactor-io/trivy/pkg/types"
+	xstrings "github.com/deepfactor-io/trivy/pkg/x/strings"
+	rpc "github.com/deepfactor-io/trivy/rpc/scanner"
 )
 
 type options struct {

@@ -1,8 +1,8 @@
 package helm
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/helm/parser"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/helm/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
 )
 
 type ConfigurableHelmScanner interface {

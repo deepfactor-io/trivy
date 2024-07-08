@@ -7,10 +7,10 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/rpc"
-	"github.com/aquasecurity/trivy/pkg/rpc/client"
-	rpcCache "github.com/aquasecurity/trivy/rpc/cache"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/rpc"
+	"github.com/deepfactor-io/trivy/pkg/rpc/client"
+	rpcCache "github.com/deepfactor-io/trivy/rpc/cache"
 )
 
 var _ ArtifactCache = (*RemoteCache)(nil)

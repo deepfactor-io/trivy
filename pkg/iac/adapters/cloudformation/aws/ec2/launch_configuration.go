@@ -1,9 +1,9 @@
 package ec2
 
 import (
-	"github.com/aquasecurity/trivy/pkg/iac/providers/aws/ec2"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/parser"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ec2"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func getLaunchConfigurations(file parser.FileContext) (launchConfigurations []ec2.LaunchConfiguration) {

@@ -1,6 +1,6 @@
 package mod
 
-import ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
+import ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 
 var (
 	// execute go mod tidy in normal folder
@@ -17,14 +17,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20211224170007-df43bca6b6ff",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},
@@ -62,14 +62,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20220406074731-71021a481237",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20220406074731-71021a481237",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20220406074731-71021a481237",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},
@@ -95,14 +95,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20211110174639-8257534ffed3",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20211110174639-8257534ffed3",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20211110174639-8257534ffed3",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},
@@ -128,14 +128,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20220406074731-71021a481237",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20220406074731-71021a481237",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20220406074731-71021a481237",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},
@@ -161,14 +161,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20211224170007-df43bca6b6ff",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},
@@ -206,14 +206,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20211224170007-df43bca6b6ff",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},
@@ -245,14 +245,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20211224170007-df43bca6b6ff",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},
@@ -284,14 +284,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20211224170007-df43bca6b6ff",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},
@@ -329,14 +329,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20211224170007-df43bca6b6ff",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},
@@ -356,14 +356,14 @@ var (
 			},
 		},
 		{
-			ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
-			Name:         "github.com/aquasecurity/go-dep-parser",
+			ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20211224170007-df43bca6b6ff",
+			Name:         "github.com/deepfactor-io/go-dep-parser",
 			Version:      "0.0.0-20211224170007-df43bca6b6ff",
 			Relationship: ftypes.RelationshipDirect,
 			ExternalReferences: []ftypes.ExternalRef{
 				{
 					Type: ftypes.RefVCS,
-					URL:  "https://github.com/aquasecurity/go-dep-parser",
+					URL:  "https://github.com/deepfactor-io/go-dep-parser",
 				},
 			},
 		},

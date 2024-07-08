@@ -14,9 +14,9 @@ import (
 	"gopkg.in/yaml.v3"
 	kyaml "sigs.k8s.io/yaml"
 
-	"github.com/aquasecurity/trivy/pkg/iac/debug"
-	"github.com/aquasecurity/trivy/pkg/iac/detection"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/pkg/iac/detection"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
 )
 
 var _ options.ConfigurableParser = (*Parser)(nil)

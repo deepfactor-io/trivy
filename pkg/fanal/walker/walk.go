@@ -8,8 +8,8 @@ import (
 	"github.com/bmatcuk/doublestar/v4"
 	"github.com/samber/lo"
 
-	"github.com/aquasecurity/trivy/pkg/fanal/analyzer"
-	"github.com/aquasecurity/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/pkg/log"
 )
 
 const defaultSizeThreshold = int64(100) << 20 // 200MB

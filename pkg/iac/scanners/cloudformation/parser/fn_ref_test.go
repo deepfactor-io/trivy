@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/cloudformation/cftypes"
-	"github.com/aquasecurity/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/cftypes"
+	"github.com/deepfactor-io/trivy/pkg/iac/types"
 )
 
 func Test_resolve_referenced_value(t *testing.T) {

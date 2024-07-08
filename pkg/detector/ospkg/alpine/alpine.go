@@ -10,11 +10,11 @@ import (
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/alpine"
-	osver "github.com/aquasecurity/trivy/pkg/detector/ospkg/version"
-	ftypes "github.com/aquasecurity/trivy/pkg/fanal/types"
-	"github.com/aquasecurity/trivy/pkg/log"
-	"github.com/aquasecurity/trivy/pkg/scanner/utils"
-	"github.com/aquasecurity/trivy/pkg/types"
+	osver "github.com/deepfactor-io/trivy/pkg/detector/ospkg/version"
+	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/pkg/scanner/utils"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 var (

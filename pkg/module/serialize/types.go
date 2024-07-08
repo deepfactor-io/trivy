@@ -40,7 +40,7 @@ type PostScanSpec struct {
 type Results []Result
 
 // Result re-defines the Result struct from 'pkg/types/' so TinyGo can compile the code.
-// See https://github.com/aquasecurity/trivy/issues/6654 for more details.
+// See https://github.com/deepfactor-io/trivy/issues/6654 for more details.
 type Result struct {
 	Target          string                  `json:"Target"`
 	Class           string                  `json:"Class,omitempty"`

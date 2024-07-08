@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/aquasecurity/trivy/internal/testutil"
-	"github.com/aquasecurity/trivy/pkg/iac/scanners/terraform/parser"
-	"github.com/aquasecurity/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/internal/testutil"
+	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform/parser"
+	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
 )
 
 func CreateModulesFromSource(t *testing.T, source, ext string) terraform.Modules {

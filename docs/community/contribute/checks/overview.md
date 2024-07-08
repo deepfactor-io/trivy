@@ -6,9 +6,9 @@ All of the checks in Trivy can be found in the [trivy-checks](https://github.com
 
 1. The check does not already exist as part of the default checks in the [trivy-checks](https://github.com/aquasecurity/trivy-checks/tree/main) repository.
 2. The pull requests in the [trivy-checks](https://github.com/aquasecurity/trivy-checks/pulls) repository to see  whether someone else is already contributing the check that you wanted to add. 
-3. The [issues in Trivy](https://github.com/aquasecurity/trivy/issues) to see whether any specific checks are missing in Trivy that you can contribute.
+3. The [issues in Trivy](https://github.com/deepfactor-io/trivy/issues) to see whether any specific checks are missing in Trivy that you can contribute.
 
-If anything is unclear, please [start a discussion](https://github.com/aquasecurity/trivy/discussions/new) and we will do our best to help.
+If anything is unclear, please [start a discussion](https://github.com/deepfactor-io/trivy/discussions/new) and we will do our best to help.
 
 ## Check structure
 
@@ -50,9 +50,9 @@ deny[res] {
 
 ## Verify the provider and service exists
 
-Every check for a cloud service references a cloud provider. The list of providers are found in the [Trivy](https://github.com/aquasecurity/trivy/tree/main/pkg/iac/providers) repository. 
+Every check for a cloud service references a cloud provider. The list of providers are found in the [Trivy](https://github.com/deepfactor-io/trivy/tree/main/pkg/iac/providers) repository. 
 
-Before writing a new check for a cloud provider, you need to verify if the cloud provider or resource type that your check targets is supported by Trivy. If it's not, you'll need to add support for it. Additionally, if the provider that you want to target exists, you need to check whether the service your policy will target is supported. As a reference you can take a look at the AWS provider [here](https://github.com/aquasecurity/trivy/blob/main/pkg/iac/providers/aws/aws.go).
+Before writing a new check for a cloud provider, you need to verify if the cloud provider or resource type that your check targets is supported by Trivy. If it's not, you'll need to add support for it. Additionally, if the provider that you want to target exists, you need to check whether the service your policy will target is supported. As a reference you can take a look at the AWS provider [here](https://github.com/deepfactor-io/trivy/blob/main/pkg/iac/providers/aws/aws.go).
 
 ???+ note
     New Kubernetes and Dockerfile checks do not require any additional provider definitions. You can find an example of a Dockerfile check [here](https://github.com/aquasecurity/trivy-checks/blob/main/checks/docker/add_instead_of_copy.rego) and a Kubernetes check [here](https://github.com/aquasecurity/trivy-checks/blob/main/checks/kubernetes/general/CPU_not_limited.rego).
@@ -86,7 +86,7 @@ Running `make id` in the root of the trivy-checks repository will provide you wi
 
 ## Check Schemas
 
-Rego Checks for Trivy can utilise Schemas to map the input to specific objects. The schemas available are listed [here.](https://github.com/aquasecurity/trivy/tree/main/pkg/iac/rego/schemas). 
+Rego Checks for Trivy can utilise Schemas to map the input to specific objects. The schemas available are listed [here.](https://github.com/deepfactor-io/trivy/tree/main/pkg/iac/rego/schemas). 
 
 More information on using the builtin schemas is provided in the [main documentation.](../../../docs/scanner/misconfiguration/custom/schema.md)
 
