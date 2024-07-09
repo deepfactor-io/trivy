@@ -11,7 +11,7 @@ import (
 	slsa "github.com/in-toto/in-toto-golang/in_toto/slsa_provenance/common"
 	"github.com/samber/lo"
 	"github.com/sigstore/rekor/pkg/generated/models"
-	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/deepfactor-io/trivy/pkg/attestation"
 )
@@ -54,11 +54,14 @@ var (
 				Version:      1,
 				Metadata: &cyclonedx.Metadata{
 					Timestamp: "2022-09-15T13:53:49+00:00",
-					Tools: &[]cyclonedx.Tool{
-						{
-							Vendor:  "aquasecurity",
-							Name:    "trivy",
-							Version: "dev",
+					Tools: &cyclonedx.ToolsChoice{
+						Components: &[]cyclonedx.Component{
+							{
+								Type:    cyclonedx.ComponentTypeApplication,
+								Name:    "trivy",
+								Group:   "aquasecurity",
+								Version: "dev",
+							},
 						},
 					},
 					Component: &cyclonedx.Component{
@@ -138,7 +141,7 @@ var (
 				},
 				Dependencies: &[]cyclonedx.Dependency{
 					{
-						Ref: "pkg:oci/alpine@sha256:bc41182d7ef5ffc53a40b044e725193bc10142a1243f395ee852a8d9730fc2ad?repository_url=index.docker.io%2Flibrary%2Falpine&6arch=amd64",
+						Ref: "pkg:oci/alpine@sha256:bc41182d7ef5ffc53a40b044e725193bc10142a1243f395ee852a8d9730fc2ad?repository_url=index.docker.io%2Flibrary%2Falpine&arch=amd64",
 						Dependencies: &[]string{
 							"fad4eb97-3d2a-4499-ace7-2c94444148a7",
 						},
@@ -175,11 +178,14 @@ var (
 				Version:      1,
 				Metadata: &cyclonedx.Metadata{
 					Timestamp: "2022-10-21T09:50:08+00:00",
-					Tools: &[]cyclonedx.Tool{
-						{
-							Vendor:  "aquasecurity",
-							Name:    "trivy",
-							Version: "dev",
+					Tools: &cyclonedx.ToolsChoice{
+						Components: &[]cyclonedx.Component{
+							{
+								Type:    cyclonedx.ComponentTypeApplication,
+								Name:    "trivy",
+								Group:   "aquasecurity",
+								Version: "dev",
+							},
 						},
 					},
 					Component: &cyclonedx.Component{
@@ -310,19 +316,19 @@ func NewServer(t *testing.T) *Server {
 		case "/api/v1/index/retrieve":
 			var params models.SearchIndex
 			err := json.NewDecoder(r.Body).Decode(&params)
-			require.NoError(t, err)
+			assert.NoError(t, err)
 
 			if res, ok := indexRes[params.Hash]; ok {
 				w.Header().Set("Content-Type", "application/json")
 				err = json.NewEncoder(w).Encode(res)
-				require.NoError(t, err)
+				assert.NoError(t, err)
 			} else {
 				http.Error(w, "something wrong", http.StatusNotFound)
 			}
 		case "/api/v1/log/entries/retrieve":
 			var params models.SearchLogQuery
 			err := json.NewDecoder(r.Body).Decode(&params)
-			require.NoError(t, err)
+			assert.NoError(t, err)
 
 			resEntries := models.LogEntry{}
 			for _, uuid := range params.EntryUUIDs {
@@ -335,7 +341,7 @@ func NewServer(t *testing.T) *Server {
 			}
 			w.Header().Set("Content-Type", "application/json")
 			err = json.NewEncoder(w).Encode([]models.LogEntry{resEntries})
-			require.NoError(t, err)
+			assert.NoError(t, err)
 		}
 		return
 	}))

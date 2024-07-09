@@ -1,6 +1,7 @@
 package types
 
 import (
+	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
@@ -26,10 +27,9 @@ type ScanOptions struct {
 	Scanners            Scanners
 	ImageConfigScanners Scanners // Scanners for container image configuration
 	ScanRemovedPackages bool
-	ListAllPackages     bool
 	LicenseCategories   map[types.LicenseCategory][]string
 	FilePatterns        []string
 	IncludeDevDeps      bool
 	OnlyInspectArtifact bool
-	ArtifactType        types.ArtifactType
+	ArtifactType        artifact.Type
 }

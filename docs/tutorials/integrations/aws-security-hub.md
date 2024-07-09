@@ -67,6 +67,6 @@ $ trivy image --format template --template "@your-asff.tpl" -o report.asff golan
 [resource-type]: https://github.com/awsdocs/aws-security-hub-user-guide/blob/master/doc_source/securityhub-partner-providers.md#aqua-security--aqua-cloud-native-security-platform-sends-findings
 [enable]: https://docs.aws.amazon.com/cli/latest/reference/securityhub/enable-import-findings-for-product.html
 [batch-import-findings]: https://docs.aws.amazon.com/cli/latest/reference/securityhub/batch-import-findings.html#options
-[asff.tpl]: https://github.com/aquasecurity/trivy/blob/main/contrib/asff.tpl
+[asff.tpl]: https://github.com/deepfactor-io/trivy/blob/main/contrib/asff.tpl
 
 [jq]: https://stedolan.github.io/jq/

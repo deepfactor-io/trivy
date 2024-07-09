@@ -7,14 +7,13 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"slices"
 	"sort"
 
-	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/go-dep-parser/pkg/nuget/config"
-	"github.com/deepfactor-io/go-dep-parser/pkg/nuget/lock"
-	godeptypes "github.com/deepfactor-io/go-dep-parser/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nuget/config"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nuget/lock"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
@@ -31,11 +30,14 @@ const (
 	configFile = types.NuGetPkgsConfig
 )
 
-var requiredFiles = []string{lockFile, configFile}
+var requiredFiles = []string{
+	lockFile,
+	configFile,
+}
 
 type nugetLibraryAnalyzer struct {
-	lockParser    godeptypes.Parser
-	configParser  godeptypes.Parser
+	lockParser    language.Parser
+	configParser  language.Parser
 	licenseParser nuspecParser
 }
 
@@ -76,7 +78,7 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 			return nil
 		}
 
-		for i, lib := range app.Libraries {
+		for i, lib := range app.Packages {
 			license, ok := foundLicenses[lib.ID]
 			if !ok {
 				license, err = a.licenseParser.findLicense(lib.Name, lib.Version)
@@ -86,10 +88,10 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 				foundLicenses[lib.ID] = license
 			}
 
-			app.Libraries[i].Licenses = license
+			app.Packages[i].Licenses = license
 		}
 
-		sort.Sort(app.Libraries)
+		sort.Sort(app.Packages)
 		apps = append(apps, *app)
 		return nil
 	})

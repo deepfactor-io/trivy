@@ -8,8 +8,8 @@ package server
 
 import (
 	"github.com/aquasecurity/trivy-db/pkg/db"
+	"github.com/deepfactor-io/trivy/pkg/cache"
 	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
 	"github.com/deepfactor-io/trivy/pkg/scanner/langpkg"
 	"github.com/deepfactor-io/trivy/pkg/scanner/local"
 	"github.com/deepfactor-io/trivy/pkg/scanner/ospkg"

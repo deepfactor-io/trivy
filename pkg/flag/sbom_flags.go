@@ -1,49 +1,31 @@
 package flag
 
-import (
-	"golang.org/x/xerrors"
-
-	"github.com/deepfactor-io/trivy/pkg/log"
-)
-
 var (
-	ArtifactTypeFlag = Flag{
+	ArtifactTypeFlag = Flag[string]{
 		Name:       "artifact-type",
 		ConfigName: "sbom.artifact-type",
-		Default:    "",
 		Usage:      "deprecated",
-		Deprecated: true,
+		Removed:    `Use 'trivy image' or other subcommands. See also https://github.com/deepfactor-io/trivy/discussions/2407`,
 	}
-	SBOMFormatFlag = Flag{
+	SBOMFormatFlag = Flag[string]{
 		Name:       "sbom-format",
 		ConfigName: "sbom.format",
-		Default:    "",
 		Usage:      "deprecated",
-		Deprecated: true,
-	}
-	VEXFlag = Flag{
-		Name:       "vex",
-		ConfigName: "sbom.vex",
-		Default:    "",
-		Usage:      "[EXPERIMENTAL] file path to VEX",
+		Removed:    `Use 'trivy image' or other subcommands. See also https://github.com/deepfactor-io/trivy/discussions/2407`,
 	}
 )
 
 type SBOMFlagGroup struct {
-	ArtifactType *Flag // deprecated
-	SBOMFormat   *Flag // deprecated
-	VEXPath      *Flag
+	ArtifactType *Flag[string] // deprecated
+	SBOMFormat   *Flag[string] // deprecated
 }
 
-type SBOMOptions struct {
-	VEXPath string
-}
+type SBOMOptions struct{}
 
 func NewSBOMFlagGroup() *SBOMFlagGroup {
 	return &SBOMFlagGroup{
-		ArtifactType: &ArtifactTypeFlag,
-		SBOMFormat:   &SBOMFormatFlag,
-		VEXPath:      &VEXFlag,
+		ArtifactType: ArtifactTypeFlag.Clone(),
+		SBOMFormat:   SBOMFormatFlag.Clone(),
 	}
 }
 
@@ -51,25 +33,17 @@ func (f *SBOMFlagGroup) Name() string {
 	return "SBOM"
 }
 
-func (f *SBOMFlagGroup) Flags() []*Flag {
-	return []*Flag{
+func (f *SBOMFlagGroup) Flags() []Flagger {
+	return []Flagger{
 		f.ArtifactType,
 		f.SBOMFormat,
-		f.VEXPath,
 	}
 }
 
 func (f *SBOMFlagGroup) ToOptions() (SBOMOptions, error) {
-	artifactType := getString(f.ArtifactType)
-	sbomFormat := getString(f.SBOMFormat)
-
-	if artifactType != "" || sbomFormat != "" {
-		log.Logger.Error("'trivy sbom' is now for scanning SBOM. " +
-			"See https://github.com/aquasecurity/trivy/discussions/2407 for the detail")
-		return SBOMOptions{}, xerrors.New("'--artifact-type' and '--sbom-format' are no longer available")
+	if err := parseFlags(f); err != nil {
+		return SBOMOptions{}, err
 	}
 
-	return SBOMOptions{
-		VEXPath: getString(f.VEXPath),
-	}, nil
+	return SBOMOptions{}, nil
 }

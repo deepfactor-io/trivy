@@ -9,13 +9,13 @@ import (
 
 	"golang.org/x/xerrors"
 
-	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
-	"github.com/deepfactor-io/go-dep-parser/pkg/java/jar"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/java/jar"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/javadb"
 	"github.com/deepfactor-io/trivy/pkg/parallel"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 func init() {
@@ -56,7 +56,7 @@ func (a *javaLibraryAnalyzer) PostAnalyze(ctx context.Context, input analyzer.Po
 	}
 
 	// It will be called on each JAR file
-	onFile := func(path string, info fs.FileInfo, r dio.ReadSeekerAt) (*types.Application, error) {
+	onFile := func(path string, info fs.FileInfo, r xio.ReadSeekerAt) (*types.Application, error) {
 		p := jar.NewParser(client, jar.WithSize(info.Size()), jar.WithFilePath(path))
 		return language.ParsePackage(types.Jar, path, r, p, input.Options.FileChecksum)
 	}

@@ -6,21 +6,26 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
+<<<<<<< HEAD
 	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
+=======
+	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
+	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+>>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 func TestComplianceSpec_Scanners(t *testing.T) {
 	tests := []struct {
 		name    string
-		spec    defsecTypes.Spec
+		spec    iacTypes.Spec
 		want    types.Scanners
 		wantErr assert.ErrorAssertionFunc
 	}{
 		{
 			name: "get config scanner type by check id prefix",
-			spec: defsecTypes.Spec{
+			spec: iacTypes.Spec{
 				ID:          "1234",
 				Title:       "NSA",
 				Description: "National Security Agency - Kubernetes Hardening Guidance",
@@ -28,12 +33,12 @@ func TestComplianceSpec_Scanners(t *testing.T) {
 					"https://example.com",
 				},
 				Version: "1.0",
-				Controls: []defsecTypes.Control{
+				Controls: []iacTypes.Control{
 					{
 						Name:        "Non-root containers",
 						Description: "Check that container is not running as root",
 						ID:          "1.0",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "AVD-KSV012"},
 						},
 					},
@@ -41,7 +46,7 @@ func TestComplianceSpec_Scanners(t *testing.T) {
 						Name:        "Check that encryption resource has been set",
 						Description: "Control checks whether encryption resource has been set",
 						ID:          "1.1",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "AVD-1.2.31"},
 							{ID: "AVD-1.2.32"},
 						},
@@ -53,7 +58,7 @@ func TestComplianceSpec_Scanners(t *testing.T) {
 		},
 		{
 			name: "get config and vuln scanners types by check id prefix",
-			spec: defsecTypes.Spec{
+			spec: iacTypes.Spec{
 				ID:          "1234",
 				Title:       "NSA",
 				Description: "National Security Agency - Kubernetes Hardening Guidance",
@@ -61,12 +66,12 @@ func TestComplianceSpec_Scanners(t *testing.T) {
 					"https://example.com",
 				},
 				Version: "1.0",
-				Controls: []defsecTypes.Control{
+				Controls: []iacTypes.Control{
 					{
 						Name:        "Non-root containers",
 						Description: "Check that container is not running as root",
 						ID:          "1.0",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "AVD-KSV012"},
 						},
 					},
@@ -74,7 +79,7 @@ func TestComplianceSpec_Scanners(t *testing.T) {
 						Name:        "Check that encryption resource has been set",
 						Description: "Control checks whether encryption resource has been set",
 						ID:          "1.1",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "AVD-1.2.31"},
 							{ID: "AVD-1.2.32"},
 						},
@@ -83,7 +88,7 @@ func TestComplianceSpec_Scanners(t *testing.T) {
 						Name:        "Ensure no critical vulnerabilities",
 						Description: "Control checks whether critical vulnerabilities are not found",
 						ID:          "7.0",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "CVE-9999-9999"},
 						},
 					},
@@ -97,7 +102,7 @@ func TestComplianceSpec_Scanners(t *testing.T) {
 		},
 		{
 			name: "unknown prefix",
-			spec: defsecTypes.Spec{
+			spec: iacTypes.Spec{
 				ID:          "1234",
 				Title:       "NSA",
 				Description: "National Security Agency - Kubernetes Hardening Guidance",
@@ -105,11 +110,11 @@ func TestComplianceSpec_Scanners(t *testing.T) {
 					"https://example.com",
 				},
 				Version: "1.0",
-				Controls: []defsecTypes.Control{
+				Controls: []iacTypes.Control{
 					{
 						Name: "Unknown",
 						ID:   "1.0",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "UNKNOWN-001"},
 						},
 					},
@@ -138,12 +143,12 @@ func TestComplianceSpec_Scanners(t *testing.T) {
 func TestComplianceSpec_CheckIDs(t *testing.T) {
 	tests := []struct {
 		name string
-		spec defsecTypes.Spec
+		spec iacTypes.Spec
 		want map[types.Scanner][]string
 	}{
 		{
 			name: "get config scanner type by check id prefix",
-			spec: defsecTypes.Spec{
+			spec: iacTypes.Spec{
 				ID:          "1234",
 				Title:       "NSA",
 				Description: "National Security Agency - Kubernetes Hardening Guidance",
@@ -151,12 +156,12 @@ func TestComplianceSpec_CheckIDs(t *testing.T) {
 					"https://example.com",
 				},
 				Version: "1.0",
-				Controls: []defsecTypes.Control{
+				Controls: []iacTypes.Control{
 					{
 						Name:        "Non-root containers",
 						Description: "Check that container is not running as root",
 						ID:          "1.0",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "AVD-KSV012"},
 						},
 					},
@@ -164,7 +169,7 @@ func TestComplianceSpec_CheckIDs(t *testing.T) {
 						Name:        "Check that encryption resource has been set",
 						Description: "Control checks whether encryption resource has been set",
 						ID:          "1.1",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "AVD-1.2.31"},
 							{ID: "AVD-1.2.32"},
 						},
@@ -181,7 +186,7 @@ func TestComplianceSpec_CheckIDs(t *testing.T) {
 		},
 		{
 			name: "get config and vuln scanners types by check id prefix",
-			spec: defsecTypes.Spec{
+			spec: iacTypes.Spec{
 				ID:          "1234",
 				Title:       "NSA",
 				Description: "National Security Agency - Kubernetes Hardening Guidance",
@@ -189,12 +194,12 @@ func TestComplianceSpec_CheckIDs(t *testing.T) {
 					"https://example.com",
 				},
 				Version: "1.0",
-				Controls: []defsecTypes.Control{
+				Controls: []iacTypes.Control{
 					{
 						Name:        "Non-root containers",
 						Description: "Check that container is not running as root",
 						ID:          "1.0",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "AVD-KSV012"},
 						},
 					},
@@ -202,7 +207,7 @@ func TestComplianceSpec_CheckIDs(t *testing.T) {
 						Name:        "Check that encryption resource has been set",
 						Description: "Control checks whether encryption resource has been set",
 						ID:          "1.1",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "AVD-1.2.31"},
 							{ID: "AVD-1.2.32"},
 						},
@@ -211,7 +216,7 @@ func TestComplianceSpec_CheckIDs(t *testing.T) {
 						Name:        "Ensure no critical vulnerabilities",
 						Description: "Control checks whether critical vulnerabilities are not found",
 						ID:          "7.0",
-						Checks: []defsecTypes.SpecCheck{
+						Checks: []iacTypes.SpecCheck{
 							{ID: "CVE-9999-9999"},
 						},
 					},
