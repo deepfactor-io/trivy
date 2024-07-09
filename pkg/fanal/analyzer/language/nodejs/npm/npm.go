@@ -50,6 +50,7 @@ func newNpmLibraryAnalyzer(opt analyzer.AnalyzerOptions) (analyzer.PostAnalyzer,
 		analyzer.licenseConfig = types.LicenseScanConfig{
 			EnableDeepLicenseScan:     true,
 			ClassifierConfidenceLevel: opt.LicenseScannerOption.ClassifierConfidenceLevel,
+			LicenseTextCacheDir:       opt.LicenseScannerOption.LicenseTextCacheDir,
 		}
 
 		log.Logger.Debug("Deep license scanning enabled for Npm Library Analyzer")
@@ -215,8 +216,8 @@ func (a npmLibraryAnalyzer) findLicenses(fsys fs.FS, lockPath string) (map[strin
 
 func (a npmLibraryAnalyzer) findLicensesV2(fsys fs.FS, lockPath string) (map[string][]types.License, error) {
 	dir := path.Dir(lockPath)
-	root := path.Join(dir, "node_modules")
-	if _, err := fs.Stat(fsys, root); errors.Is(err, fs.ErrNotExist) {
+	dependencyRootPath := path.Join(dir, "node_modules")
+	if _, err := fs.Stat(fsys, dependencyRootPath); errors.Is(err, fs.ErrNotExist) {
 		log.Logger.Infof(`To collect the license information of packages in %q, "npm install" needs to be performed beforehand`, lockPath)
 		return nil, nil
 	}
@@ -225,19 +226,25 @@ func (a npmLibraryAnalyzer) findLicensesV2(fsys fs.FS, lockPath string) (map[str
 	// Note that fs.FS is always slashed regardless of the platform,
 	// and path.Join should be used rather than path.Join.
 
-	walkerInput := fsutils.RecursiveWalkerInput{
+	walker := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
 		Parser:                    a,
 		PackageManifestFile:       types.NpmPkg,
 		PackageDependencyDir:      types.NpmDependencyDir,
 		Licenses:                  make(map[string][]types.License),
 		ClassifierConfidenceLevel: a.licenseConfig.ClassifierConfidenceLevel,
-	}
+		LicenseTextCacheDir:       a.licenseConfig.LicenseTextCacheDir,
+		NumWorkers:                50, // TODO change as needed
+	})
 
-	if ret, err := fsutils.RecursiveWalkDir(fsys, dir, "", walkerInput); !ret || err != nil {
+	// Start the worker pool which sends data to license classifier
+	go walker.StartWorkerPool()
+
+	// Process root path to find loose licenses
+	if ret, err := walker.Walk(fsys, ".", ""); !ret || err != nil {
 		log.Logger.Errorf("Recursive walker has failed for dir: %s", dir)
 	}
 
-	dirEntries, err := fs.ReadDir(fsys, root)
+	dirEntries, err := fs.ReadDir(fsys, dependencyRootPath)
 	if err != nil {
 		return nil, xerrors.Errorf("failed to read dir contents, err: %s", err.Error())
 	}
@@ -245,15 +252,18 @@ func (a npmLibraryAnalyzer) findLicensesV2(fsys fs.FS, lockPath string) (map[str
 	// Apply Recursive Walker on each dependency present in node_modules
 	for _, dirEntry := range dirEntries {
 		if dirEntry.IsDir() {
-			dependencyPath := path.Join(root, dirEntry.Name())
+			dependencyPath := path.Join(dependencyRootPath, dirEntry.Name())
 
-			if ret, err := fsutils.RecursiveWalkDir(fsys, dependencyPath, "", walkerInput); !ret || err != nil {
+			if ret, err := walker.Walk(fsys, dependencyPath, ""); !ret || err != nil {
 				log.Logger.Errorf("Recursive walker has failed for dir: %s", dependencyPath)
 			}
 		}
 	}
 
-	return walkerInput.Licenses, nil
+	// exit the worker pool
+	walker.StopWorkerPool()
+
+	return walker.GetLicenses(), nil
 }
 
 // parses the package manifest file present at the given root path

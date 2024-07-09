@@ -53,11 +53,11 @@ type DetectedLicense struct {
 	// true if license is a SPDX classified license, false otherwise
 	IsSPDXClassified bool
 
-	// Entire license text found in LICENSE file or within source code
-	LicenseText *string `json:"-"`
+	// Checksum of the license text found in license scanning
+	LicenseText string `json:",omitempty"`
 
-	// Copyright text found as a file or within the source code
-	CopyrightText *string `json:"-"`
+	// Copyright text found within the license text
+	CopyrightText string `json:",omitempty"`
 
 	// Confidence is level of the match. The confidence level is between 0.0 and 1.0, with 1.0 indicating an
 	// exact match and 0.0 indicating a complete mismatch

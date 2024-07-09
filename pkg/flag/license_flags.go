@@ -67,6 +67,7 @@ type LicenseFlagGroup struct {
 	LicenseFull            *Flag
 	IgnoredLicenses        *Flag
 	LicenseConfidenceLevel *Flag
+	LicenseTextCacheDir    *Flag
 
 	// License Categories
 	LicenseForbidden    *Flag // mapped to CRITICAL
@@ -83,6 +84,7 @@ type LicenseOptions struct {
 	LicenseConfidenceLevel float64
 	LicenseRiskThreshold   int
 	LicenseCategories      map[types.LicenseCategory][]string
+	LicenseTextCacheDir    string
 }
 
 func NewLicenseFlagGroup() *LicenseFlagGroup {
@@ -122,5 +124,6 @@ func (f *LicenseFlagGroup) ToOptions() LicenseOptions {
 		IgnoredLicenses:        getStringSlice(f.IgnoredLicenses),
 		LicenseConfidenceLevel: getFloat(f.LicenseConfidenceLevel),
 		LicenseCategories:      licenseCategories,
+		LicenseTextCacheDir:    getString(f.LicenseTextCacheDir),
 	}
 }

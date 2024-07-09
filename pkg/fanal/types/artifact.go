@@ -125,8 +125,8 @@ type License struct {
 	Type          LicenseType
 	IsDeclared    bool
 	FilePath      string
-	LicenseText   *string         `json:"-"`
-	CopyrightText *string         `json:"-"`
+	LicenseText   string
+	CopyrightText string          `json:",omitempty"`
 	Findings      LicenseFindings `json:"-"`
 }
 

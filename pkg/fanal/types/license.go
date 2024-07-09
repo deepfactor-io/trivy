@@ -56,11 +56,12 @@ type LicenseFinding struct {
 	Name          string
 	Confidence    float64
 	Link          string
-	LicenseText   *string `json:"-"`
-	CopyRightText *string `json:"-"`
+	LicenseText   string
+	CopyRightText string
 }
 
 type LicenseScanConfig struct {
 	EnableDeepLicenseScan     bool
 	ClassifierConfidenceLevel float64
+	LicenseTextCacheDir       string
 }

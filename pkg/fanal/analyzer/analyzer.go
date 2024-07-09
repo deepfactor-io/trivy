@@ -65,6 +65,9 @@ type LicenseScannerOption struct {
 	// License scanner internally uses google license classifier
 	// Confidence level can be set via this field
 	ClassifierConfidenceLevel float64
+
+	// Cache dir where extracted license text files are created
+	LicenseTextCacheDir string
 }
 
 ////////////////

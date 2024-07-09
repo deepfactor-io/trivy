@@ -118,48 +118,69 @@ func (p nuspecParser) findLicensesV2(name, version string) ([]types.License, err
 	// get the package ID for given package name and version
 	pkgID := godeputils.PackageID(name, version)
 
-	walkerInput := fsutils.RecursiveWalkerInput{
+	walker := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
 		Parser:                    p,
 		PackageManifestFile:       fmt.Sprintf("%s.%s", name, nuspecExt),
 		PackageDependencyDir:      ".nuget/packages",
 		Licenses:                  make(map[string][]types.License),
 		ClassifierConfidenceLevel: p.licenseConfig.ClassifierConfidenceLevel,
-	}
+		LicenseTextCacheDir:       p.licenseConfig.LicenseTextCacheDir,
+		NumWorkers:                1,
+	})
+
+	// Start the worker pool which sends data to license classifier
+	go walker.StartWorkerPool()
 
 	// get the file system rooted at given rootPath
 	fsys := os.DirFS(p.packagesDir)
 	log.Logger.Debugf("Created fsys rooted at root path: %s", p.packagesDir)
 
 	packagePath = path.Join(name, version)
-	if ret, err := fsutils.RecursiveWalkDir(fsys, packagePath, "", walkerInput); !ret || err != nil {
+	if ret, err := walker.Walk(fsys, packagePath, ""); !ret || err != nil {
 		log.Logger.Errorf("recursive walk has failed for dir: %s", packagePath)
 	}
 
+	// exit the worker pool
+	walker.StopWorkerPool()
+
+	// get processed licenses
+	licenses := walker.GetLicenses()
+
 	// Update the License FilePath to absolute path
-	for i := range walkerInput.Licenses[pkgID] {
-		license := &walkerInput.Licenses[pkgID][i]
+	for i := range licenses[pkgID] {
+		license := &licenses[pkgID][i]
 		if license.FilePath != "" {
 			license.FilePath = filepath.Join(p.packagesDir, license.FilePath)
 		}
 	}
 
-	return walkerInput.Licenses[pkgID], nil
+	return licenses[pkgID], nil
 }
 
 // finds licenses at the root path (".") relative to given file system fsys
 func (p nuspecParser) findLicensesAtRootPath(fsys fs.FS) ([]types.License, error) {
-	walkerInput := fsutils.RecursiveWalkerInput{
+	walker := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
 		Parser:                    p,
+		PackageManifestFile:       fmt.Sprintf("%s.%s", "", nuspecExt),
+		PackageDependencyDir:      ".nuget/packages",
 		Licenses:                  make(map[string][]types.License),
 		ClassifierConfidenceLevel: p.licenseConfig.ClassifierConfidenceLevel,
-	}
+		LicenseTextCacheDir:       p.licenseConfig.LicenseTextCacheDir,
+		NumWorkers:                1,
+	})
 
-	if ret, err := fsutils.RecursiveWalkDir(fsys, ".", "", walkerInput); !ret || err != nil {
+	// Start the worker pool which sends data to license classifier
+	go walker.StartWorkerPool()
+
+	if ret, err := walker.Walk(fsys, ".", ""); !ret || err != nil {
 		log.Logger.Errorf("recursive walk has failed for dir: %s", ".")
 		return nil, err
 	}
 
-	return walkerInput.Licenses[types.LOOSE_LICENSES], nil
+	// exit the worker pool
+	walker.StopWorkerPool()
+
+	return walker.GetLicenses()[types.LOOSE_LICENSES], nil
 }
 
 func (p nuspecParser) ParseManifest(

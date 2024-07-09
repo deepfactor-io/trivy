@@ -50,6 +50,7 @@ func newNugetLibraryAnalyzer(opt analyzer.AnalyzerOptions) (analyzer.PostAnalyze
 		analyzer.licenseParser.licenseConfig = types.LicenseScanConfig{
 			EnableDeepLicenseScan:     true,
 			ClassifierConfidenceLevel: opt.LicenseScannerOption.ClassifierConfidenceLevel,
+			LicenseTextCacheDir:       opt.LicenseScannerOption.LicenseTextCacheDir,
 		}
 
 		log.Logger.Debug("Deep license scanning enabled for Nuget Library Analyzer")
