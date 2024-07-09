@@ -12,18 +12,11 @@ import (
 
 	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
 	cmd "github.com/deepfactor-io/trivy/pkg/commands/artifact"
-<<<<<<< HEAD
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/purl"
-	cyc "github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx"
-	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx/core"
-=======
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/flag"
 	"github.com/deepfactor-io/trivy/pkg/purl"
 	"github.com/deepfactor-io/trivy/pkg/sbom/core"
 	"github.com/deepfactor-io/trivy/pkg/uuid"
->>>>>>> 3.9-DEEP-11079-2
 )
 
 func TestScanner_Scan(t *testing.T) {

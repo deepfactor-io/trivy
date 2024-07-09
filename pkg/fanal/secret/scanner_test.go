@@ -9,15 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-<<<<<<< HEAD
-	"github.com/deepfactor-io/trivy/pkg/fanal/log"
-	"github.com/deepfactor-io/trivy/pkg/fanal/secret"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-=======
 	"github.com/deepfactor-io/trivy/pkg/fanal/secret"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/log"
->>>>>>> 3.9-DEEP-11079-2
 )
 
 func TestMain(m *testing.M) {

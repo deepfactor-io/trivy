@@ -11,16 +11,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-<<<<<<< HEAD
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-=======
 	"github.com/deepfactor-io/trivy/internal/gittest"
 	"github.com/deepfactor-io/trivy/pkg/cache"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
->>>>>>> 3.9-DEEP-11079-2
 
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/all"
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/secret"

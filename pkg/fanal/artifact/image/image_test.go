@@ -11,17 +11,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/xerrors"
 
-<<<<<<< HEAD
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	image2 "github.com/deepfactor-io/trivy/pkg/fanal/artifact/image"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-=======
 	"github.com/deepfactor-io/trivy/pkg/cache"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	image2 "github.com/deepfactor-io/trivy/pkg/fanal/artifact/image"
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/fanal/image"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 

@@ -17,11 +17,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-<<<<<<< HEAD:pkg/plugin/plugin_test.go
-=======
 	"github.com/deepfactor-io/trivy/pkg/clock"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
->>>>>>> 3.9-DEEP-11079-2:pkg/plugin/manager_test.go
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/plugin"
 )

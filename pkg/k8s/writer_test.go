@@ -11,10 +11,6 @@ import (
 	"github.com/stretchr/testify/require"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-<<<<<<< HEAD
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-=======
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/k8s/report"
 	"github.com/deepfactor-io/trivy/pkg/types"
 )

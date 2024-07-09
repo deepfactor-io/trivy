@@ -6,13 +6,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-<<<<<<< HEAD
-	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
-=======
 	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
 	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/types"
 )
 

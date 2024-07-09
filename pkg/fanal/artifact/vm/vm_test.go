@@ -14,16 +14,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-<<<<<<< HEAD
-	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact/vm"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
-=======
 	"github.com/deepfactor-io/trivy/pkg/cache"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
@@ -32,7 +22,6 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
 	"github.com/deepfactor-io/trivy/pkg/misconf"
 	xio "github.com/deepfactor-io/trivy/pkg/x/io"
->>>>>>> 3.9-DEEP-11079-2
 
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os/alpine"
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/pkg/apk"

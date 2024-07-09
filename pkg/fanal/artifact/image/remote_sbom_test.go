@@ -14,15 +14,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-<<<<<<< HEAD
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	image2 "github.com/deepfactor-io/trivy/pkg/fanal/artifact/image"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-=======
 	"github.com/deepfactor-io/trivy/pkg/cache"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	image2 "github.com/deepfactor-io/trivy/pkg/fanal/artifact/image"
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/rekortest"
