@@ -11,10 +11,7 @@ import (
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/clock"
-<<<<<<< HEAD
-=======
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
->>>>>>> 3.9-DEEP-11079-2
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/result"
 	"github.com/deepfactor-io/trivy/pkg/types"

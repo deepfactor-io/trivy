@@ -15,10 +15,6 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/deepfactor-io/trivy/pkg/cache"
-<<<<<<< HEAD
-	fcache "github.com/deepfactor-io/trivy/pkg/fanal/cache"
-=======
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	rpcCache "github.com/deepfactor-io/trivy/rpc/cache"
 	rpcScanner "github.com/deepfactor-io/trivy/rpc/scanner"

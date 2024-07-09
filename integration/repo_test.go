@@ -11,14 +11,6 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	"github.com/deepfactor-io/trivy/pkg/types"
 	"github.com/stretchr/testify/require"
-<<<<<<< HEAD
-
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
-=======
->>>>>>> 3.9-DEEP-11079-2
 )
 
 // TestRepository tests `trivy repo` with the local code repositories

@@ -15,15 +15,10 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/deepfactor-io/trivy/pkg/clock"
-<<<<<<< HEAD
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/report"
-=======
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/report"
 	"github.com/deepfactor-io/trivy/pkg/sbom/core"
->>>>>>> 3.9-DEEP-11079-2
 	tspdx "github.com/deepfactor-io/trivy/pkg/sbom/spdx"
 	"github.com/deepfactor-io/trivy/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/uuid"

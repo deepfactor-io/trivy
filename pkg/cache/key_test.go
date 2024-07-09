@@ -8,10 +8,7 @@ import (
 
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-<<<<<<< HEAD:pkg/fanal/cache/key_test.go
-=======
 	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
->>>>>>> 3.9-DEEP-11079-2:pkg/cache/key_test.go
 	"github.com/deepfactor-io/trivy/pkg/misconf"
 )
 

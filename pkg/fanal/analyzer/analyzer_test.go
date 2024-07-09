@@ -13,18 +13,11 @@ import (
 	"golang.org/x/sync/semaphore"
 	"golang.org/x/xerrors"
 
-<<<<<<< HEAD
-	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
-=======
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/javadb"
 	"github.com/deepfactor-io/trivy/pkg/mapfs"
-<<<<<<< HEAD
-=======
 	xio "github.com/deepfactor-io/trivy/pkg/x/io"
->>>>>>> 3.9-DEEP-11079-2
 
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/imgconf/apk"
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language/java/jar"
@@ -521,8 +514,6 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var wg sync.WaitGroup
-			var terminateWalk bool
-			var terminateError string
 			limit := semaphore.NewWeighted(3)
 
 			got := new(analyzer.AnalysisResult)
@@ -541,13 +532,8 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 			require.NoError(t, err)
 
 			ctx := context.Background()
-<<<<<<< HEAD
-			err = a.AnalyzeFile(ctx, &wg, &terminateWalk, &terminateError, limit, got, "", tt.args.filePath, info,
-				func() (dio.ReadSeekCloserAt, error) {
-=======
-			err = a.AnalyzeFile(ctx, &wg, limit, got, "", tt.args.filePath, info,
+			err = a.AnalyzeFile(ctx, &wg, nil, nil, limit, got, "", tt.args.filePath, info,
 				func() (xio.ReadSeekCloserAt, error) {
->>>>>>> 3.9-DEEP-11079-2
 					if tt.args.testFilePath == "testdata/error" {
 						return nil, xerrors.New("error")
 					} else if tt.args.testFilePath == "testdata/no-permission" {

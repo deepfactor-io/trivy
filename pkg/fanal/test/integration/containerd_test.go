@@ -27,18 +27,11 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
-<<<<<<< HEAD
-=======
 	"github.com/deepfactor-io/trivy/pkg/cache"
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	aimage "github.com/deepfactor-io/trivy/pkg/fanal/artifact/image"
-<<<<<<< HEAD
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-=======
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/fanal/image"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 )

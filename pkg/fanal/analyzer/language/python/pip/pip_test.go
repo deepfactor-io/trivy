@@ -13,10 +13,7 @@ import (
 
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-<<<<<<< HEAD
-=======
 	"github.com/deepfactor-io/trivy/pkg/log"
->>>>>>> 3.9-DEEP-11079-2
 )
 
 func Test_pipAnalyzer_Analyze(t *testing.T) {

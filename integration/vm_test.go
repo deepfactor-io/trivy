@@ -7,11 +7,6 @@ import (
 	"strings"
 	"testing"
 
-<<<<<<< HEAD
-	"github.com/stretchr/testify/require"
-
-=======
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/internal/testutil"
 	"github.com/deepfactor-io/trivy/pkg/types"
 )

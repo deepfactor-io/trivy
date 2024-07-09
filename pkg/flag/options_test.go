@@ -11,11 +11,8 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
 
-<<<<<<< HEAD
-=======
 	"github.com/deepfactor-io/trivy/pkg/flag"
 	"github.com/deepfactor-io/trivy/pkg/log"
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/types"
 )
 

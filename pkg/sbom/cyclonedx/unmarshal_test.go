@@ -11,13 +11,9 @@ import (
 	"github.com/stretchr/testify/require"
 
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-<<<<<<< HEAD
-	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx"
-=======
 	"github.com/deepfactor-io/trivy/pkg/purl"
 	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx"
 	sbomio "github.com/deepfactor-io/trivy/pkg/sbom/io"
->>>>>>> 3.9-DEEP-11079-2
 	"github.com/deepfactor-io/trivy/pkg/types"
 )
 

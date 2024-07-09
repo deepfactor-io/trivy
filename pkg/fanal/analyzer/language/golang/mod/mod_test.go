@@ -44,15 +44,15 @@ func Test_gomodAnalyzer_Analyze(t *testing.T) {
 								},
 							},
 							{
-								ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20220406074731-71021a481237",
-								Name:         "github.com/aquasecurity/go-dep-parser",
+								ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20220406074731-71021a481237",
+								Name:         "github.com/deepfactor-io/go-dep-parser",
 								Version:      "0.0.0-20220406074731-71021a481237",
 								Relationship: types.RelationshipDirect,
 								Licenses:     []string{"MIT"},
 								ExternalReferences: []types.ExternalRef{
 									{
 										Type: types.RefVCS,
-										URL:  "https://github.com/aquasecurity/go-dep-parser",
+										URL:  "https://github.com/deepfactor-io/go-dep-parser",
 									},
 								},
 								DependsOn: []string{
@@ -134,8 +134,8 @@ func Test_gomodAnalyzer_Analyze(t *testing.T) {
 								},
 							},
 							{
-								ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20230219131432-590b1dfb6edd",
-								Name:         "github.com/aquasecurity/go-dep-parser",
+								ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20230219131432-590b1dfb6edd",
+								Name:         "github.com/deepfactor-io/go-dep-parser",
 								Version:      "0.0.0-20230219131432-590b1dfb6edd",
 								Relationship: types.RelationshipDirect,
 								DependsOn: []string{
@@ -144,7 +144,7 @@ func Test_gomodAnalyzer_Analyze(t *testing.T) {
 								ExternalReferences: []types.ExternalRef{
 									{
 										Type: types.RefVCS,
-										URL:  "https://github.com/aquasecurity/go-dep-parser",
+										URL:  "https://github.com/deepfactor-io/go-dep-parser",
 									},
 								},
 							},
@@ -186,15 +186,15 @@ func Test_gomodAnalyzer_Analyze(t *testing.T) {
 								},
 							},
 							{
-								ID:           "github.com/aquasecurity/go-dep-parser@v0.0.0-20230219131432-590b1dfb6edd",
-								Name:         "github.com/aquasecurity/go-dep-parser",
+								ID:           "github.com/deepfactor-io/go-dep-parser@v0.0.0-20230219131432-590b1dfb6edd",
+								Name:         "github.com/deepfactor-io/go-dep-parser",
 								Version:      "0.0.0-20230219131432-590b1dfb6edd",
 								Relationship: types.RelationshipDirect,
 								DependsOn:    []string{},
 								ExternalReferences: []types.ExternalRef{
 									{
 										Type: types.RefVCS,
-										URL:  "https://github.com/aquasecurity/go-dep-parser",
+										URL:  "https://github.com/deepfactor-io/go-dep-parser",
 									},
 								},
 							},
