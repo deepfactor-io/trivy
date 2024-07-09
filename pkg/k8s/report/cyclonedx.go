@@ -9,6 +9,7 @@ import (
 
 	"github.com/deepfactor-io/trivy/pkg/sbom/core"
 	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx"
+	"github.com/deepfactor-io/trivy/pkg/types"
 )
 
 // CycloneDXWriter implements types.Writer
@@ -29,7 +30,7 @@ func NewCycloneDXWriter(output io.Writer, format cdx.BOMFileFormat, appVersion s
 }
 
 func (w CycloneDXWriter) Write(ctx context.Context, component *core.BOM) error {
-	bom, err := w.marshaler.Marshal(ctx, component)
+	bom, err := w.marshaler.Marshal(ctx, component, types.DfScanMeta{})
 	if err != nil {
 		return xerrors.Errorf("CycloneDX marshal error: %w", err)
 	}

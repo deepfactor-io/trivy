@@ -1,8 +1,6 @@
 package rules
 
 import (
-	trules "github.com/aquasecurity/trivy-checks/pkg/rules"
-
 	_ "github.com/aquasecurity/trivy-checks/checks/cloud/aws/accessanalyzer"
 	_ "github.com/aquasecurity/trivy-checks/checks/cloud/aws/apigateway"
 	_ "github.com/aquasecurity/trivy-checks/checks/cloud/aws/athena"
@@ -77,7 +75,10 @@ import (
 )
 
 func init() {
-	for _, r := range trules.GetRules() {
-		Register(r)
-	}
+	// Not required right now
+	/*
+		for _, r := range trules.GetRules() {
+			Register(r)
+		}
+	*/
 }

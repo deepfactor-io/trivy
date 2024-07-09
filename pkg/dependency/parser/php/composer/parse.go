@@ -132,7 +132,7 @@ func (p *Parser) populateDeps(packages []packageInfo, libs map[string]ftypes.Pac
 		_, ok := p.devPackageNames[pkg.Name]
 		isDev = isDev || ok
 		lib := ftypes.Package{
-			ID:       dependency.ID(ftypes.Composer, lpkg.Name, lpkg.Version),
+			ID:       dependency.ID(ftypes.Composer, pkg.Name, pkg.Version),
 			Name:     pkg.Name,
 			Version:  pkg.Version,
 			Licenses: pkg.License,
