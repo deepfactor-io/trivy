@@ -5,6 +5,7 @@ import (
 
 	"github.com/samber/lo"
 
+	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/types"
 	xstrings "github.com/deepfactor-io/trivy/pkg/x/strings"
@@ -123,7 +124,7 @@ type ScanOptions struct {
 	OfflineScan    bool
 	Scanners       types.Scanners
 	FilePatterns   []string
-	ArtifactType   ftypes.ArtifactType
+	ArtifactType   artifact.Type
 	Parallel       int
 	SBOMSources    []string
 	RekorURL       string
