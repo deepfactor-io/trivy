@@ -89,9 +89,8 @@ func (u *Updater) Update() error {
 }
 
 func Init(cacheDir string, javaDBRepository name.Reference, skip, quiet bool, registryOption ftypes.RegistryOptions) {
-	repo, _ := name.NewTag(fmt.Sprintf("%s:%d", javaDBRepository, db.SchemaVersion))
 	updater = &Updater{
-		repo:           repo,
+		repo:           javaDBRepository,
 		dbDir:          dbDir(cacheDir),
 		skip:           skip,
 		quiet:          quiet,
