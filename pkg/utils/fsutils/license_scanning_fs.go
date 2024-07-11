@@ -22,28 +22,11 @@ type RecursiveWalker struct {
 	input RecursiveWalkerInput
 
 	// internal fields
+	licenses    map[string][]types.License
 	pkgIDMap    *sync.Map
 	processChan chan licensing.ClassifierInput
 	resultChan  chan licenseResult
 	waitGroup   *sync.WaitGroup
-}
-
-// default constructor for Recursive walker
-func NewRecursiveWalker(
-	input RecursiveWalkerInput,
-) *RecursiveWalker {
-	numWorkers := input.NumWorkers
-	if numWorkers == 0 {
-		numWorkers = 1 // default worker threads
-	}
-
-	return &RecursiveWalker{
-		input:       input,
-		pkgIDMap:    &sync.Map{},
-		processChan: make(chan licensing.ClassifierInput, 2*input.NumWorkers),
-		resultChan:  make(chan licenseResult, 2*input.NumWorkers),
-		waitGroup:   &sync.WaitGroup{},
-	}
 }
 
 type RecursiveWalkerInput struct {
@@ -52,13 +35,31 @@ type RecursiveWalkerInput struct {
 	PackageDependencyDir      string
 	ClassifierConfidenceLevel float64
 	LicenseTextCacheDir       string
-	Licenses                  map[string][]types.License
 	NumWorkers                int
 }
 
 type licenseResult struct {
 	PkgID    string
 	Licenses []types.License
+}
+
+// default constructor for Recursive walker
+func NewRecursiveWalker(
+	input RecursiveWalkerInput,
+) (*RecursiveWalker, error) {
+	numWorkers := input.NumWorkers
+	if numWorkers == 0 {
+		numWorkers = 1 // default worker threads
+	}
+
+	return &RecursiveWalker{
+		input:       input,
+		licenses:    make(map[string][]types.License),
+		pkgIDMap:    &sync.Map{},
+		processChan: make(chan licensing.ClassifierInput, 2*input.NumWorkers),
+		resultChan:  make(chan licenseResult, 2*input.NumWorkers),
+		waitGroup:   &sync.WaitGroup{},
+	}, nil
 }
 
 // starts the worker threads based on given number of workers
@@ -97,7 +98,7 @@ func (w *RecursiveWalker) StartWorker() {
 			log.Logger.Errorf("failed to get concluded licenses for input: %v, err: %s", classifierInput, err.Error())
 		}
 		if len(concludedLicenses) > 0 {
-			log.Logger.Infof("Found concluded licenses, pkgID: %s, concludedLicenses: %v", pkgID, concludedLicenses)
+			log.Logger.Debugf("Found concluded licenses, pkgID: %s, concludedLicenses: %v", pkgID, concludedLicenses)
 			w.resultChan <- licenseResult{PkgID: pkgID, Licenses: concludedLicenses}
 		}
 	}
@@ -200,6 +201,7 @@ func (w *RecursiveWalker) processPackageManifest(fsys fs.FS, root, parentPkgID s
 				return "", xerrors.Errorf("unable to parse package manifest: %w", err)
 			}
 
+			log.Logger.Debugf("Found declared license for, pkgID: %s, declaredLicenses: %v", pkg.PackageID(), pkg.DeclaredLicense())
 			w.resultChan <- licenseResult{PkgID: pkg.PackageID(), Licenses: []types.License{{Name: pkg.DeclaredLicense(), IsDeclared: true}}}
 			return pkg.PackageID(), nil
 		}
@@ -228,7 +230,9 @@ func checkPackageDependencyDir(fsys fs.FS, root, packageDependencyDir string) bo
 }
 
 // applies license classifier for given input and gets concluded licenses
-func checkForConcludedLicenses(classiferInput licensing.ClassifierInput) ([]types.License, error) {
+func checkForConcludedLicenses(
+	classiferInput licensing.ClassifierInput,
+) ([]types.License, error) {
 	var concludedLicenses []types.License
 
 	lf, err := classiferInput.Classify()
@@ -278,11 +282,11 @@ func isSpecialPath(path string) bool {
 // Process Results consumes the recursive walker's result channel and populates the licenses map
 func (w *RecursiveWalker) processResults() {
 	for result := range w.resultChan {
-		w.input.Licenses[result.PkgID] = append(w.input.Licenses[result.PkgID], result.Licenses...)
+		w.licenses[result.PkgID] = append(w.licenses[result.PkgID], result.Licenses...)
 	}
 }
 
 // returns the license map after processing
 func (w *RecursiveWalker) GetLicenses() map[string][]types.License {
-	return w.input.Licenses
+	return w.licenses
 }

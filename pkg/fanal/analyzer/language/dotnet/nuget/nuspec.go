@@ -118,15 +118,17 @@ func (p nuspecParser) findLicensesV2(name, version string) ([]types.License, err
 	// get the package ID for given package name and version
 	pkgID := godeputils.PackageID(name, version)
 
-	walker := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
+	walker, err := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
 		Parser:                    p,
 		PackageManifestFile:       fmt.Sprintf("%s.%s", name, nuspecExt),
 		PackageDependencyDir:      ".nuget/packages",
-		Licenses:                  make(map[string][]types.License),
 		ClassifierConfidenceLevel: p.licenseConfig.ClassifierConfidenceLevel,
 		LicenseTextCacheDir:       p.licenseConfig.LicenseTextCacheDir,
 		NumWorkers:                1,
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	// Start the worker pool which sends data to license classifier
 	go walker.StartWorkerPool()
@@ -159,15 +161,17 @@ func (p nuspecParser) findLicensesV2(name, version string) ([]types.License, err
 
 // finds licenses at the root path (".") relative to given file system fsys
 func (p nuspecParser) findLicensesAtRootPath(fsys fs.FS) ([]types.License, error) {
-	walker := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
+	walker, err := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
 		Parser:                    p,
 		PackageManifestFile:       fmt.Sprintf("%s.%s", "", nuspecExt),
 		PackageDependencyDir:      ".nuget/packages",
-		Licenses:                  make(map[string][]types.License),
 		ClassifierConfidenceLevel: p.licenseConfig.ClassifierConfidenceLevel,
 		LicenseTextCacheDir:       p.licenseConfig.LicenseTextCacheDir,
 		NumWorkers:                1,
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	// Start the worker pool which sends data to license classifier
 	go walker.StartWorkerPool()

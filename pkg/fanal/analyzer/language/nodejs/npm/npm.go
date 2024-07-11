@@ -226,15 +226,17 @@ func (a npmLibraryAnalyzer) findLicensesV2(fsys fs.FS, lockPath string) (map[str
 	// Note that fs.FS is always slashed regardless of the platform,
 	// and path.Join should be used rather than path.Join.
 
-	walker := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
+	walker, err := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
 		Parser:                    a,
 		PackageManifestFile:       types.NpmPkg,
 		PackageDependencyDir:      types.NpmDependencyDir,
-		Licenses:                  make(map[string][]types.License),
 		ClassifierConfidenceLevel: a.licenseConfig.ClassifierConfidenceLevel,
 		LicenseTextCacheDir:       a.licenseConfig.LicenseTextCacheDir,
-		NumWorkers:                50, // TODO change as needed
+		NumWorkers:                10,
 	})
+	if err != nil {
+		return nil, err
+	}
 
 	// Start the worker pool which sends data to license classifier
 	go walker.StartWorkerPool()

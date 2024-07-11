@@ -31,6 +31,12 @@ var (
 	cf             *classifier.Classifier
 	classifierOnce sync.Once
 	m              sync.Mutex
+
+	// deep license scanning variables
+	classifierPoolSize    int = 10 // default pool size is 10 classifiers
+	classifierPoolOnce    sync.Once
+	errClassifierPoolInit error = errors.New("failed to initialize license classifier pool")
+	classifierPool        *licenseClassifierPool
 )
 
 func initGoogleClassifier() error {
@@ -98,6 +104,45 @@ func Classify(filePath string, r io.Reader, confidenceLevel float64) (*types.Lic
 	}, nil
 }
 
+type licenseClassifierPool struct {
+	pool chan *classifier.Classifier
+}
+
+// initializes a pool of classifiers
+func initGoogleLicenseClassifierPool() error {
+	var err error
+	classifierPoolOnce.Do(func() {
+		classifierPoolChan := make(chan *classifier.Classifier, classifierPoolSize)
+
+		for i := 0; i < classifierPoolSize; i++ {
+			cf, err = assets.DefaultClassifier()
+			if err != nil {
+				return
+			}
+
+			classifierPoolChan <- cf
+		}
+
+		classifierPool = &licenseClassifierPool{pool: classifierPoolChan}
+	})
+	if err != nil {
+		errClassifierPoolInit = err
+		return err
+	}
+
+	return nil
+}
+
+// gets a classifier from the pool of classifiers
+func (p *licenseClassifierPool) Get() *classifier.Classifier {
+	return <-p.pool
+}
+
+// puts the classifier back to the pool of classifiers
+func (p *licenseClassifierPool) Put(classifier *classifier.Classifier) {
+	p.pool <- classifier
+}
+
 type ClassifierInput struct {
 	PkgID               string
 	FilePath            string
@@ -106,25 +151,27 @@ type ClassifierInput struct {
 	LicenseTextCacheDir string
 }
 
-// ClassifyV2 detects and classifies the license found in a file.
+// Classify detects and classifies the license found in a file.
 // It also extracts the license text for each match, creates and persist them in in given folder
 // Each file would be of form <license-text-checksum>.txt
 func (input *ClassifierInput) Classify() (*types.LicenseFile, error) {
-	if err := initGoogleClassifier(); err != nil {
-		return nil, err
+	if classifierPool == nil {
+		if err := initGoogleLicenseClassifierPool(); err != nil {
+			return nil, err
+		}
+		// check if classifierPool is successfully initialized
+		if classifierPool == nil {
+			return nil, errClassifierPoolInit
+		}
 	}
 
 	var findings types.LicenseFindings
 	var matchType types.LicenseType
 	seen := make(map[string]struct{})
 
-	// cf.Match is not thread safe
-	m.Lock()
-
-	// Use 'github.com/google/licenseclassifier' to find licenses
-	result := cf.Match(cf.Normalize(input.Content))
-
-	m.Unlock()
+	classifier := classifierPool.Get()
+	result := classifier.Match(classifier.Normalize(input.Content))
+	classifierPool.Put(classifier)
 
 	for _, match := range result.Matches {
 		if match.Confidence <= input.ConfidenceLevel {
@@ -133,7 +180,6 @@ func (input *ClassifierInput) Classify() (*types.LicenseFile, error) {
 		if _, ok := seen[match.Name]; ok {
 			continue
 		}
-
 		seen[match.Name] = struct{}{}
 
 		switch match.MatchType {
