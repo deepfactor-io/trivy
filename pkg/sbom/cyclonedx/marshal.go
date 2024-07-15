@@ -17,7 +17,6 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/sbom/core"
 	sbomio "github.com/deepfactor-io/trivy/pkg/sbom/io"
 	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
 	"github.com/package-url/packageurl-go"
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
@@ -35,7 +34,7 @@ const (
 type Marshaler struct {
 	appVersion   string // Trivy version
 	bom          *core.BOM
-	componentIDs map[uuid.UUID]string
+	componentIDs map[string]string
 }
 
 func NewMarshaler(version string) Marshaler {
@@ -59,7 +58,7 @@ func (m *Marshaler) MarshalReport(ctx context.Context, report types.Report) (*cd
 // Marshal converts the Trivy component to the CycloneDX format
 func (m *Marshaler) Marshal(ctx context.Context, bom *core.BOM, dfscanMeta types.DfScanMeta) (*cdx.BOM, error) {
 	m.bom = bom
-	m.componentIDs = make(map[uuid.UUID]string, len(m.bom.Components()))
+	m.componentIDs = make(map[string]string, len(m.bom.Components()))
 
 	cdxBOM := cdx.NewBOM()
 	cdxBOM.SerialNumber = dfscanMeta.ScanID.URN()
@@ -105,13 +104,6 @@ func (m *Marshaler) MarshalComponent(component *core.Component) (*cdx.Component,
 	if err != nil {
 		return nil, xerrors.Errorf("failed to get cdx component type: %w", err)
 	}
-
-	// sort for consistent report
-	/*
-		sort.Slice(r.Results, func(i, j int) bool {
-			return r.Results[i].Target < r.Results[j].Target
-		})
-	*/
 
 	cdxComponent := &cdx.Component{
 		BOMRef:     component.PkgIdentifier.BOMRef,

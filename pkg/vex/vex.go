@@ -18,7 +18,6 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/sbom/core"
 	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx"
 	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
 )
 
 // VEX represents Vulnerability Exploitability eXchange. It abstracts multiple VEX formats.
@@ -111,7 +110,7 @@ func decodeCSAF(r io.ReadSeeker) (VEX, error) {
 type NotAffected func(vuln types.DetectedVulnerability, product, subComponent *core.Component) (types.ModifiedFinding, bool)
 
 func filterVulnerabilities(result *types.Result, bom *core.BOM, fn NotAffected) {
-	components := lo.MapEntries(bom.Components(), func(id uuid.UUID, component *core.Component) (string, *core.Component) {
+	components := lo.MapEntries(bom.Components(), func(id string, component *core.Component) (string, *core.Component) {
 		return component.PkgIdentifier.UID, component
 	})
 
@@ -136,14 +135,14 @@ func filterVulnerabilities(result *types.Result, bom *core.BOM, fn NotAffected) 
 }
 
 // reachRoot traverses the component tree from the leaf to the root and returns true if the leaf reaches the root.
-func reachRoot(leaf *core.Component, components map[uuid.UUID]*core.Component, parents map[uuid.UUID][]uuid.UUID,
+func reachRoot(leaf *core.Component, components map[string]*core.Component, parents map[string][]string,
 	notAffected func(c, leaf *core.Component) bool) bool {
 
 	if notAffected(leaf, nil) {
 		return false
 	}
 
-	visited := make(map[uuid.UUID]bool)
+	visited := make(map[string]bool)
 
 	// Use Depth First Search (DFS)
 	var dfs func(c *core.Component) bool

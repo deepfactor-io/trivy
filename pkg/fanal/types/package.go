@@ -55,7 +55,7 @@ func (r *Relationship) UnmarshalJSON(data []byte) error {
 // PkgIdentifier represents a software identifiers in one of more of the supported formats.
 type PkgIdentifier struct {
 	UID    string                 `json:",omitempty"` // Calculated by the package struct
-	PURL   *packageurl.PackageURL `json:"-"`
+	PURL   *packageurl.PackageURL `json:",omitempty"`
 	BOMRef string                 `json:",omitempty"` // For CycloneDX
 }
 

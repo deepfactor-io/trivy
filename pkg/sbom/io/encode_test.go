@@ -20,9 +20,9 @@ func TestEncoder_Encode(t *testing.T) {
 	tests := []struct {
 		name           string
 		report         types.Report
-		wantComponents map[uuid.UUID]*core.Component
-		wantRels       map[uuid.UUID][]core.Relationship
-		wantVulns      map[uuid.UUID][]core.Vulnerability
+		wantComponents map[string]*core.Component
+		wantRels       map[string][]core.Relationship
+		wantVulns      map[string][]core.Vulnerability
 		wantErr        string
 	}{
 		{
@@ -165,8 +165,8 @@ func TestEncoder_Encode(t *testing.T) {
 					},
 				},
 			},
-			wantComponents: map[uuid.UUID]*core.Component{
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): {
+			wantComponents: map[string]*core.Component{
+				"3ff14136-e09f-4df9-80ea-000000000001": {
 					Type: core.TypeContainerImage,
 					Name: "debian:12",
 					Root: true,
@@ -203,7 +203,7 @@ func TestEncoder_Encode(t *testing.T) {
 						},
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"): {
+				"3ff14136-e09f-4df9-80ea-000000000002": {
 					Type:    core.TypeOS,
 					Name:    "debian",
 					Version: "12",
@@ -221,7 +221,7 @@ func TestEncoder_Encode(t *testing.T) {
 						BOMRef: "3ff14136-e09f-4df9-80ea-000000000002",
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000003"): {
+				"3ff14136-e09f-4df9-80ea-000000000003": {
 					Type:    core.TypeLibrary,
 					Name:    "libc6",
 					Version: "2.37-15.1",
@@ -245,7 +245,7 @@ func TestEncoder_Encode(t *testing.T) {
 						BOMRef: "pkg:deb/libc6@2.37-15.1",
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000004"): {
+				"3ff14136-e09f-4df9-80ea-000000000004": {
 					Type:    core.TypeLibrary,
 					Name:    "curl",
 					Version: "7.50.3-1",
@@ -269,7 +269,7 @@ func TestEncoder_Encode(t *testing.T) {
 						BOMRef: "pkg:deb/curl@7.50.3-1",
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000005"): {
+				"3ff14136-e09f-4df9-80ea-000000000005": {
 					Type:    core.TypeLibrary,
 					Group:   "com.fasterxml.jackson.core",
 					Name:    "jackson-databind",
@@ -304,7 +304,7 @@ func TestEncoder_Encode(t *testing.T) {
 						BOMRef: "3ff14136-e09f-4df9-80ea-000000000005",
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000006"): {
+				"3ff14136-e09f-4df9-80ea-000000000006": {
 					Type:    core.TypeLibrary,
 					Group:   "com.fasterxml.jackson.core",
 					Name:    "jackson-databind",
@@ -340,43 +340,43 @@ func TestEncoder_Encode(t *testing.T) {
 					},
 				},
 			},
-			wantRels: map[uuid.UUID][]core.Relationship{
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): {
+			wantRels: map[string][]core.Relationship{
+				"3ff14136-e09f-4df9-80ea-000000000001": {
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000002",
 						Type:       core.RelationshipContains,
 					},
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000005"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000005",
 						Type:       core.RelationshipContains,
 					},
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000006"),
-						Type:       core.RelationshipContains,
-					},
-				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"): {
-					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000003"),
-						Type:       core.RelationshipContains,
-					},
-					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000004"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000006",
 						Type:       core.RelationshipContains,
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000003"): nil,
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000004"): {
+				"3ff14136-e09f-4df9-80ea-000000000002": {
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000003"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000003",
+						Type:       core.RelationshipContains,
+					},
+					{
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000004",
+						Type:       core.RelationshipContains,
+					},
+				},
+				"3ff14136-e09f-4df9-80ea-000000000003": nil,
+				"3ff14136-e09f-4df9-80ea-000000000004": {
+					{
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000003",
 						Type:       core.RelationshipDependsOn,
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000005"): nil,
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000006"): nil,
+				"3ff14136-e09f-4df9-80ea-000000000005": nil,
+				"3ff14136-e09f-4df9-80ea-000000000006": nil,
 			},
-			wantVulns: map[uuid.UUID][]core.Vulnerability{
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000004"): {
+			wantVulns: map[string][]core.Vulnerability{
+				"3ff14136-e09f-4df9-80ea-000000000004": {
 					{
 						ID:               "CVE-2021-22876",
 						PkgName:          "curl",
@@ -387,7 +387,7 @@ func TestEncoder_Encode(t *testing.T) {
 						},
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000005"): {
+				"3ff14136-e09f-4df9-80ea-000000000005": {
 					{
 						ID:               "CVE-2022-42003",
 						PkgName:          "com.fasterxml.jackson.core:jackson-databind",
@@ -398,7 +398,7 @@ func TestEncoder_Encode(t *testing.T) {
 						},
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000006"): {
+				"3ff14136-e09f-4df9-80ea-000000000006": {
 					{
 						ID:               "CVE-2022-42003",
 						PkgName:          "com.fasterxml.jackson.core:jackson-databind",
@@ -490,8 +490,8 @@ func TestEncoder_Encode(t *testing.T) {
 					},
 				},
 			},
-			wantComponents: map[uuid.UUID]*core.Component{
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): {
+			wantComponents: map[string]*core.Component{
+				"3ff14136-e09f-4df9-80ea-000000000001": {
 					Type: core.TypeFilesystem,
 					Name: "gobinary",
 					Root: true,
@@ -505,7 +505,7 @@ func TestEncoder_Encode(t *testing.T) {
 						BOMRef: "3ff14136-e09f-4df9-80ea-000000000001",
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"): {
+				"3ff14136-e09f-4df9-80ea-000000000002": {
 					Type: core.TypeApplication,
 					Name: "test",
 					Properties: []core.Property{
@@ -522,7 +522,7 @@ func TestEncoder_Encode(t *testing.T) {
 						BOMRef: "3ff14136-e09f-4df9-80ea-000000000002",
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000003"): {
+				"3ff14136-e09f-4df9-80ea-000000000003": {
 					Type:    core.TypeLibrary,
 					Name:    "github.com/org/root",
 					SrcFile: "test",
@@ -546,7 +546,7 @@ func TestEncoder_Encode(t *testing.T) {
 						BOMRef: "pkg:golang/github.com/org/root",
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000004"): {
+				"3ff14136-e09f-4df9-80ea-000000000004": {
 					Type:    core.TypeLibrary,
 					Name:    "github.com/org/direct",
 					Version: "1.0.0",
@@ -572,7 +572,7 @@ func TestEncoder_Encode(t *testing.T) {
 						BOMRef: "pkg:golang/github.com/org/direct@1.0.0",
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000005"): {
+				"3ff14136-e09f-4df9-80ea-000000000005": {
 					Type:    core.TypeLibrary,
 					Name:    "github.com/org/indirect",
 					Version: "2.0.0",
@@ -598,7 +598,7 @@ func TestEncoder_Encode(t *testing.T) {
 						BOMRef: "pkg:golang/github.com/org/indirect@2.0.0",
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000006"): {
+				"3ff14136-e09f-4df9-80ea-000000000006": {
 					Type:    core.TypeLibrary,
 					Name:    "stdlib",
 					Version: "1.22.1",
@@ -624,39 +624,39 @@ func TestEncoder_Encode(t *testing.T) {
 					},
 				},
 			},
-			wantRels: map[uuid.UUID][]core.Relationship{
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): {
+			wantRels: map[string][]core.Relationship{
+				"3ff14136-e09f-4df9-80ea-000000000001": {
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000002",
 						Type:       core.RelationshipContains,
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"): {
+				"3ff14136-e09f-4df9-80ea-000000000002": {
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000003"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000003",
 						Type:       core.RelationshipContains,
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000003"): {
+				"3ff14136-e09f-4df9-80ea-000000000003": {
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000004"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000004",
 						Type:       core.RelationshipDependsOn,
 					},
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000006"),
-						Type:       core.RelationshipDependsOn,
-					},
-				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000004"): {
-					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000005"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000006",
 						Type:       core.RelationshipDependsOn,
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000005"): nil,
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000006"): nil,
+				"3ff14136-e09f-4df9-80ea-000000000004": {
+					{
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000005",
+						Type:       core.RelationshipDependsOn,
+					},
+				},
+				"3ff14136-e09f-4df9-80ea-000000000005": nil,
+				"3ff14136-e09f-4df9-80ea-000000000006": nil,
 			},
-			wantVulns: make(map[uuid.UUID][]core.Vulnerability),
+			wantVulns: make(map[string][]core.Vulnerability),
 		},
 		{
 			name: "SBOM file",
@@ -690,20 +690,20 @@ func TestEncoder_Encode(t *testing.T) {
 				},
 				BOM: newTestBOM(t),
 			},
-			wantComponents: map[uuid.UUID]*core.Component{
-				uuid.MustParse("2ff14136-e09f-4df9-80ea-000000000001"): appComponent,
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): libComponent,
+			wantComponents: map[string]*core.Component{
+				"2ff14136-e09f-4df9-80ea-000000000001": appComponent,
+				"3ff14136-e09f-4df9-80ea-000000000001": libComponent,
 			},
-			wantRels: map[uuid.UUID][]core.Relationship{
-				uuid.MustParse("2ff14136-e09f-4df9-80ea-000000000001"): {
+			wantRels: map[string][]core.Relationship{
+				"2ff14136-e09f-4df9-80ea-000000000001": {
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000001",
 						Type:       core.RelationshipContains,
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): nil,
+				"3ff14136-e09f-4df9-80ea-000000000001": nil,
 			},
-			wantVulns: make(map[uuid.UUID][]core.Vulnerability),
+			wantVulns: make(map[string][]core.Vulnerability),
 		},
 		{
 			name: "SBOM file without root component",
@@ -737,20 +737,20 @@ func TestEncoder_Encode(t *testing.T) {
 				},
 				BOM: newTestBOM2(t),
 			},
-			wantComponents: map[uuid.UUID]*core.Component{
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): fsComponent,
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"): libComponent,
+			wantComponents: map[string]*core.Component{
+				"3ff14136-e09f-4df9-80ea-000000000001": fsComponent,
+				"3ff14136-e09f-4df9-80ea-000000000002": libComponent,
 			},
-			wantRels: map[uuid.UUID][]core.Relationship{
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): {
+			wantRels: map[string][]core.Relationship{
+				"3ff14136-e09f-4df9-80ea-000000000001": {
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000002",
 						Type:       core.RelationshipContains,
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"): nil,
+				"3ff14136-e09f-4df9-80ea-000000000002": nil,
 			},
-			wantVulns: make(map[uuid.UUID][]core.Vulnerability),
+			wantVulns: make(map[string][]core.Vulnerability),
 		},
 		{
 			name: "json file created from SBOM file (BOM is empty)",
@@ -783,20 +783,20 @@ func TestEncoder_Encode(t *testing.T) {
 					},
 				},
 			},
-			wantComponents: map[uuid.UUID]*core.Component{
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): fsComponent,
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"): libComponent,
+			wantComponents: map[string]*core.Component{
+				"3ff14136-e09f-4df9-80ea-000000000001": fsComponent,
+				"3ff14136-e09f-4df9-80ea-000000000002": libComponent,
 			},
-			wantRels: map[uuid.UUID][]core.Relationship{
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000001"): {
+			wantRels: map[string][]core.Relationship{
+				"3ff14136-e09f-4df9-80ea-000000000001": {
 					{
-						Dependency: uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"),
+						Dependency: "3ff14136-e09f-4df9-80ea-000000000002",
 						Type:       core.RelationshipContains,
 					},
 				},
-				uuid.MustParse("3ff14136-e09f-4df9-80ea-000000000002"): nil,
+				"3ff14136-e09f-4df9-80ea-000000000002": nil,
 			},
-			wantVulns: make(map[uuid.UUID][]core.Vulnerability),
+			wantVulns: make(map[string][]core.Vulnerability),
 		},
 		{
 			name: "invalid digest",

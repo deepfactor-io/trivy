@@ -20,7 +20,6 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/purl"
 	"github.com/deepfactor-io/trivy/pkg/sbom/core"
 	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
 )
 
 var (
@@ -31,9 +30,9 @@ var (
 type Decoder struct {
 	bom *core.BOM
 
-	osID uuid.UUID
-	pkgs map[uuid.UUID]*ftypes.Package
-	apps map[uuid.UUID]*ftypes.Application
+	osID string
+	pkgs map[string]*ftypes.Package
+	apps map[string]*ftypes.Application
 
 	logger *log.Logger
 }
@@ -41,8 +40,8 @@ type Decoder struct {
 func NewDecoder(bom *core.BOM) *Decoder {
 	return &Decoder{
 		bom:    bom,
-		pkgs:   make(map[uuid.UUID]*ftypes.Package),
-		apps:   make(map[uuid.UUID]*ftypes.Application),
+		pkgs:   make(map[string]*ftypes.Package),
+		apps:   make(map[string]*ftypes.Application),
 		logger: log.WithPrefix("sbom"),
 	}
 }
@@ -118,7 +117,7 @@ func (m *Decoder) decodeComponents(ctx context.Context, sbom *types.SBOM) error 
 	for id, c := range m.bom.Components() {
 		switch c.Type {
 		case core.TypeOS:
-			if m.osID != uuid.Nil {
+			if m.osID != "" {
 				onceMultiOSWarn()
 				continue
 			}

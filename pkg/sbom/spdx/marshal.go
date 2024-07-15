@@ -23,7 +23,6 @@ import (
 	"github.com/deepfactor-io/trivy/pkg/sbom/core"
 	sbomio "github.com/deepfactor-io/trivy/pkg/sbom/io"
 	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
 )
 
 const (
@@ -134,7 +133,7 @@ func (m *Marshaler) Marshal(ctx context.Context, bom *core.BOM, dfscanMeta types
 	pkgDownloadLocation := m.packageDownloadLocation(root)
 
 	// Component ID => SPDX ID
-	packageIDs := make(map[uuid.UUID]spdx.ElementID)
+	packageIDs := make(map[string]spdx.ElementID)
 
 	// Root package contains OS, OS packages, language-specific packages and so on.
 	rootPkg, err := m.rootSPDXPackage(root, pkgDownloadLocation)
