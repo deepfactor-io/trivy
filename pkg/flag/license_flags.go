@@ -24,6 +24,18 @@ var (
 		Default:    0.9,
 		Usage:      "specify license classifier's confidence level",
 	}
+	LicenseTextCacheDir = Flag{
+		Name:       "license-text-cacheDir",
+		ConfigName: "license.cacheDir",
+		Default:    "",
+		Usage:      "specify the cache dir to persist license texts found in license scanning",
+	}
+	LicenseScanWorkers = Flag{
+		Name:       "license-scan-workers",
+		ConfigName: "license.scanWorkers",
+		Default:    5,
+		Usage:      "specify the number of parallel workers needed for license scanning",
+	}
 
 	// LicenseForbidden is an option only in a config file
 	LicenseForbidden = Flag{
@@ -68,6 +80,7 @@ type LicenseFlagGroup struct {
 	IgnoredLicenses        *Flag
 	LicenseConfidenceLevel *Flag
 	LicenseTextCacheDir    *Flag
+	LicenseScanWorkers     *Flag
 
 	// License Categories
 	LicenseForbidden    *Flag // mapped to CRITICAL
@@ -85,6 +98,7 @@ type LicenseOptions struct {
 	LicenseRiskThreshold   int
 	LicenseCategories      map[types.LicenseCategory][]string
 	LicenseTextCacheDir    string
+	LicenseScanWorkers     int
 }
 
 func NewLicenseFlagGroup() *LicenseFlagGroup {
@@ -92,6 +106,8 @@ func NewLicenseFlagGroup() *LicenseFlagGroup {
 		LicenseFull:            &LicenseFull,
 		IgnoredLicenses:        &IgnoredLicenses,
 		LicenseConfidenceLevel: &LicenseConfidenceLevel,
+		LicenseTextCacheDir:    &LicenseTextCacheDir,
+		LicenseScanWorkers:     &LicenseScanWorkers,
 		LicenseForbidden:       &LicenseForbidden,
 		LicenseRestricted:      &LicenseRestricted,
 		LicenseReciprocal:      &LicenseReciprocal,
@@ -107,7 +123,8 @@ func (f *LicenseFlagGroup) Name() string {
 
 func (f *LicenseFlagGroup) Flags() []*Flag {
 	return []*Flag{f.LicenseFull, f.IgnoredLicenses, f.LicenseForbidden, f.LicenseRestricted, f.LicenseReciprocal,
-		f.LicenseNotice, f.LicensePermissive, f.LicenseUnencumbered, f.LicenseConfidenceLevel}
+		f.LicenseNotice, f.LicensePermissive, f.LicenseUnencumbered, f.LicenseConfidenceLevel,
+		f.LicenseTextCacheDir, f.LicenseScanWorkers}
 }
 
 func (f *LicenseFlagGroup) ToOptions() LicenseOptions {
@@ -125,5 +142,6 @@ func (f *LicenseFlagGroup) ToOptions() LicenseOptions {
 		LicenseConfidenceLevel: getFloat(f.LicenseConfidenceLevel),
 		LicenseCategories:      licenseCategories,
 		LicenseTextCacheDir:    getString(f.LicenseTextCacheDir),
+		LicenseScanWorkers:     getInt(f.LicenseScanWorkers),
 	}
 }

@@ -109,12 +109,16 @@ type licenseClassifierPool struct {
 }
 
 // initializes a pool of classifiers
-func initGoogleLicenseClassifierPool() error {
+func initGoogleLicenseClassifierPool(poolSize int) error {
 	var err error
 	classifierPoolOnce.Do(func() {
-		classifierPoolChan := make(chan *classifier.Classifier, classifierPoolSize)
+		// check if given pool size is valid
+		if poolSize == 0 {
+			poolSize = classifierPoolSize
+		}
 
-		for i := 0; i < classifierPoolSize; i++ {
+		classifierPoolChan := make(chan *classifier.Classifier, poolSize)
+		for i := 0; i < poolSize; i++ {
 			cf, err = assets.DefaultClassifier()
 			if err != nil {
 				return
@@ -149,6 +153,10 @@ type ClassifierInput struct {
 	Content             []byte
 	ConfidenceLevel     float64
 	LicenseTextCacheDir string
+
+	// Number of required workers means multiple worker threads
+	// need license classifiers
+	LicenseScanWorkers int
 }
 
 // Classify detects and classifies the license found in a file.
@@ -156,7 +164,7 @@ type ClassifierInput struct {
 // Each file would be of form <license-text-checksum>.txt
 func (input *ClassifierInput) Classify() (*types.LicenseFile, error) {
 	if classifierPool == nil {
-		if err := initGoogleLicenseClassifierPool(); err != nil {
+		if err := initGoogleLicenseClassifierPool(input.LicenseScanWorkers); err != nil {
 			return nil, err
 		}
 		// check if classifierPool is successfully initialized

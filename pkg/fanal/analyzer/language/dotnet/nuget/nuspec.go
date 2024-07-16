@@ -124,7 +124,7 @@ func (p nuspecParser) findLicensesV2(name, version string) ([]types.License, err
 		PackageDependencyDir:      ".nuget/packages",
 		ClassifierConfidenceLevel: p.licenseConfig.ClassifierConfidenceLevel,
 		LicenseTextCacheDir:       p.licenseConfig.LicenseTextCacheDir,
-		NumWorkers:                1,
+		ParallelWorkers:           p.licenseConfig.LicenseScanWorkers,
 	})
 	if err != nil {
 		return nil, err
@@ -167,7 +167,7 @@ func (p nuspecParser) findLicensesAtRootPath(fsys fs.FS) ([]types.License, error
 		PackageDependencyDir:      ".nuget/packages",
 		ClassifierConfidenceLevel: p.licenseConfig.ClassifierConfidenceLevel,
 		LicenseTextCacheDir:       p.licenseConfig.LicenseTextCacheDir,
-		NumWorkers:                1,
+		ParallelWorkers:           p.licenseConfig.LicenseScanWorkers,
 	})
 	if err != nil {
 		return nil, err

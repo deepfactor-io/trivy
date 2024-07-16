@@ -51,6 +51,7 @@ func newNpmLibraryAnalyzer(opt analyzer.AnalyzerOptions) (analyzer.PostAnalyzer,
 			EnableDeepLicenseScan:     true,
 			ClassifierConfidenceLevel: opt.LicenseScannerOption.ClassifierConfidenceLevel,
 			LicenseTextCacheDir:       opt.LicenseScannerOption.LicenseTextCacheDir,
+			LicenseScanWorkers:        opt.LicenseScannerOption.LicenseScanWorkers,
 		}
 
 		log.Logger.Debug("Deep license scanning enabled for Npm Library Analyzer")
@@ -232,7 +233,7 @@ func (a npmLibraryAnalyzer) findLicensesV2(fsys fs.FS, lockPath string) (map[str
 		PackageDependencyDir:      types.NpmDependencyDir,
 		ClassifierConfidenceLevel: a.licenseConfig.ClassifierConfidenceLevel,
 		LicenseTextCacheDir:       a.licenseConfig.LicenseTextCacheDir,
-		NumWorkers:                10,
+		ParallelWorkers:           a.licenseConfig.LicenseScanWorkers,
 	})
 	if err != nil {
 		return nil, err

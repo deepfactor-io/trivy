@@ -68,6 +68,9 @@ type LicenseScannerOption struct {
 
 	// Cache dir where extracted license text files are created
 	LicenseTextCacheDir string
+
+	// Num of parallel workers needed for deep license scanning
+	LicenseScanWorkers int
 }
 
 ////////////////

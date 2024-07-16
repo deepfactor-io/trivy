@@ -64,4 +64,5 @@ type LicenseScanConfig struct {
 	EnableDeepLicenseScan     bool
 	ClassifierConfidenceLevel float64
 	LicenseTextCacheDir       string
+	LicenseScanWorkers        int
 }

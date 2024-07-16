@@ -691,6 +691,7 @@ func initScannerConfig(opts flag.Options, cacheClient cache.Cache) (ScannerConfi
 				Full:                      opts.LicenseFull,
 				ClassifierConfidenceLevel: opts.LicenseConfidenceLevel,
 				LicenseTextCacheDir:       opts.LicenseTextCacheDir,
+				LicenseScanWorkers:        opts.LicenseScanWorkers,
 			},
 			OnlyFetchDFScanRegistrationMeta: opts.OnlyFetchDFScanRegistrationMeta,
 		},

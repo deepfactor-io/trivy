@@ -35,7 +35,7 @@ type RecursiveWalkerInput struct {
 	PackageDependencyDir      string
 	ClassifierConfidenceLevel float64
 	LicenseTextCacheDir       string
-	NumWorkers                int
+	ParallelWorkers           int
 }
 
 type licenseResult struct {
@@ -47,24 +47,19 @@ type licenseResult struct {
 func NewRecursiveWalker(
 	input RecursiveWalkerInput,
 ) (*RecursiveWalker, error) {
-	numWorkers := input.NumWorkers
-	if numWorkers == 0 {
-		numWorkers = 1 // default worker threads
-	}
-
 	return &RecursiveWalker{
 		input:       input,
 		licenses:    make(map[string][]types.License),
 		pkgIDMap:    &sync.Map{},
-		processChan: make(chan licensing.ClassifierInput, 2*input.NumWorkers),
-		resultChan:  make(chan licenseResult, 2*input.NumWorkers),
+		processChan: make(chan licensing.ClassifierInput, 2*input.ParallelWorkers),
+		resultChan:  make(chan licenseResult, 2*input.ParallelWorkers),
 		waitGroup:   &sync.WaitGroup{},
 	}, nil
 }
 
 // starts the worker threads based on given number of workers
 func (w *RecursiveWalker) StartWorkerPool() {
-	for i := 0; i < w.input.NumWorkers; i++ {
+	for i := 0; i < w.input.ParallelWorkers; i++ {
 		w.waitGroup.Add(1)
 		go w.StartWorker()
 	}
@@ -154,6 +149,7 @@ func (w *RecursiveWalker) Walk(fsys fs.FS, root string, parentPkgID string) (boo
 			Content:             content,
 			ConfidenceLevel:     w.input.ClassifierConfidenceLevel,
 			LicenseTextCacheDir: w.input.LicenseTextCacheDir,
+			LicenseScanWorkers:  w.input.ParallelWorkers,
 		}
 		return nil
 	}
