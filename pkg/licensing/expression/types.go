@@ -2,8 +2,7 @@ package expression
 
 import (
 	"fmt"
-
-	"golang.org/x/exp/slices"
+	"slices"
 
 	"github.com/deepfactor-io/trivy/pkg/licensing"
 )

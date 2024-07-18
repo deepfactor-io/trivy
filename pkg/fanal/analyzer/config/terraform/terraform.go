@@ -3,9 +3,9 @@ package terraform
 import (
 	"os"
 
-	"github.com/aquasecurity/trivy-iac/pkg/detection"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config"
+	"github.com/deepfactor-io/trivy/pkg/iac/detection"
 	"github.com/deepfactor-io/trivy/pkg/misconf"
 )
 

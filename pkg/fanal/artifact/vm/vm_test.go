@@ -14,14 +14,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
+	"github.com/deepfactor-io/trivy/pkg/cache"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
 	"github.com/deepfactor-io/trivy/pkg/fanal/artifact/vm"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
 	"github.com/deepfactor-io/trivy/pkg/misconf"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os/alpine"
 	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/pkg/apk"
@@ -36,7 +36,7 @@ type mockWalker struct {
 	root string
 }
 
-func (m *mockWalker) Walk(_ *io.SectionReader, _ string, fn walker.WalkFunc) error {
+func (m *mockWalker) Walk(_ *io.SectionReader, _ string, _ walker.Option, fn walker.WalkFunc) error {
 	return filepath.WalkDir(m.root, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
@@ -48,7 +48,7 @@ func (m *mockWalker) Walk(_ *io.SectionReader, _ string, fn walker.WalkFunc) err
 		if err != nil {
 			return err
 		}
-		opener := func() (dio.ReadSeekCloserAt, error) {
+		opener := func() (xio.ReadSeekCloserAt, error) {
 			return os.Open(path)
 		}
 		relPath, err := filepath.Rel(m.root, path)
@@ -79,14 +79,14 @@ func TestNewArtifact(t *testing.T) {
 		{
 			name:   "sad path unsupported vm format",
 			target: "testdata/monolithicSparse.vmdk",
-			wantErr: func(t assert.TestingT, err error, args ...interface{}) bool {
+			wantErr: func(t assert.TestingT, err error, args ...any) bool {
 				return assert.ErrorContains(t, err, "unsupported type error")
 			},
 		},
 		{
 			name:   "sad path file not found",
 			target: "testdata/no-file",
-			wantErr: func(t assert.TestingT, err error, args ...interface{}) bool {
+			wantErr: func(t assert.TestingT, err error, args ...any) bool {
 				return assert.ErrorContains(t, err, "file open error")
 			},
 		},
@@ -94,7 +94,7 @@ func TestNewArtifact(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			w := &mockWalker{root: "testdata"}
-			_, err := vm.NewArtifact(tt.target, nil, w, artifact.Option{})
+			_, err := vm.NewArtifact(tt.target, nil, w, artifact.Option{Parallel: 3})
 			tt.wantErr(t, err, fmt.Sprintf("NewArtifact(%v, nil, nil)", tt.target))
 		})
 	}
@@ -112,7 +112,7 @@ func TestArtifact_Inspect(t *testing.T) {
 		missingBlobsExpectation cache.ArtifactCacheMissingBlobsExpectation
 		putBlobExpectation      cache.ArtifactCachePutBlobExpectation
 		putArtifactExpectations []cache.ArtifactCachePutArtifactExpectation
-		want                    types.ArtifactReference
+		want                    artifact.Reference
 		wantErr                 string
 	}{
 		{
@@ -121,7 +121,7 @@ func TestArtifact_Inspect(t *testing.T) {
 			rootDir: "testdata/alpine",
 			putBlobExpectation: cache.ArtifactCachePutBlobExpectation{
 				Args: cache.ArtifactCachePutBlobArgs{
-					BlobID:   "sha256:aeadb167e49ab2616738bc1d8b39f742968bef78baed984cf5801c678d6750ce",
+					BlobID:   "sha256:84a726d23c36d0e1857101969b257c1199de5432489d44581750d54ea8eff8cd",
 					BlobInfo: expectedBlobInfo,
 				},
 				Returns: cache.ArtifactCachePutBlobReturns{},
@@ -129,19 +129,19 @@ func TestArtifact_Inspect(t *testing.T) {
 			putArtifactExpectations: []cache.ArtifactCachePutArtifactExpectation{
 				{
 					Args: cache.ArtifactCachePutArtifactArgs{
-						ArtifactID: "sha256:aeadb167e49ab2616738bc1d8b39f742968bef78baed984cf5801c678d6750ce",
+						ArtifactID: "sha256:84a726d23c36d0e1857101969b257c1199de5432489d44581750d54ea8eff8cd",
 						ArtifactInfo: types.ArtifactInfo{
 							SchemaVersion: types.ArtifactJSONSchemaVersion,
 						},
 					},
 				},
 			},
-			want: types.ArtifactReference{
+			want: artifact.Reference{
 				Name: "rawdata.img",
-				Type: types.ArtifactVM,
-				ID:   "sha256:aeadb167e49ab2616738bc1d8b39f742968bef78baed984cf5801c678d6750ce",
+				Type: artifact.TypeVM,
+				ID:   "sha256:84a726d23c36d0e1857101969b257c1199de5432489d44581750d54ea8eff8cd",
 				BlobIDs: []string{
-					"sha256:aeadb167e49ab2616738bc1d8b39f742968bef78baed984cf5801c678d6750ce",
+					"sha256:84a726d23c36d0e1857101969b257c1199de5432489d44581750d54ea8eff8cd",
 				},
 			},
 		},
@@ -172,9 +172,9 @@ func TestArtifact_Inspect(t *testing.T) {
 					},
 				},
 			},
-			want: types.ArtifactReference{
+			want: artifact.Reference{
 				Name: "ebs-012345",
-				Type: types.ArtifactVM,
+				Type: artifact.TypeVM,
 				ID:   "sha256:c28da2df41e019b5d18459440178341ec05e9082b12b6f11afe73f0600bfe96a",
 				BlobIDs: []string{
 					"sha256:c28da2df41e019b5d18459440178341ec05e9082b12b6f11afe73f0600bfe96a",

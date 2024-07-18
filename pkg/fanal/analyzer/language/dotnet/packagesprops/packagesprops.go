@@ -7,7 +7,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	props "github.com/deepfactor-io/go-dep-parser/pkg/nuget/packagesprops"
+	props "github.com/deepfactor-io/trivy/pkg/dependency/parser/nuget/packagesprops"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"

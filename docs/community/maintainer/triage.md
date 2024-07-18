@@ -184,8 +184,8 @@ Then: Close the issue.
 
 ## Help Wanted issues
 
-We use two labels [help wanted](https://github.com/aquasecurity/trivy/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)
-and [good first issue](https://github.com/aquasecurity/trivy/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+We use two labels [help wanted](https://github.com/deepfactor-io/trivy/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)
+and [good first issue](https://github.com/deepfactor-io/trivy/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
 to identify issues that have been specially groomed for new contributors.
 
 We have specific [guidelines](/docs/community/maintainer/help-wanted.md)

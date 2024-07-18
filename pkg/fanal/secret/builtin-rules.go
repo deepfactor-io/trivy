@@ -5,8 +5,8 @@ import (
 
 	"github.com/samber/lo"
 
-	defsecRules "github.com/aquasecurity/trivy-iac/pkg/rules"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	iacRules "github.com/deepfactor-io/trivy/pkg/iac/rules"
 )
 
 var (
@@ -69,6 +69,7 @@ var (
 	CategoryTwitch               = types.SecretRuleCategory("Twitch")
 	CategoryTypeform             = types.SecretRuleCategory("Typeform")
 	CategoryDocker               = types.SecretRuleCategory("Docker")
+	CategoryHuggingFace          = types.SecretRuleCategory("HuggingFace")
 )
 
 // Reusable regex patterns
@@ -76,15 +77,15 @@ const (
 	quote       = `["']?`
 	connect     = `\s*(:|=>|=)?\s*`
 	startSecret = `(^|\s+)`
-	endSecret   = `(\s+|$)`
+	endSecret   = `[.,]?(\s+|$)`
 
-	aws = `(aws)?_?`
+	aws = `aws_?`
 )
 
 // This function is exported for trivy-plugin-aqua purposes only
-func GetSecretRulesMetadata() []defsecRules.Check {
-	return lo.Map(builtinRules, func(rule Rule, i int) defsecRules.Check {
-		return defsecRules.Check{
+func GetSecretRulesMetadata() []iacRules.Check {
+	return lo.Map(builtinRules, func(rule Rule, i int) iacRules.Check {
+		return iacRules.Check{
 			Name:        rule.ID,
 			Description: rule.Title,
 		}
@@ -159,11 +160,20 @@ var builtinRules = []Rule{
 		Keywords: []string{"glpat-"},
 	},
 	{
+		// cf. https://huggingface.co/docs/hub/en/security-tokens
+		ID:       "hugging-face-access-token",
+		Category: CategoryHuggingFace,
+		Severity: "CRITICAL",
+		Title:    "Hugging Face Access Token",
+		Regex:    MustCompile(`hf_[A-Za-z0-9]{39}`),
+		Keywords: []string{"hf_"},
+	},
+	{
 		ID:              "private-key",
 		Category:        CategoryAsymmetricPrivateKey,
 		Title:           "Asymmetric Private Key",
 		Severity:        "HIGH",
-		Regex:           MustCompile(`(?i)-----\s*?BEGIN[ A-Z0-9_-]*?PRIVATE KEY( BLOCK)?\s*?-----[\s]*?(?P<secret>[\sA-Za-z0-9=+/\\\r\n]+)[\s]*?-----\s*?END[ A-Z0-9_-]*? PRIVATE KEY( BLOCK)?\s*?-----`),
+		Regex:           MustCompile(`(?i)-----\s*?BEGIN[ A-Z0-9_-]*?PRIVATE KEY( BLOCK)?\s*?-----[\s]*?(?P<secret>[A-Za-z0-9=+/\\\r\n][A-Za-z0-9=+/\\\s]+)[\s]*?-----\s*?END[ A-Z0-9_-]*? PRIVATE KEY( BLOCK)?\s*?-----`),
 		SecretGroupName: "secret",
 		Keywords:        []string{"-----"},
 	},

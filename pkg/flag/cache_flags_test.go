@@ -38,16 +38,6 @@ func TestCacheFlagGroup_ToOptions(t *testing.T) {
 			assertion: require.NoError,
 		},
 		{
-			name: "redis",
-			fields: fields{
-				CacheBackend: "redis://localhost:6379",
-			},
-			want: flag.CacheOptions{
-				CacheBackend: "redis://localhost:6379",
-			},
-			assertion: require.NoError,
-		},
-		{
 			name: "redis tls",
 			fields: fields{
 				CacheBackend: "redis://localhost:6379",
@@ -57,11 +47,6 @@ func TestCacheFlagGroup_ToOptions(t *testing.T) {
 			},
 			want: flag.CacheOptions{
 				CacheBackend: "redis://localhost:6379",
-				RedisOptions: flag.RedisOptions{
-					RedisCACert: "ca-cert.pem",
-					RedisCert:   "cert.pem",
-					RedisKey:    "key.pem",
-				},
 			},
 			assertion: require.NoError,
 		},
@@ -120,41 +105,6 @@ func TestCacheFlagGroup_ToOptions(t *testing.T) {
 			got, err := f.ToOptions()
 			tt.assertion(t, err)
 			assert.Equalf(t, tt.want, got, "ToOptions()")
-		})
-	}
-}
-
-func TestCacheOptions_CacheBackendMasked(t *testing.T) {
-	type fields struct {
-		backend string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		want   string
-	}{
-		{
-			name: "redis cache backend masked",
-			fields: fields{
-				backend: "redis://root:password@localhost:6379",
-			},
-			want: "redis://****@localhost:6379",
-		},
-		{
-			name: "redis cache backend masked does nothing",
-			fields: fields{
-				backend: "redis://localhost:6379",
-			},
-			want: "redis://localhost:6379",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			c := &flag.CacheOptions{
-				CacheBackend: tt.fields.backend,
-			}
-
-			assert.Equal(t, tt.want, c.CacheBackendMasked())
 		})
 	}
 }

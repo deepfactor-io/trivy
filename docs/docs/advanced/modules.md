@@ -351,7 +351,7 @@ Digest: sha256:6416d0199d66ce52ced19f01d75454b22692ff3aa7737e45f7a189880840424f
 [spring4shell]: https://blog.aquasec.com/zero-day-rce-vulnerability-spring4shell
 [wazero]: https://github.com/tetratelabs/wazero
 
-[trivy-module-spring4shell]: https://github.com/aquasecurity/trivy/tree/main/examples/module/spring4shell
+[trivy-module-spring4shell]: https://github.com/deepfactor-io/trivy/tree/main/examples/module/spring4shell
 [trivy-module-wordpress]: https://github.com/aquasecurity/trivy-module-wordpress
 
 [tinygo-installation]: https://tinygo.org/getting-started/install/
