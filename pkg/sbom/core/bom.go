@@ -79,7 +79,7 @@ type BOM struct {
 
 type Component struct {
 	// id is the unique identifier of the component for internal use.
-	// UUID results in inconsistent repkrts hence we use the hash (UID)
+	// UUID results in inconsistent reports hence we use the hash (UID)
 	id string
 
 	// Type is the type of the component

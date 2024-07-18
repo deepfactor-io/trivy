@@ -264,13 +264,6 @@ func (m *Marshaler) rootSPDXPackage(root *core.Component, pkgDownloadLocation st
 		externalReferences = append(externalReferences, m.purlExternalReference(root.PkgIdentifier.PURL.String()))
 	}
 
-	// sort diffIDs for consistency
-	/*
-		sort.Slice(r.Metadata.DiffIDs, func(i, j int) bool {
-			return r.Metadata.DiffIDs[i] < r.Metadata.DiffIDs[j]
-		})
-	*/
-
 	pkgID, err := calcPkgID(m.hasher, fmt.Sprintf("%s-%s", root.Name, root.Type))
 	if err != nil {
 		return nil, xerrors.Errorf("failed to get %s package ID: %w", pkgID, err)
