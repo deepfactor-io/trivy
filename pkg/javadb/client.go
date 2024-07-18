@@ -177,8 +177,8 @@ func (d *DB) SearchByGAV(groupID, artifactID, version string) (jar.Properties, e
 	}, nil
 }
 
-func (d *DB) SearchByArtifactID(artifactID string) (string, error) {
-	indexes, err := d.driver.SelectIndexesByArtifactIDAndFileType(artifactID, types.JarType)
+func (d *DB) SearchByArtifactID(artifactID, version string) (string, error) {
+	indexes, err := d.driver.SelectIndexesByArtifactIDAndFileType(artifactID, version, types.JarType)
 	if err != nil {
 		return "", xerrors.Errorf("select error: %w", err)
 	} else if len(indexes) == 0 {

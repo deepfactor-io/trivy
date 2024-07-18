@@ -28,7 +28,7 @@ var (
 type Client interface {
 	Exists(groupID, artifactID string) (bool, error)
 	SearchBySHA1(sha1 string) (Properties, error)
-	SearchByArtifactID(artifactID string) (string, error)
+	SearchByArtifactID(artifactID, version string) (string, error)
 	SearchByGAV(groupID, artifactID, version string) (Properties, error)
 }
 
@@ -132,7 +132,7 @@ func (p *Parser) parseArtifact(filePath string, size int64, r xio.ReadSeekerAt) 
 
 	// Try to search groupId by artifactId via sonatype API
 	// When some artifacts have the same groupIds, it might result in false detection.
-	fileProps.GroupID, err = p.client.SearchByArtifactID(fileProps.ArtifactID)
+	fileProps.GroupID, err = p.client.SearchByArtifactID(fileProps.ArtifactID, fileProps.Version)
 	if err == nil {
 		p.logger.Debug("POM was determined in a heuristic way", log.String("file", fileName),
 			log.String("artifact", fileProps.String()))
