@@ -210,7 +210,7 @@ func (a npmLibraryAnalyzer) findLicenses(fsys fs.FS, lockPath string) (map[strin
 		}
 
 		for _, license := range pkg.DeclaredLicenses() {
-			licenses[pkg.PackageID()] = append(licenses[pkg.PackageID()], types.License{Name: license})
+			licenses[pkg.PackageID()] = append(licenses[pkg.PackageID()], license)
 		}
 		return nil
 	})

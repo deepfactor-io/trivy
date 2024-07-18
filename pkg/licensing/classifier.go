@@ -33,10 +33,10 @@ var (
 	m              sync.Mutex
 
 	// deep license scanning variables
-	classifierPoolSize    int = 10 // default pool size is 10 classifiers
+	classifierPoolSize    int = 5 // default pool size is 5 classifiers
 	classifierPoolOnce    sync.Once
-	errClassifierPoolInit error = errors.New("failed to initialize license classifier pool")
 	classifierPool        *licenseClassifierPool
+	errClassifierPoolInit error
 )
 
 func initGoogleClassifier() error {
@@ -105,11 +105,12 @@ func Classify(filePath string, r io.Reader, confidenceLevel float64) (*types.Lic
 }
 
 type licenseClassifierPool struct {
-	pool chan *classifier.Classifier
+	pool  chan *classifier.Classifier
+	mutex sync.Mutex
 }
 
 // initializes a pool of classifiers
-func initGoogleLicenseClassifierPool(poolSize int) error {
+func InitGoogleLicenseClassifierPool(poolSize int) error {
 	var err error
 	classifierPoolOnce.Do(func() {
 		// check if given pool size is valid
@@ -129,9 +130,9 @@ func initGoogleLicenseClassifierPool(poolSize int) error {
 
 		classifierPool = &licenseClassifierPool{pool: classifierPoolChan}
 	})
-	if err != nil {
-		errClassifierPoolInit = err
-		return err
+	if err != nil || errClassifierPoolInit != nil {
+		errClassifierPoolInit = fmt.Errorf("failed to initialize license classifier pool, err: %s", err.Error())
+		return errClassifierPoolInit
 	}
 
 	return nil
@@ -139,11 +140,15 @@ func initGoogleLicenseClassifierPool(poolSize int) error {
 
 // gets a classifier from the pool of classifiers
 func (p *licenseClassifierPool) Get() *classifier.Classifier {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
 	return <-p.pool
 }
 
 // puts the classifier back to the pool of classifiers
 func (p *licenseClassifierPool) Put(classifier *classifier.Classifier) {
+	p.mutex.Lock()
+	defer p.mutex.Unlock()
 	p.pool <- classifier
 }
 
@@ -153,24 +158,15 @@ type ClassifierInput struct {
 	Content             []byte
 	ConfidenceLevel     float64
 	LicenseTextCacheDir string
-
-	// Number of required workers means multiple worker threads
-	// need license classifiers
-	LicenseScanWorkers int
 }
 
 // Classify detects and classifies the license found in a file.
 // It also extracts the license text for each match, creates and persist them in in given folder
 // Each file would be of form <license-text-checksum>.txt
 func (input *ClassifierInput) Classify() (*types.LicenseFile, error) {
+	// check if classifierPool is successfully initialized beforehand or not
 	if classifierPool == nil {
-		if err := initGoogleLicenseClassifierPool(input.LicenseScanWorkers); err != nil {
-			return nil, err
-		}
-		// check if classifierPool is successfully initialized
-		if classifierPool == nil {
-			return nil, errClassifierPoolInit
-		}
+		return nil, errors.New("please initialize license classifier pool before calling Classify method")
 	}
 
 	var findings types.LicenseFindings
@@ -178,8 +174,9 @@ func (input *ClassifierInput) Classify() (*types.LicenseFile, error) {
 	seen := make(map[string]struct{})
 
 	classifier := classifierPool.Get()
+	defer classifierPool.Put(classifier)
+
 	result := classifier.Match(classifier.Normalize(input.Content))
-	classifierPool.Put(classifier)
 
 	for _, match := range result.Matches {
 		if match.Confidence <= input.ConfidenceLevel {
@@ -211,11 +208,11 @@ func (input *ClassifierInput) Classify() (*types.LicenseFile, error) {
 		copyrightText := extractCopyrightFromLicenseText(licenseText)
 
 		findings = append(findings, types.LicenseFinding{
-			Name:          match.Name,
-			Confidence:    match.Confidence,
-			Link:          licenseLink,
-			LicenseText:   textChecksum,
-			CopyRightText: copyrightText,
+			Name:                match.Name,
+			Confidence:          match.Confidence,
+			Link:                licenseLink,
+			LicenseTextChecksum: textChecksum,
+			CopyRightText:       copyrightText,
 		})
 	}
 

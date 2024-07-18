@@ -9,6 +9,7 @@ import (
 	"golang.org/x/xerrors"
 
 	"github.com/deepfactor-io/trivy/pkg/dependency"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
@@ -36,8 +37,14 @@ func (p Package) PackageID() string {
 	return p.ID
 }
 
-func (p Package) DeclaredLicenses() []string {
-	return p.Licenses
+func (p Package) DeclaredLicenses() []types.License {
+	var declaredLicenses []types.License
+
+	for _, license := range p.Licenses {
+		declaredLicenses = append(declaredLicenses, types.License{Name: license, IsDeclared: true})
+	}
+
+	return declaredLicenses
 }
 
 type Parser struct{}

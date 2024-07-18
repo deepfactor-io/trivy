@@ -415,23 +415,23 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 			for _, license := range lib.LicensesV2 {
 				category, severity := scanner.Scan(license.Name)
 				langLicenses = append(langLicenses, types.DetectedLicense{
-					Severity:         severity,
-					Category:         category,
-					Name:             license.Name,
-					IsDeclared:       license.IsDeclared,
-					IsSPDXClassified: utils.ValidateLicense(license.Name),
-					FilePath:         license.FilePath,
-					LicenseText:      license.LicenseText,
-					CopyrightText:    license.CopyrightText,
-					PkgName:          lib.Name,
-					PkgFilePath:      lib.FilePath,
-					PkgVersion:       lib.Version,
-					PkgClass:         types.ClassLangPkg,
-					PkgType:          app.Type,
-					PkgTarget:        targetName,
-					IsPkgIndirect:    lib.Indirect,
-					PkgEpoch:         lib.Epoch,
-					PkgRelease:       lib.Release,
+					Severity:            severity,
+					Category:            category,
+					Name:                license.Name,
+					IsDeclared:          license.IsDeclared,
+					IsSPDXClassified:    utils.ValidateLicense(license.Name),
+					FilePath:            license.FilePath,
+					LicenseTextChecksum: license.LicenseTextChecksum,
+					CopyrightText:       license.CopyrightText,
+					PkgName:             lib.Name,
+					PkgFilePath:         lib.FilePath,
+					PkgVersion:          lib.Version,
+					PkgClass:            types.ClassLangPkg,
+					PkgType:             app.Type,
+					PkgTarget:           targetName,
+					IsPkgIndirect:       lib.Indirect,
+					PkgEpoch:            lib.Epoch,
+					PkgRelease:          lib.Release,
 				})
 			}
 		}
@@ -453,15 +453,15 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 		for _, finding := range license.Findings {
 			category, severity := scanner.Scan(finding.Name)
 			fileLicenses = append(fileLicenses, types.DetectedLicense{
-				Severity:         severity,
-				Category:         category,
-				FilePath:         license.FilePath,
-				Name:             finding.Name,
-				IsSPDXClassified: utils.ValidateLicense(finding.Name),
-				Confidence:       finding.Confidence,
-				Link:             finding.Link,
-				LicenseText:      finding.LicenseText,
-				CopyrightText:    finding.CopyRightText,
+				Severity:            severity,
+				Category:            category,
+				FilePath:            license.FilePath,
+				Name:                finding.Name,
+				IsSPDXClassified:    utils.ValidateLicense(finding.Name),
+				Confidence:          finding.Confidence,
+				Link:                finding.Link,
+				LicenseTextChecksum: finding.LicenseTextChecksum,
+				CopyrightText:       finding.CopyRightText,
 			})
 
 		}

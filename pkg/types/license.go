@@ -54,7 +54,7 @@ type DetectedLicense struct {
 	IsSPDXClassified bool
 
 	// Checksum of the license text found in license scanning
-	LicenseText string `json:",omitempty"`
+	LicenseTextChecksum string `json:",omitempty"`
 
 	// Copyright text found within the license text
 	CopyrightText string `json:",omitempty"`

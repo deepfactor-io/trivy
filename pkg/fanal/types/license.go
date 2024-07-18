@@ -52,12 +52,12 @@ func (findings LicenseFindings) Names() []string {
 }
 
 type LicenseFinding struct {
-	Category      LicenseCategory // such as "forbidden"
-	Name          string
-	Confidence    float64
-	Link          string
-	LicenseText   string
-	CopyRightText string
+	Category            LicenseCategory // such as "forbidden"
+	Name                string
+	Confidence          float64
+	Link                string
+	LicenseTextChecksum string
+	CopyRightText       string
 }
 
 type LicenseScanConfig struct {

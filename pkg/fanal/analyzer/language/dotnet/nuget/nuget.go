@@ -125,20 +125,23 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 		sort.Sort(app.Packages)
 		apps = append(apps, *app)
 
-		// Fill loose licenses found in the FS base path (i.e in "." dir of the FS)
-		rootPathLicenses, err := a.licenseParser.findLicensesAtRootPath(input.FS)
-		if err != nil {
-			return xerrors.Errorf("license find error: %w", err)
-		}
-
-		for _, license := range rootPathLicenses {
-			looseLicense := types.LicenseFile{
-				Type:     license.Type,
-				FilePath: license.FilePath,
-				Findings: license.Findings,
+		// Find loose licenses as well if deep license scanning is enabled
+		if a.licenseParser.licenseConfig.EnableDeepLicenseScan {
+			// Fill loose licenses found in the FS base path (i.e in "." dir of the FS)
+			rootPathLicenses, err := a.licenseParser.findLicensesAtRootPath(input.FS)
+			if err != nil {
+				return xerrors.Errorf("license find error: %w", err)
 			}
 
-			looseLicenses = append(looseLicenses, looseLicense)
+			for _, license := range rootPathLicenses {
+				looseLicense := types.LicenseFile{
+					Type:     license.Type,
+					FilePath: license.FilePath,
+					Findings: license.Findings,
+				}
+
+				looseLicenses = append(looseLicenses, looseLicense)
+			}
 		}
 
 		return nil

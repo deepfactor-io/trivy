@@ -213,13 +213,13 @@ type Package struct {
 }
 
 type License struct {
-	Name          string
-	Type          LicenseType
-	IsDeclared    bool
-	FilePath      string
-	LicenseText   string
-	CopyrightText string          `json:",omitempty"`
-	Findings      LicenseFindings `json:"-"`
+	Name                string
+	Type                LicenseType
+	IsDeclared          bool
+	FilePath            string
+	LicenseTextChecksum string
+	CopyrightText       string          `json:",omitempty"`
+	Findings            LicenseFindings `json:"-"`
 }
 
 func (pkg *Package) Empty() bool {
@@ -288,7 +288,7 @@ type PackageManifest interface {
 	// Pkg ID is formed using Pkg Name and version
 	PackageID() string
 	// Declared license with the package manifest
-	DeclaredLicenses() []string
+	DeclaredLicenses() []License
 }
 
 type PackageManifestParser interface {

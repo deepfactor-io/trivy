@@ -151,17 +151,17 @@ func (p nuspecParser) findLicensesV2(name, version string) ([]types.License, err
 	walker.StopWorkerPool()
 
 	// get processed licenses
-	licenses := walker.GetLicenses()
+	licensesMap := walker.GetLicenses()
 
 	// Update the License FilePath to absolute path
-	for i := range licenses[pkgID] {
-		license := &licenses[pkgID][i]
+	for i := range licensesMap[pkgID] {
+		license := &licensesMap[pkgID][i]
 		if license.FilePath != "" {
 			license.FilePath = filepath.Join(p.packagesDir, license.FilePath)
 		}
 	}
 
-	return licenses[pkgID], nil
+	return licensesMap[pkgID], nil
 }
 
 // finds licenses at the root path (".") relative to given file system fsys
@@ -218,6 +218,7 @@ func (p Package) PackageID() string {
 	return p.ID
 }
 
-func (p Package) DeclaredLicenses() []string {
-	return []string{p.Metadata.License.Text}
+func (p Package) DeclaredLicenses() []types.License {
+	var declaredLicenses = []types.License{{Name: p.Metadata.License.Text, IsDeclared: true}}
+	return declaredLicenses
 }
