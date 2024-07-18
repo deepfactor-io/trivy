@@ -6,16 +6,16 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
-	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
-	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/log"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/licensing"
+	"github.com/deepfactor-io/trivy/pkg/log"
+	xio "github.com/deepfactor-io/trivy/pkg/x/io"
 )
 
 const version = 1
@@ -37,18 +37,48 @@ var (
 	}
 
 	acceptedExtensions = []string{
-		".asp", ".aspx", ".bas", ".bat", ".b", ".c", ".cue", ".cgi", ".cs", ".css", ".fish", ".html", ".h", ".ini",
-		".java", ".js", ".jsx", ".markdown", ".md", ".py", ".php", ".pl", ".r", ".rb", ".sh", ".sql", ".ts",
-		".tsx", ".txt", ".vue", ".zsh",
+		".asp",
+		".aspx",
+		".bas",
+		".bat",
+		".b",
+		".c",
+		".cue",
+		".cgi",
+		".cs",
+		".css",
+		".fish",
+		".html",
+		".h",
+		".ini",
+		".java",
+		".js",
+		".jsx",
+		".markdown",
+		".md",
+		".py",
+		".php",
+		".pl",
+		".r",
+		".rb",
+		".sh",
+		".sql",
+		".ts",
+		".tsx",
+		".txt",
+		".vue",
+		".zsh",
 	}
 
 	acceptedFileNames = []string{
-		"license", "licence", "copyright",
+		"license",
+		"licence",
+		"copyright",
 	}
 )
 
 func init() {
-	analyzer.RegisterAnalyzer(&licenseFileAnalyzer{})
+	analyzer.RegisterAnalyzer(newLicenseFileAnalyzer())
 }
 
 // licenseFileAnalyzer is an analyzer for file headers and license files
@@ -56,8 +86,13 @@ type licenseFileAnalyzer struct {
 	classifierConfidenceLevel float64
 }
 
-func (a licenseFileAnalyzer) Analyze(_ context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
-	log.Logger.Debugf("License scanning: %s", input.FilePath)
+func newLicenseFileAnalyzer() *licenseFileAnalyzer {
+	return &licenseFileAnalyzer{}
+}
+
+func (a *licenseFileAnalyzer) Analyze(ctx context.Context, input analyzer.AnalysisInput) (*analyzer.AnalysisResult, error) {
+	ctx = log.WithContextPrefix(ctx, "license")
+	log.DebugContext(ctx, "License scanning", log.FilePath(input.FilePath))
 
 	// need files to be text based, readable files
 	readable, err := IsHumanReadable(input.Content, input.Info.Size())
@@ -81,7 +116,7 @@ func (a *licenseFileAnalyzer) Init(opt analyzer.AnalyzerOptions) error {
 	return nil
 }
 
-func (a licenseFileAnalyzer) Required(filePath string, _ os.FileInfo) bool {
+func (a *licenseFileAnalyzer) Required(filePath string, _ os.FileInfo) bool {
 	for _, skipDir := range skipDirs {
 		if strings.Contains(filePath, skipDir) {
 			return false
@@ -96,7 +131,7 @@ func (a licenseFileAnalyzer) Required(filePath string, _ os.FileInfo) bool {
 	return slices.Contains(acceptedFileNames, baseName)
 }
 
-func IsHumanReadable(content dio.ReadSeekerAt, fileSize int64) (bool, error) {
+func IsHumanReadable(content xio.ReadSeekerAt, fileSize int64) (bool, error) {
 	headSize := int(math.Min(float64(fileSize), 300))
 	head := make([]byte, headSize)
 	if _, err := content.Read(head); err != nil {
@@ -116,10 +151,10 @@ func IsHumanReadable(content dio.ReadSeekerAt, fileSize int64) (bool, error) {
 	return true, nil
 }
 
-func (a licenseFileAnalyzer) Type() analyzer.Type {
+func (a *licenseFileAnalyzer) Type() analyzer.Type {
 	return analyzer.TypeLicenseFile
 }
 
-func (a licenseFileAnalyzer) Version() int {
+func (a *licenseFileAnalyzer) Version() int {
 	return version
 }

@@ -9,7 +9,7 @@ import (
 	"github.com/aquasecurity/trivy-db/pkg/db"
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
-	"github.com/deepfactor-io/trivy/pkg/dbtest"
+	"github.com/deepfactor-io/trivy/internal/dbtest"
 	"github.com/deepfactor-io/trivy/pkg/detector/library"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/pkg/types"
@@ -200,7 +200,7 @@ func TestDriver_Detect(t *testing.T) {
 			}
 
 			// Compare
-			assert.NoError(t, err)
+			require.NoError(t, err)
 			assert.Equal(t, tt.want, got)
 		})
 	}

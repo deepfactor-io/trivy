@@ -23,6 +23,10 @@
       "Packages": [
         {
           "Name": "Newtonsoft.Json",
+          "Identifier": {
+            "PURL": "pkg:nuget/Newtonsoft.Json@9.0.1",
+            "UID": "19955f480b8a6340"
+          },
           "Version": "9.0.1",
           "Layer": {},
           "Locations": [
@@ -37,6 +41,10 @@
         {
           "VulnerabilityID": "GHSA-5crp-9r3c-p9vr",
           "PkgName": "Newtonsoft.Json",
+          "PkgIdentifier": {
+            "PURL": "pkg:nuget/Newtonsoft.Json@9.0.1",
+            "UID": "19955f480b8a6340"
+          },
           "InstalledVersion": "9.0.1",
           "FixedVersion": "13.0.1",
           "Status": "fixed",

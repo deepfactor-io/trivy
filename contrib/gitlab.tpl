@@ -14,7 +14,7 @@
     "scanner": {
       "id": "trivy",
       "name": "Trivy",
-      "url": "https://github.com/aquasecurity/trivy/",
+      "url": "https://github.com/deepfactor-io/trivy/",
       "vendor": {
         "name": "Aqua Security"
       },
@@ -64,7 +64,7 @@
           },
           "version": "{{ .InstalledVersion }}"
         },
-        {{- /* TODO: No mapping available - https://github.com/aquasecurity/trivy/issues/332 */}}
+        {{- /* TODO: No mapping available - https://github.com/deepfactor-io/trivy/issues/332 */}}
         "operating_system": "Unknown",
         "image": "{{ $image }}"
       },
@@ -73,8 +73,11 @@
 	  {{- /* TODO: Type not extractable - https://github.com/aquasecurity/trivy-db/pull/24 */}}
           "type": "cve",
           "name": "{{ .VulnerabilityID }}",
-          "value": "{{ .VulnerabilityID }}",
+          "value": "{{ .VulnerabilityID }}"
+          {{- /* cf. https://gitlab.com/gitlab-org/security-products/security-report-schemas/-/blob/e3d280d7f0862ca66a1555ea8b24016a004bb914/dist/container-scanning-report-format.json#L157-179 */}}
+          {{- if .PrimaryURL | regexMatch "^(https?|ftp)://.+" -}},
           "url": "{{ .PrimaryURL }}"
+          {{- end }}
         }
       ],
       "links": [
@@ -85,9 +88,13 @@
         {{- else -}}
           ,
         {{- end -}}
+        {{- if . | regexMatch "^(https?|ftp)://.+" -}}
         {
-          "url": "{{ regexFind "[^ ]+" . }}"
+          "url": "{{ . }}"
         }
+        {{- else -}}
+          {{- $l_first = true }}
+        {{- end -}}
         {{- end }}
       ]
     }

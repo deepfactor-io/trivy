@@ -13,7 +13,7 @@
     "scanner": {
       "id": "trivy",
       "name": "Trivy",
-      "url": "https://github.com/aquasecurity/trivy/",
+      "url": "https://github.com/deepfactor-io/trivy/",
       "vendor": {
         "name": "Aqua Security"
       },

@@ -66,3 +66,5 @@ type DetectedLicense struct {
 	// Link is a SPDX link of the license
 	Link string `json:",omitempty"`
 }
+
+func (DetectedLicense) findingType() FindingType { return FindingTypeLicense }

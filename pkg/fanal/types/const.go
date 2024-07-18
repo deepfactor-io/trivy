@@ -49,6 +49,7 @@ const (
 	Composer          LangType = "composer"
 	ComposerJSON      LangType = "composer-json"
 	ComposerInstalled LangType = "composer-installed"
+	ComposerVendor    LangType = "composer-vendor"
 
 	Npm           LangType = "npm"
 	NuGet         LangType = "nuget"
@@ -58,6 +59,7 @@ const (
 	Pipenv        LangType = "pipenv"
 	Poetry        LangType = "poetry"
 	CondaPkg      LangType = "conda-pkg"
+	CondaEnv      LangType = "conda-environment"
 	PythonPkg     LangType = "python-pkg"
 	NodePkg       LangType = "node-pkg"
 	Yarn          LangType = "yarn"
@@ -65,6 +67,7 @@ const (
 	Jar           LangType = "jar"
 	Pom           LangType = "pom"
 	Gradle        LangType = "gradle"
+	Sbt           LangType = "sbt"
 	GoBinary      LangType = "gobinary"
 	GoModule      LangType = "gomod"
 	JavaScript    LangType = "javascript"
@@ -75,6 +78,7 @@ const (
 	Pub           LangType = "pub"
 	Hex           LangType = "hex"
 	Bitnami       LangType = "bitnami"
+	Julia         LangType = "julia"
 
 	K8sUpstream LangType = "kubernetes"
 	EKS         LangType = "eks" // Amazon Elastic Kubernetes Service
@@ -84,17 +88,26 @@ const (
 	OCP         LangType = "ocp" // Red Hat OpenShift Container Platform
 )
 
+var AggregatingTypes = []LangType{
+	PythonPkg,
+	CondaPkg,
+	GemSpec,
+	NodePkg,
+	Jar,
+}
+
 // Config files
 const (
-	JSON           ConfigType = "json"
-	Dockerfile     ConfigType = "dockerfile"
-	Terraform      ConfigType = "terraform"
-	TerraformPlan  ConfigType = "terraformplan"
-	CloudFormation ConfigType = "cloudformation"
-	Kubernetes     ConfigType = "kubernetes"
-	Helm           ConfigType = "helm"
-	Cloud          ConfigType = "cloud"
-	AzureARM       ConfigType = "azure-arm"
+	JSON                  ConfigType = "json"
+	Dockerfile            ConfigType = "dockerfile"
+	Terraform             ConfigType = "terraform"
+	TerraformPlanJSON     ConfigType = "terraformplan"
+	TerraformPlanSnapshot ConfigType = "terraformplan-snapshot"
+	CloudFormation        ConfigType = "cloudformation"
+	Kubernetes            ConfigType = "kubernetes"
+	Helm                  ConfigType = "helm"
+	Cloud                 ConfigType = "cloud"
+	AzureARM              ConfigType = "azure-arm"
 )
 
 // Language-specific file names
@@ -106,6 +119,7 @@ const (
 	GoSum = "go.sum"
 
 	MavenPom = "pom.xml"
+	SbtLock  = "build.sbt.lock"
 
 	NpmPkg           = "package.json"
 	NpmPkgLock       = "package-lock.json"
@@ -135,6 +149,12 @@ const (
 	PubSpecLock = "pubspec.lock"
 
 	MixLock = "mix.lock"
+
+	CondaEnvYaml = "environment.yaml"
+	CondaEnvYml  = "environment.yml"
+
+	JuliaProject  = "Project.toml"
+	JuliaManifest = "Manifest.toml"
 )
 
 // license scanning constants

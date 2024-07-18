@@ -6,18 +6,16 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"slices"
 	"sort"
 
-	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/go-dep-parser/pkg/nuget/config"
-	"github.com/deepfactor-io/go-dep-parser/pkg/nuget/lock"
-	godeptypes "github.com/deepfactor-io/go-dep-parser/pkg/types"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nuget/config"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nuget/lock"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
 	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
 )
 
@@ -31,11 +29,14 @@ const (
 	configFile = types.NuGetPkgsConfig
 )
 
-var requiredFiles = []string{lockFile, configFile}
+var requiredFiles = []string{
+	lockFile,
+	configFile,
+}
 
 type nugetLibraryAnalyzer struct {
-	lockParser    godeptypes.Parser
-	configParser  godeptypes.Parser
+	lockParser    language.Parser
+	configParser  language.Parser
 	licenseParser nuspecParser
 }
 
@@ -54,7 +55,7 @@ func newNugetLibraryAnalyzer(opt analyzer.AnalyzerOptions) (analyzer.PostAnalyze
 			LicenseScanWorkers:        opt.LicenseScannerOption.LicenseScanWorkers,
 		}
 
-		log.Logger.Debug("Deep license scanning enabled for Nuget Library Analyzer")
+		analyzer.licenseParser.logger.Debug("Deep license scanning enabled for Nuget Library Analyzer")
 	}
 
 	return analyzer, nil
@@ -99,7 +100,7 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 		var ok bool
 
 		// Fill library licenses
-		for i, lib := range app.Libraries {
+		for i, lib := range app.Packages {
 			licenses, ok = foundLicenses[lib.ID]
 			if !ok {
 				licenses, err = a.licenseParser.findLicense(lib.Name, lib.Version)
@@ -114,14 +115,14 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 				// Declared license would be going to Licenses field as before
 				// Concluded licenses would be going to LicensesV2 field
 				if license.IsDeclared {
-					app.Libraries[i].Licenses = append(app.Libraries[i].Licenses, license.Name)
+					app.Packages[i].Licenses = append(app.Packages[i].Licenses, license.Name)
 				} else {
-					app.Libraries[i].LicensesV2 = append(app.Libraries[i].LicensesV2, license)
+					app.Packages[i].LicensesV2 = append(app.Packages[i].LicensesV2, license)
 				}
 			}
 		}
 
-		sort.Sort(app.Libraries)
+		sort.Sort(app.Packages)
 		apps = append(apps, *app)
 
 		// Fill loose licenses found in the FS base path (i.e in "." dir of the FS)

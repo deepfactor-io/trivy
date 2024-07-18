@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/fs"
+	"log/slog"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -12,6 +15,10 @@ import (
 	"github.com/magefile/mage/mg"
 	"github.com/magefile/mage/sh"
 	"github.com/magefile/mage/target"
+
+	// Trivy packages should not be imported in Mage (see https://github.com/deepfactor-io/trivy/pull/4242),
+	// but this package doesn't have so many dependencies, and Mage is still fast.
+	"github.com/deepfactor-io/trivy/pkg/log"
 )
 
 var (
@@ -22,6 +29,10 @@ var (
 		"CGO_ENABLED": "0",
 	}
 )
+
+func init() {
+	slog.SetDefault(log.New(log.NewHandler(os.Stderr, nil))) // stdout is suppressed in mage
+}
 
 func version() (string, error) {
 	if ver, err := sh.Output("git", "describe", "--tags", "--always"); err != nil {
@@ -37,7 +48,7 @@ func buildLdflags() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("-s -w -X=github.com/aquasecurity/trivy/pkg/version.ver=%s", ver), nil
+	return fmt.Sprintf("-s -w -X=github.com/deepfactor-io/trivy/pkg/version/app.ver=%s", ver), nil
 }
 
 type Tool mg.Namespace
@@ -59,13 +70,36 @@ func (Tool) Wire() error {
 }
 
 // GolangciLint installs golangci-lint
-func (Tool) GolangciLint() error {
-	const version = "v1.54.2"
-	if exists(filepath.Join(GOBIN, "golangci-lint")) {
+func (t Tool) GolangciLint() error {
+	const version = "v1.59.1"
+	bin := filepath.Join(GOBIN, "golangci-lint")
+	if exists(bin) && t.matchGolangciLintVersion(bin, version) {
 		return nil
 	}
 	command := fmt.Sprintf("curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b %s %s", GOBIN, version)
 	return sh.Run("bash", "-c", command)
+}
+
+func (Tool) matchGolangciLintVersion(bin, version string) bool {
+	out, err := sh.Output(bin, "version", "--format", "json")
+	if err != nil {
+		slog.Error("Unable to get golangci-lint version", slog.Any("err", err))
+		return false
+	}
+	var output struct {
+		Version string `json:"Version"`
+	}
+	if err = json.Unmarshal([]byte(out), &output); err != nil {
+		slog.Error("Unable to parse golangci-lint version", slog.Any("err", err))
+		return false
+	}
+
+	version = strings.TrimPrefix(version, "v")
+	if output.Version != version {
+		slog.Info("golangci-lint version mismatch", slog.String("expected", version), slog.String("actual", output.Version))
+		return false
+	}
+	return true
 }
 
 // Labeler installs labeler
@@ -74,14 +108,6 @@ func (Tool) Labeler() error {
 		return nil
 	}
 	return sh.Run("go", "install", "github.com/knqyf263/labeler@latest")
-}
-
-// EasyJSON installs easyjson
-func (Tool) EasyJSON() error {
-	if exists(filepath.Join(GOBIN, "easyjson")) {
-		return nil
-	}
-	return sh.Run("go", "install", "github.com/mailru/easyjson/...@v0.7.7")
 }
 
 // Kind installs kind cluster
@@ -163,12 +189,6 @@ func Yacc() error {
 	return sh.Run("go", "generate", "./pkg/licensing/expression/...")
 }
 
-// Easyjson generates JSON marshaler/unmarshaler for TinyGo/WebAssembly as TinyGo doesn't support encoding/json.
-func Easyjson() error {
-	mg.Deps(Tool{}.EasyJSON)
-	return sh.Run("easyjson", "./pkg/module/serialize/types.go")
-}
-
 type Test mg.Namespace
 
 // FixtureContainerImages downloads and extracts required images
@@ -179,6 +199,11 @@ func (Test) FixtureContainerImages() error {
 // FixtureVMImages downloads and extracts required VM images
 func (Test) FixtureVMImages() error {
 	return fixtureVMImages()
+}
+
+// FixtureTerraformPlanSnapshots generates Terraform Plan files in test folders
+func (Test) FixtureTerraformPlanSnapshots() error {
+	return fixtureTerraformPlanSnapshots(context.TODO())
 }
 
 // GenerateModules compiles WASM modules for unit tests
@@ -289,13 +314,13 @@ type Lint mg.Namespace
 // Run runs linters
 func (Lint) Run() error {
 	mg.Deps(Tool{}.GolangciLint)
-	return sh.RunV("golangci-lint", "run", "--timeout", "5m")
+	return sh.RunV("golangci-lint", "run")
 }
 
 // Fix auto fixes linters
 func (Lint) Fix() error {
 	mg.Deps(Tool{}.GolangciLint)
-	return sh.RunV("golangci-lint", "run", "--timeout", "5m", "--fix")
+	return sh.RunV("golangci-lint", "run", "--fix")
 }
 
 // Fmt formats Go code and proto files
@@ -424,4 +449,23 @@ func exists(filename string) bool {
 func installed(cmd string) bool {
 	_, err := exec.LookPath(cmd)
 	return err == nil
+}
+
+type Schema mg.Namespace
+
+// Generate generates Cloud Schema for misconfiguration scanning
+func (Schema) Generate() error {
+	return sh.RunWith(ENV, "go", "run", "-tags=mage_schema", "./magefiles", "--", "generate")
+}
+
+// Verify verifies Cloud Schema for misconfiguration scanning
+func (Schema) Verify() error {
+	return sh.RunWith(ENV, "go", "run", "-tags=mage_schema", "./magefiles", "--", "verify")
+}
+
+type CloudActions mg.Namespace
+
+// Generate generates the list of possible cloud actions with AWS
+func (CloudActions) Generate() error {
+	return sh.RunWith(ENV, "go", "run", "-tags=mage_cloudactions", "./magefiles")
 }

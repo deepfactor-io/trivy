@@ -11,8 +11,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	godeptypes "github.com/deepfactor-io/go-dep-parser/pkg/types"
-	godeputils "github.com/deepfactor-io/go-dep-parser/pkg/utils"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/utils"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 
 	"github.com/deepfactor-io/trivy/pkg/log"
@@ -21,7 +20,7 @@ import (
 
 const nuspecExt = "nuspec"
 
-var _ godeptypes.PackageManifestParser = (*nuspecParser)(nil)
+var _ types.PackageManifestParser = (*nuspecParser)(nil)
 
 // https://learn.microsoft.com/en-us/nuget/reference/nuspec
 type Package struct {
@@ -41,11 +40,14 @@ type License struct {
 }
 
 type nuspecParser struct {
+	logger        *log.Logger
 	packagesDir   string // global packages folder - https: //learn.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders
 	licenseConfig types.LicenseScanConfig
 }
 
 func newNuspecParser() nuspecParser {
+	logger := log.WithPrefix("nuget")
+
 	// cf. https: //learn.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders
 	packagesDir := os.Getenv("NUGET_PACKAGES")
 	if packagesDir == "" {
@@ -53,11 +55,12 @@ func newNuspecParser() nuspecParser {
 	}
 
 	if !fsutils.DirExists(packagesDir) {
-		log.Logger.Debugf("The nuget packages directory couldn't be found. License search disabled")
+		logger.Debug("The nuget packages directory couldn't be found. License search disabled")
 		return nuspecParser{}
 	}
 
 	return nuspecParser{
+		logger:      logger,
 		packagesDir: packagesDir,
 	}
 }
@@ -111,14 +114,16 @@ func (p nuspecParser) findLicensesV2(name, version string) ([]types.License, err
 	// for `Newtonsoft.Json` v13.0.3
 	packagePath := filepath.Join(p.packagesDir, name, version)
 	if !fsutils.DirExists(packagePath) {
-		log.Logger.Error(`To collect the license information of package at %q, "dotnet restore" needs to be performed beforehand`, packagePath)
+		p.logger.Info(`To collect the license information of packages, "dotnet restore" needs to be performed beforehand`,
+			log.String("dir", packagePath))
 		return nil, nil
 	}
 
 	// get the package ID for given package name and version
-	pkgID := godeputils.PackageID(name, version)
+	pkgID := utils.PackageID(name, version)
 
 	walker, err := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
+		Logger:                    p.logger,
 		Parser:                    p,
 		PackageManifestFile:       fmt.Sprintf("%s.%s", name, nuspecExt),
 		PackageDependencyDir:      ".nuget/packages",
@@ -131,15 +136,15 @@ func (p nuspecParser) findLicensesV2(name, version string) ([]types.License, err
 	}
 
 	// Start the worker pool which sends data to license classifier
-	go walker.StartWorkerPool()
+	walker.StartWorkerPool()
 
 	// get the file system rooted at given rootPath
 	fsys := os.DirFS(p.packagesDir)
-	log.Logger.Debugf("Created fsys rooted at root path: %s", p.packagesDir)
+	p.logger.Debug("Created fsys rooted at root path", log.String("path", p.packagesDir))
 
 	packagePath = path.Join(name, version)
 	if ret, err := walker.Walk(fsys, packagePath, ""); !ret || err != nil {
-		log.Logger.Errorf("recursive walk has failed for dir: %s", packagePath)
+		p.logger.Error("recursive walk has failed", log.String("dir", packagePath))
 	}
 
 	// exit the worker pool
@@ -162,6 +167,7 @@ func (p nuspecParser) findLicensesV2(name, version string) ([]types.License, err
 // finds licenses at the root path (".") relative to given file system fsys
 func (p nuspecParser) findLicensesAtRootPath(fsys fs.FS) ([]types.License, error) {
 	walker, err := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
+		Logger:                    p.logger,
 		Parser:                    p,
 		PackageManifestFile:       fmt.Sprintf("%s.%s", "", nuspecExt),
 		PackageDependencyDir:      ".nuget/packages",
@@ -174,10 +180,10 @@ func (p nuspecParser) findLicensesAtRootPath(fsys fs.FS) ([]types.License, error
 	}
 
 	// Start the worker pool which sends data to license classifier
-	go walker.StartWorkerPool()
+	walker.StartWorkerPool()
 
 	if ret, err := walker.Walk(fsys, ".", ""); !ret || err != nil {
-		log.Logger.Errorf("recursive walk has failed for dir: %s", ".")
+		p.logger.Error("recursive walk has failed", log.String("dir", "."))
 		return nil, err
 	}
 
@@ -190,7 +196,7 @@ func (p nuspecParser) findLicensesAtRootPath(fsys fs.FS) ([]types.License, error
 func (p nuspecParser) ParseManifest(
 	fsys fs.FS,
 	path string,
-) (godeptypes.PackageManifest, error) {
+) (types.PackageManifest, error) {
 	fp, err := fsys.Open(path)
 	if err != nil {
 		return nil, err
@@ -203,7 +209,7 @@ func (p nuspecParser) ParseManifest(
 	}
 
 	name, version := strings.ToLower(pkg.Metadata.Name), strings.ToLower(pkg.Metadata.Version)
-	pkg.ID = godeputils.PackageID(name, version)
+	pkg.ID = utils.PackageID(name, version)
 
 	return pkg, nil
 }
@@ -212,6 +218,6 @@ func (p Package) PackageID() string {
 	return p.ID
 }
 
-func (p Package) DeclaredLicense() string {
-	return p.Metadata.License.Text
+func (p Package) DeclaredLicenses() []string {
+	return []string{p.Metadata.License.Text}
 }

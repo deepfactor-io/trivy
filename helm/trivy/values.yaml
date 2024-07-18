@@ -104,7 +104,7 @@ trivy:
   dbRepository: ghcr.io/aquasecurity/trivy-db
   # Trivy supports filesystem and redis as caching backend
   # https://github.com/aquasecurity/trivy#specify-cache-backend
-  # This location is only used for the cache, not the db storage: https://github.com/aquasecurity/trivy/issues/765#issue-756010345
+  # This location is only used for the cache, not the db storage: https://github.com/deepfactor-io/trivy/issues/765#issue-756010345
   #
   # In case you specify redis as backend, make sure you installed a redis server yourself, e.g.
   # https://bitnami.com/stack/redis/helm

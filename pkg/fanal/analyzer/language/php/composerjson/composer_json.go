@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/deepfactor-io/go-dep-parser/pkg/php/composerjson"
+	"github.com/deepfactor-io/trivy/pkg/dependency/parser/php/composerjson"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
