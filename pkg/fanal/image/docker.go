@@ -10,7 +10,7 @@ import (
 	"github.com/google/go-containerregistry/pkg/v1/tarball"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/utils"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/utils"
 )
 
 func tryDockerArchive(fileName string) (v1.Image, error) {

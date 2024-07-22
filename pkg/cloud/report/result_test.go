@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
 )
 
 func Test_ARNReport(t *testing.T) {

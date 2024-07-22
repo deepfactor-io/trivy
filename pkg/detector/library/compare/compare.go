@@ -7,7 +7,7 @@ import (
 
 	"github.com/aquasecurity/go-version/pkg/version"
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 // Comparer is an interface for version comparison

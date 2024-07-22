@@ -14,8 +14,8 @@ import (
 	"golang.org/x/xerrors"
 	"gopkg.in/yaml.v3"
 
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 // IgnoreFinding represents an item to be ignored.

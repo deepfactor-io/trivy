@@ -9,8 +9,8 @@ import (
 	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
 	"github.com/aquasecurity/trivy-kubernetes/pkg/k8s"
 	"github.com/aquasecurity/trivy-kubernetes/pkg/trivyk8s"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 // resourceRun runs scan on kubernetes cluster

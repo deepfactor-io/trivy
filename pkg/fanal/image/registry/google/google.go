@@ -9,7 +9,7 @@ import (
 	"github.com/GoogleCloudPlatform/docker-credential-gcr/store"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 type Registry struct {

@@ -12,8 +12,8 @@ import (
 
 	"github.com/mailru/easyjson"
 
-	"github.com/deepfactor-io/trivy/pkg/module/api"
-	"github.com/deepfactor-io/trivy/pkg/module/serialize"
+	"github.com/deepfactor-io/trivy/v3/pkg/module/api"
+	"github.com/deepfactor-io/trivy/v3/pkg/module/serialize"
 )
 
 func Debug(message string) {

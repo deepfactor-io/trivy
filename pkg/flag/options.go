@@ -15,14 +15,14 @@ import (
 	"github.com/spf13/viper"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/plugin"
-	"github.com/deepfactor-io/trivy/pkg/result"
-	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/version"
-	xstrings "github.com/deepfactor-io/trivy/pkg/x/strings"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/plugin"
+	"github.com/deepfactor-io/trivy/v3/pkg/result"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/version"
+	xstrings "github.com/deepfactor-io/trivy/v3/pkg/x/strings"
 )
 
 type Flag struct {

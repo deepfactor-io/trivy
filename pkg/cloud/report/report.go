@@ -11,13 +11,13 @@ import (
 
 	"github.com/aquasecurity/defsec/pkg/scan"
 	"github.com/aquasecurity/tml"
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	cr "github.com/deepfactor-io/trivy/pkg/compliance/report"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	pkgReport "github.com/deepfactor-io/trivy/pkg/report"
-	"github.com/deepfactor-io/trivy/pkg/result"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
+	cr "github.com/deepfactor-io/trivy/v3/pkg/compliance/report"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	pkgReport "github.com/deepfactor-io/trivy/v3/pkg/report"
+	"github.com/deepfactor-io/trivy/v3/pkg/result"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 const (

@@ -9,8 +9,8 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zaptest/observer"
 
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 func TestDBFlagGroup_ToOptions(t *testing.T) {

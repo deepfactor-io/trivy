@@ -3,9 +3,9 @@ package flag
 import (
 	"fmt"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/policy"
-	xstrings "github.com/deepfactor-io/trivy/pkg/x/strings"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/policy"
+	xstrings "github.com/deepfactor-io/trivy/v3/pkg/x/strings"
 )
 
 // e.g. config yaml:

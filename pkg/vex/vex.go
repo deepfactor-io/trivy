@@ -13,11 +13,11 @@ import (
 	"go.uber.org/zap"
 	"golang.org/x/xerrors"
 
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/sbom"
-	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/cyclonedx"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 // VEX represents Vulnerability Exploitability eXchange. It abstracts multiple VEX formats.

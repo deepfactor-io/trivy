@@ -6,7 +6,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/vm"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/vm"
 )
 
 var (

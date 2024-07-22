@@ -8,13 +8,13 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/digest"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/rpc/cache"
-	"github.com/deepfactor-io/trivy/rpc/common"
-	"github.com/deepfactor-io/trivy/rpc/scanner"
+	"github.com/deepfactor-io/trivy/v3/pkg/digest"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/rpc/cache"
+	"github.com/deepfactor-io/trivy/v3/rpc/common"
+	"github.com/deepfactor-io/trivy/v3/rpc/scanner"
 )
 
 var LicenseCategoryMap = map[common.LicenseCategory_Enum]ftypes.LicenseCategory{

@@ -14,9 +14,9 @@ import (
 	"golang.org/x/xerrors"
 
 	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/licensing"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing"
 )
 
 func init() {

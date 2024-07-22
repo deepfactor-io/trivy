@@ -11,9 +11,9 @@ import (
 
 	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
 	godeptypes "github.com/deepfactor-io/go-dep-parser/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 type mockParser struct {

@@ -16,7 +16,7 @@ import (
 
 	"github.com/aquasecurity/testdocker/auth"
 	"github.com/aquasecurity/testdocker/registry"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 func setupPrivateRegistry() *httptest.Server {

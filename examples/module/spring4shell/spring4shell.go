@@ -12,10 +12,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/deepfactor-io/trivy/pkg/module/api"
-	"github.com/deepfactor-io/trivy/pkg/module/serialize"
-	"github.com/deepfactor-io/trivy/pkg/module/wasm"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/module/api"
+	"github.com/deepfactor-io/trivy/v3/pkg/module/serialize"
+	"github.com/deepfactor-io/trivy/v3/pkg/module/wasm"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 const (

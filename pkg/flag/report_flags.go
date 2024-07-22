@@ -9,11 +9,11 @@ import (
 	"golang.org/x/xerrors"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/result"
-	"github.com/deepfactor-io/trivy/pkg/types"
-	xstrings "github.com/deepfactor-io/trivy/pkg/x/strings"
+	"github.com/deepfactor-io/trivy/v3/pkg/compliance/spec"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/result"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
+	xstrings "github.com/deepfactor-io/trivy/v3/pkg/x/strings"
 )
 
 // e.g. config yaml:

@@ -11,18 +11,18 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/exp/slices"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
 
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/all"
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language/python/pip"
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os/alpine"
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/pkg/apk"
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/secret"
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/handler/sysfile"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/config/all"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language/python/pip"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/os/alpine"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/pkg/apk"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/secret"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/handler/sysfile"
 )
 
 func TestArtifact_Inspect(t *testing.T) {

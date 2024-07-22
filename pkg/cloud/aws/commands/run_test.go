@@ -8,15 +8,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/deepfactor-io/trivy/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
-	"github.com/deepfactor-io/trivy/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/compliance/spec"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
 )
 
 const expectedS3ScanResult = `{

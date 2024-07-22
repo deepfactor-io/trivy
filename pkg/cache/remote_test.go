@@ -14,11 +14,11 @@ import (
 	"github.com/twitchtv/twirp"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/cache"
-	fcache "github.com/deepfactor-io/trivy/pkg/fanal/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	rpcCache "github.com/deepfactor-io/trivy/rpc/cache"
-	rpcScanner "github.com/deepfactor-io/trivy/rpc/scanner"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
+	fcache "github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	rpcCache "github.com/deepfactor-io/trivy/v3/rpc/cache"
+	rpcScanner "github.com/deepfactor-io/trivy/v3/rpc/scanner"
 )
 
 type mockCacheServer struct {

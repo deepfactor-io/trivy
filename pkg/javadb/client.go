@@ -16,9 +16,9 @@ import (
 	"github.com/deepfactor-io/go-dep-parser/pkg/java/jar"
 	"github.com/deepfactor-io/javadb/pkg/db"
 	"github.com/deepfactor-io/javadb/pkg/types"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/oci"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/oci"
 )
 
 const (

@@ -17,10 +17,10 @@ import (
 
 	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
 	godepparserutils "github.com/deepfactor-io/go-dep-parser/pkg/utils"
-	fos "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os"
-	"github.com/deepfactor-io/trivy/pkg/fanal/log"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
+	fos "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/os"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
 )
 
 var (

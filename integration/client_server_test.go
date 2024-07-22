@@ -17,9 +17,9 @@ import (
 	"github.com/stretchr/testify/require"
 	testcontainers "github.com/testcontainers/testcontainers-go"
 
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	"github.com/deepfactor-io/trivy/pkg/report"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/report"
+	"github.com/deepfactor-io/trivy/v3/pkg/uuid"
 )
 
 type csArgs struct {

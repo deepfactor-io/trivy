@@ -6,8 +6,8 @@ import (
 
 	"github.com/aquasecurity/trivy-db/pkg/metadata"
 	javadb "github.com/aquasecurity/trivy-java-db/pkg/db"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/policy"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/policy"
 )
 
 var (

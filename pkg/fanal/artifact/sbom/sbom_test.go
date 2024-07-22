@@ -10,10 +10,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact/sbom"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact/sbom"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 func TestArtifact_Inspect(t *testing.T) {

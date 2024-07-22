@@ -15,14 +15,14 @@ import (
 	"golang.org/x/exp/maps"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/digest"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/licensing"
-	"github.com/deepfactor-io/trivy/pkg/licensing/expression"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/purl"
-	"github.com/deepfactor-io/trivy/pkg/scanner/utils"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/digest"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing/expression"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/purl"
+	"github.com/deepfactor-io/trivy/v3/pkg/scanner/utils"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 const (

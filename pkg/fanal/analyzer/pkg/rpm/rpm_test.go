@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 	rpmdb "github.com/knqyf263/go-rpmdb/pkg"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/require"

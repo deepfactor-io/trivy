@@ -9,16 +9,16 @@ import (
 
 	"golang.org/x/xerrors"
 
-	cr "github.com/deepfactor-io/trivy/pkg/compliance/report"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/report/cyclonedx"
-	"github.com/deepfactor-io/trivy/pkg/report/github"
-	"github.com/deepfactor-io/trivy/pkg/report/predicate"
-	"github.com/deepfactor-io/trivy/pkg/report/spdx"
-	"github.com/deepfactor-io/trivy/pkg/report/table"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	cr "github.com/deepfactor-io/trivy/v3/pkg/compliance/report"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/report/cyclonedx"
+	"github.com/deepfactor-io/trivy/v3/pkg/report/github"
+	"github.com/deepfactor-io/trivy/v3/pkg/report/predicate"
+	"github.com/deepfactor-io/trivy/v3/pkg/report/spdx"
+	"github.com/deepfactor-io/trivy/v3/pkg/report/table"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 const (

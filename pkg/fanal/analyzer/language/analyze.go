@@ -8,12 +8,12 @@ import (
 
 	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
 	godeptypes "github.com/deepfactor-io/go-dep-parser/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/digest"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/licensing"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/digest"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 // Analyze returns an analysis result of the lock file

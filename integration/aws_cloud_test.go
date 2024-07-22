@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	awscommands "github.com/deepfactor-io/trivy/pkg/cloud/aws/commands"
-	"github.com/deepfactor-io/trivy/pkg/flag"
+	awscommands "github.com/deepfactor-io/trivy/v3/pkg/cloud/aws/commands"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
 	dockercontainer "github.com/docker/docker/api/types/container"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

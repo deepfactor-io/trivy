@@ -3,7 +3,7 @@ package flag
 import (
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 var (

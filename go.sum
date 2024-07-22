@@ -712,8 +712,6 @@ github.com/d2g/hardwareaddr v0.0.0-20190221164911-e7d9fbe030e4/go.mod h1:bMl4RjI
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/deepfactor-io/go-dep-parser v0.0.0-20240124060941-e53cfbe1b70e h1:wB/aDTZzRur75SRIdr0q/CVejEY4WyNb+547Gitp17A=
-github.com/deepfactor-io/go-dep-parser v0.0.0-20240124060941-e53cfbe1b70e/go.mod h1:Rbqh3x4TYRJSVIABETtF+9ARYJP+5z18unTPKEynIDI=
 github.com/deepfactor-io/go-dep-parser v0.0.0-20240404041857-115a91ba0039 h1:B3T8/KGLwYfvIL344+zVNGUukolH0kMp3IIip4qJwbA=
 github.com/deepfactor-io/go-dep-parser v0.0.0-20240404041857-115a91ba0039/go.mod h1:Rbqh3x4TYRJSVIABETtF+9ARYJP+5z18unTPKEynIDI=
 github.com/deepfactor-io/javadb v0.0.0-20240327135105-453eb42d4707 h1:JCZ6CU3xwAiCRnfSVqX9Z3Omeq+W354+FnemgCJNWBU=

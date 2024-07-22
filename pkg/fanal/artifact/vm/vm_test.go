@@ -15,16 +15,16 @@ import (
 	"github.com/stretchr/testify/require"
 
 	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact/vm"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact/vm"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/walker"
+	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
 
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os/alpine"
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/pkg/apk"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/os/alpine"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/pkg/apk"
 )
 
 const (

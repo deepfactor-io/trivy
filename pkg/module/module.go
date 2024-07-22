@@ -17,13 +17,13 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	tapi "github.com/deepfactor-io/trivy/pkg/module/api"
-	"github.com/deepfactor-io/trivy/pkg/module/serialize"
-	"github.com/deepfactor-io/trivy/pkg/scanner/post"
-	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	tapi "github.com/deepfactor-io/trivy/v3/pkg/module/api"
+	"github.com/deepfactor-io/trivy/v3/pkg/module/serialize"
+	"github.com/deepfactor-io/trivy/v3/pkg/scanner/post"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/utils/fsutils"
 )
 
 var (

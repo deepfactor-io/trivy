@@ -1,6 +1,6 @@
 package cache
 
-import "github.com/deepfactor-io/trivy/pkg/fanal/cache"
+import "github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
 
 func NopCache(ac cache.ArtifactCache) cache.Cache {
 	return nopCache{ArtifactCache: ac}

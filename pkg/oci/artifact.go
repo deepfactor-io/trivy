@@ -12,9 +12,9 @@ import (
 	v1 "github.com/google/go-containerregistry/pkg/v1"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/downloader"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/remote"
+	"github.com/deepfactor-io/trivy/v3/pkg/downloader"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/remote"
 )
 
 const (

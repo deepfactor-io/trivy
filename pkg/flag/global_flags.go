@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
+	"github.com/deepfactor-io/trivy/v3/pkg/utils/fsutils"
 )
 
 var (

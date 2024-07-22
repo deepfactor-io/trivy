@@ -10,9 +10,9 @@ import (
 	packageurl "github.com/package-url/packageurl-go"
 	"golang.org/x/xerrors"
 
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/scanner/utils"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/scanner/utils"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 const (

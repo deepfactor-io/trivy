@@ -5,7 +5,7 @@ import (
 
 	cdx "github.com/CycloneDX/cyclonedx-go"
 
-	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx/core"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/cyclonedx/core"
 )
 
 // CycloneDXWriter implements types.Writer

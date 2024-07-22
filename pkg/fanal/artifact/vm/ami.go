@@ -7,9 +7,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/cloud/aws/config"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/cloud/aws/config"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 type AMI struct {

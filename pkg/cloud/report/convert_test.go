@@ -9,8 +9,8 @@ import (
 
 	"github.com/aquasecurity/defsec/pkg/scan"
 	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
-	fanaltypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	fanaltypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 func Test_ResultConversion(t *testing.T) {

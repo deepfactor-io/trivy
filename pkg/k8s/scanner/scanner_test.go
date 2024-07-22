@@ -10,11 +10,11 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
-	cmd "github.com/deepfactor-io/trivy/pkg/commands/artifact"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/purl"
-	cyc "github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx"
-	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx/core"
+	cmd "github.com/deepfactor-io/trivy/v3/pkg/commands/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/purl"
+	cyc "github.com/deepfactor-io/trivy/v3/pkg/sbom/cyclonedx"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/cyclonedx/core"
 )
 
 func TestScanner_Scan(t *testing.T) {

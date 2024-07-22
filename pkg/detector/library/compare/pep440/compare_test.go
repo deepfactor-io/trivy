@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/detector/library/compare/pep440"
+	"github.com/deepfactor-io/trivy/v3/pkg/detector/library/compare/pep440"
 )
 
 func TestPep440Comparer_IsVulnerable(t *testing.T) {
