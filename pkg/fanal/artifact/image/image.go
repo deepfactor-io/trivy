@@ -217,26 +217,41 @@ func (a Artifact) inspect(ctx context.Context, missingImage string, layerKeys, b
 
 	var osFound types.OS
 	p := parallel.NewPipeline(a.artifactOption.Parallel, false, layerKeys, func(ctx context.Context, layerKey string) (any, error) {
-		layer := layerKeyMap[layerKey]
+		done := make(chan error, 1)
 
-		// If it is a base layer, secret scanning should not be performed.
-		var disabledAnalyzers []analyzer.Type
-		if slices.Contains(baseDiffIDs, layer.DiffID) {
-			disabledAnalyzers = append(disabledAnalyzers, analyzer.TypeSecret)
+		go func() {
+			layer := layerKeyMap[layerKey]
+
+			// If it is a base layer, secret scanning should not be performed.
+			var disabledAnalyzers []analyzer.Type
+			if slices.Contains(baseDiffIDs, layer.DiffID) {
+				disabledAnalyzers = append(disabledAnalyzers, analyzer.TypeSecret)
+			}
+
+			layerInfo, err := a.inspectLayer(ctx, layer, disabledAnalyzers)
+			if err != nil {
+				done <- xerrors.Errorf("failed to analyze layer (%s): %w", layer.DiffID, err)
+			}
+			if err = a.cache.PutBlob(layerKey, layerInfo); err != nil {
+				done <- xerrors.Errorf("failed to store layer: %s in cache: %w", layerKey, err)
+			}
+			if lo.IsNotEmpty(layerInfo.OS) {
+				osFound = layerInfo.OS
+			}
+
+			done <- nil
+		}()
+
+		select {
+		case err := <-done:
+			if err != nil {
+				return nil, err
+			}
+		case <-ctx.Done():
+			return nil, ctx.Err()
 		}
 
-		layerInfo, err := a.inspectLayer(ctx, layer, disabledAnalyzers)
-		if err != nil {
-			return nil, xerrors.Errorf("failed to analyze layer (%s): %w", layer.DiffID, err)
-		}
-		if err = a.cache.PutBlob(layerKey, layerInfo); err != nil {
-			return nil, xerrors.Errorf("failed to store layer: %s in cache: %w", layerKey, err)
-		}
-		if lo.IsNotEmpty(layerInfo.OS) {
-			osFound = layerInfo.OS
-		}
 		return nil, nil
-
 	}, nil)
 
 	if err := p.Do(ctx); err != nil {
