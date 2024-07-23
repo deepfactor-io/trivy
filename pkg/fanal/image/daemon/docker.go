@@ -11,7 +11,7 @@ import (
 
 // DockerImage implements v1.Image by extending daemon.Image.
 // The caller must call cleanup() to remove a temporary file.
-func DockerImage(ref name.Reference, host string) (Image, func(), error) {
+func DockerImage(ctx context.Context, ref name.Reference, host string) (Image, func(), error) {
 	cleanup := func() {}
 
 	opts := []client.Opt{
@@ -37,16 +37,16 @@ func DockerImage(ref name.Reference, host string) (Image, func(), error) {
 	// or
 	// <image_name>@<digest> pattern like "alpine@sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300"
 	imageID := ref.Name()
-	inspect, _, err := c.ImageInspectWithRaw(context.Background(), imageID)
+	inspect, _, err := c.ImageInspectWithRaw(ctx, imageID)
 	if err != nil {
 		imageID = ref.String() // <image_id> pattern like `5ac716b05a9c`
-		inspect, _, err = c.ImageInspectWithRaw(context.Background(), imageID)
+		inspect, _, err = c.ImageInspectWithRaw(ctx, imageID)
 		if err != nil {
 			return nil, cleanup, xerrors.Errorf("unable to inspect the image (%s): %w", imageID, err)
 		}
 	}
 
-	history, err := c.ImageHistory(context.Background(), imageID)
+	history, err := c.ImageHistory(ctx, imageID)
 	if err != nil {
 		return nil, cleanup, xerrors.Errorf("unable to get history (%s): %w", imageID, err)
 	}
@@ -63,7 +63,7 @@ func DockerImage(ref name.Reference, host string) (Image, func(), error) {
 	}
 
 	return &image{
-		opener:  imageOpener(context.Background(), imageID, f, c.ImageSave),
+		opener:  imageOpener(ctx, imageID, f, c.ImageSave),
 		inspect: inspect,
 		history: configHistory(history),
 	}, cleanup, nil

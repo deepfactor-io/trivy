@@ -109,7 +109,7 @@ func (p podmanClient) imageSave(_ context.Context, imageNames []string) (io.Read
 
 // PodmanImage implements v1.Image by extending daemon.Image.
 // The caller must call cleanup() to remove a temporary file.
-func PodmanImage(ref string) (Image, func(), error) {
+func PodmanImage(ctx context.Context, ref string) (Image, func(), error) {
 	cleanup := func() {}
 
 	c, err := newPodmanClient()
@@ -137,7 +137,7 @@ func PodmanImage(ref string) (Image, func(), error) {
 	}
 
 	return &image{
-		opener:  imageOpener(context.Background(), ref, f, c.imageSave),
+		opener:  imageOpener(ctx, ref, f, c.imageSave),
 		inspect: inspect,
 		history: configHistory(history),
 	}, cleanup, nil
