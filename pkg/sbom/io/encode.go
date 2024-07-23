@@ -369,6 +369,7 @@ func (*Encoder) component(result types.Result, pkg ftypes.Package) *core.Compone
 		},
 		Supplier:   pkg.Maintainer,
 		Licenses:   pkg.Licenses,
+		LicensesV2: pkg.LicensesV2,
 		Files:      files,
 		Properties: filterProperties(properties),
 	}

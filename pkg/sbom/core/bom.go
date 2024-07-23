@@ -5,6 +5,7 @@ import (
 
 	dtypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/deepfactor-io/trivy/pkg/digest"
+	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
 )
 
@@ -125,6 +126,10 @@ type Component struct {
 	// CycloneDX: component.licenses
 	// SPDX: package.licenseConcluded, package.licenseDeclared
 	Licenses []string
+
+	// LicensesV2 is a list of concluded licenses that apply to the component
+	// SPDX: package.licenseConcluded
+	LicensesV2 []types.License
 
 	// PkgIdentifier has PURL and BOMRef for the component
 	// PURL:
