@@ -81,7 +81,3 @@ func MergeMaps(parent, child map[string]string) map[string]string {
 	}
 	return newParent
 }
-
-func PackageID(name, version string) string {
-	return fmt.Sprintf("%s@%s", name, version)
-}

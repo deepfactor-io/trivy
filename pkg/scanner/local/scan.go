@@ -364,6 +364,7 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 				IsPkgIndirect:    pkg.Indirect,
 				PkgEpoch:         pkg.Epoch,
 				PkgRelease:       pkg.Release,
+				PkgID:            pkg.ID,
 			})
 		}
 	}
@@ -408,6 +409,7 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 					IsPkgIndirect:    lib.Indirect,
 					PkgEpoch:         lib.Epoch,
 					PkgRelease:       lib.Release,
+					PkgID:            lib.ID,
 				})
 			}
 
@@ -432,6 +434,7 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 					IsPkgIndirect:       lib.Indirect,
 					PkgEpoch:            lib.Epoch,
 					PkgRelease:          lib.Release,
+					PkgID:               lib.ID,
 				})
 			}
 		}

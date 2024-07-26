@@ -37,6 +37,9 @@ type DetectedLicense struct {
 	// Is Package direct or indirect
 	IsPkgIndirect bool `json:",omitempty"`
 
+	// package ID correlates to the unique packageID as in types.Package struct
+	PkgID string `json:",omitempty"`
+
 	// For loose licenses, file path indicates where license was found
 	// It will be empty if PkgName is filled
 	FilePath string `json:",omitempty"`

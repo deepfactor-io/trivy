@@ -74,7 +74,6 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 	required := func(path string, d fs.DirEntry) bool {
 		fileName := filepath.Base(path)
 		return slices.Contains(requiredFiles, fileName)
-		// return true
 	}
 
 	err := fsutils.WalkDir(input.FS, ".", required, func(path string, d fs.DirEntry, r io.Reader) error {

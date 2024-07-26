@@ -11,7 +11,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/utils"
+	"github.com/deepfactor-io/trivy/pkg/dependency"
 	"github.com/deepfactor-io/trivy/pkg/fanal/types"
 
 	"github.com/deepfactor-io/trivy/pkg/log"
@@ -120,7 +120,7 @@ func (p nuspecParser) findConcludedLicenses(name, version string) ([]types.Licen
 	}
 
 	// get the package ID for given package name and version
-	pkgID := utils.PackageID(name, version)
+	pkgID := dependency.ID(types.NuGet, name, version)
 
 	walker, err := fsutils.NewRecursiveWalker(fsutils.RecursiveWalkerInput{
 		Logger:                    p.logger,
@@ -209,7 +209,7 @@ func (p nuspecParser) ParseManifest(
 	}
 
 	name, version := strings.ToLower(pkg.Metadata.Name), strings.ToLower(pkg.Metadata.Version)
-	pkg.ID = utils.PackageID(name, version)
+	pkg.ID = dependency.ID(types.NuGet, name, version)
 
 	return pkg, nil
 }
