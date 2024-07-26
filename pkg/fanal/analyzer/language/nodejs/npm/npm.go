@@ -90,11 +90,11 @@ func (a npmLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.PostAn
 			if licenses, ok := licensesMap[lib.ID]; ok {
 				for _, license := range licenses {
 					// Declared license would be going to Licenses field as before
-					// Concluded licenses would be going to LicensesV2 field
+					// Concluded licenses would be going to ConcludedLicenses field
 					if license.IsDeclared {
 						app.Packages[i].Licenses = append(app.Packages[i].Licenses, license.Name)
 					} else {
-						app.Packages[i].LicensesV2 = append(app.Packages[i].LicensesV2, license)
+						app.Packages[i].ConcludedLicenses = append(app.Packages[i].ConcludedLicenses, license)
 					}
 				}
 			}
@@ -183,7 +183,7 @@ func (a npmLibraryAnalyzer) findLicenses(fsys fs.FS, lockPath string) (map[strin
 	// If deep license scanning is enabled, we scan every file present in the repo and node_modules
 	// and search for concluded licenses
 	if a.licenseConfig.EnableDeepLicenseScan {
-		return a.findLicensesV2(fsys, lockPath)
+		return a.findConcludedLicenses(fsys, lockPath)
 	}
 
 	dir := path.Dir(lockPath)
@@ -220,7 +220,7 @@ func (a npmLibraryAnalyzer) findLicenses(fsys fs.FS, lockPath string) (map[strin
 	return licenses, nil
 }
 
-func (a npmLibraryAnalyzer) findLicensesV2(fsys fs.FS, lockPath string) (map[string][]types.License, error) {
+func (a npmLibraryAnalyzer) findConcludedLicenses(fsys fs.FS, lockPath string) (map[string][]types.License, error) {
 	dir := path.Dir(lockPath)
 	dependencyRootPath := path.Join(dir, "node_modules")
 	if _, err := fs.Stat(fsys, dependencyRootPath); errors.Is(err, fs.ErrNotExist) {

@@ -120,8 +120,8 @@ func (m *Marshaler) MarshalComponent(component *core.Component) (*cdx.Component,
 
 	var componentLicenses = component.Licenses
 	// check if concluded licenses are found in the component
-	if len(component.LicensesV2) > 0 {
-		for _, license := range component.LicensesV2 {
+	if len(component.ConcludedLicenses) > 0 {
+		for _, license := range component.ConcludedLicenses {
 			componentLicenses = append(componentLicenses, license.Name)
 		}
 	}

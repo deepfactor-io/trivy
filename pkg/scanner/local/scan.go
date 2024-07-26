@@ -411,8 +411,8 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 				})
 			}
 
-			// Concluded licenses are stored in LicensesV2 array
-			for _, license := range lib.LicensesV2 {
+			// Concluded licenses are stored in ConcludedLicenses array
+			for _, license := range lib.ConcludedLicenses {
 				category, severity := scanner.Scan(license.Name)
 				langLicenses = append(langLicenses, types.DetectedLicense{
 					Severity:            severity,

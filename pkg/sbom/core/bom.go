@@ -127,9 +127,9 @@ type Component struct {
 	// SPDX: package.licenseConcluded, package.licenseDeclared
 	Licenses []string
 
-	// LicensesV2 is a list of concluded licenses that apply to the component
+	// ConcludedLicenses is a list of concluded licenses that apply to the component
 	// SPDX: package.licenseConcluded
-	LicensesV2 []types.License
+	ConcludedLicenses []types.License
 
 	// PkgIdentifier has PURL and BOMRef for the component
 	// PURL:

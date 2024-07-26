@@ -401,12 +401,12 @@ func (m *Marshaler) spdxLicense(c *core.Component) string {
 }
 
 func (m *Marshaler) spdxConcludedLicense(c *core.Component) string {
-	if len(c.LicensesV2) == 0 {
+	if len(c.ConcludedLicenses) == 0 {
 		return noneField
 	}
 
 	var concludedLicenses []string
-	for _, license := range c.LicensesV2 {
+	for _, license := range c.ConcludedLicenses {
 		concludedLicenses = append(concludedLicenses, license.Name)
 	}
 

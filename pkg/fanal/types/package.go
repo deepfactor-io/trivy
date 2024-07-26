@@ -170,8 +170,8 @@ type Package struct {
 	SrcRelease string        `json:",omitempty"`
 	SrcEpoch   int           `json:",omitempty"`
 	Licenses   []string      `json:",omitempty"`
-	// For deep license scanning, licensesV2 field is used
-	LicensesV2         []License     `json:",omitempty"`
+	// For deep license scanning, ConcludedLicenses field is used
+	ConcludedLicenses  []License     `json:",omitempty"`
 	Maintainer         string        `json:",omitempty"`
 	ExternalReferences []ExternalRef `json:"-" hash:"ignore"`
 

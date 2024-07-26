@@ -113,11 +113,11 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 
 			for _, license := range licenses {
 				// Declared license would be going to Licenses field as before
-				// Concluded licenses would be going to LicensesV2 field
+				// Concluded licenses would be going to ConcludedLicenses field
 				if license.IsDeclared {
 					app.Packages[i].Licenses = append(app.Packages[i].Licenses, license.Name)
 				} else {
-					app.Packages[i].LicensesV2 = append(app.Packages[i].LicensesV2, license)
+					app.Packages[i].ConcludedLicenses = append(app.Packages[i].ConcludedLicenses, license)
 				}
 			}
 		}

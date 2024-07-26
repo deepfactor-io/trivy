@@ -73,7 +73,7 @@ func (p nuspecParser) findLicense(name, version string) ([]types.License, error)
 	// If deep license scanning is enabled, we scan every file present within the given nuget package
 	// and search for concluded licenses
 	if p.licenseConfig.EnableDeepLicenseScan {
-		return p.findLicensesV2(name, version)
+		return p.findConcludedLicenses(name, version)
 	}
 
 	// package path uses lowercase letters only
@@ -106,7 +106,7 @@ func (p nuspecParser) findLicense(name, version string) ([]types.License, error)
 	}, nil
 }
 
-func (p nuspecParser) findLicensesV2(name, version string) ([]types.License, error) {
+func (p nuspecParser) findConcludedLicenses(name, version string) ([]types.License, error) {
 	name, version = strings.ToLower(name), strings.ToLower(version)
 
 	// package path uses lowercase letters only

@@ -22,18 +22,16 @@ func IsPkgSplitRequired(targetType ftypes.TargetType) bool {
 func FilterNGetLicenses(licenses []string) []string {
 	var foundSPDXLicense bool
 	var result []string
-
-	// Remove empty strings if present
 	var tempLicenses []string
-	for _, license := range licenses {
-		if license != "" {
-			tempLicenses = append(tempLicenses, license)
-		}
-	}
-	licenses = tempLicenses
 
 	// Split and validate licenses
 	for _, license := range licenses {
+		// skip empty licenses
+		if len(license) == 0 {
+			continue
+		}
+		tempLicenses = append(tempLicenses, license)
+
 		for _, license := range splitLicense(license) {
 			ok, _ := spdxexp.ValidateLicenses([]string{license})
 			foundSPDXLicense = foundSPDXLicense || ok
@@ -43,6 +41,7 @@ func FilterNGetLicenses(licenses []string) []string {
 			}
 		}
 	}
+	licenses = tempLicenses
 
 	if !foundSPDXLicense {
 		return lo.Uniq(licenses)
@@ -100,6 +99,10 @@ func splitLicense(license string) []string {
 
 // validate whether given license is SPDX defined or not
 func ValidateLicense(license string) bool {
+	if len(license) == 0 {
+		return false
+	}
+
 	ok, _ := spdxexp.ValidateLicenses([]string{license})
-	return license != "" && ok
+	return ok
 }
