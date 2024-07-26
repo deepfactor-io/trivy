@@ -4,8 +4,6 @@ go 1.22.0
 
 toolchain go1.22.4
 
-replace github.com/deepfactor-io/go-dep-parser => github.com/deepfactor-io/go-dep-parser v0.0.0-20240522114955-c3b72fb971a8
-
 require (
 	github.com/Azure/azure-sdk-for-go v68.0.0+incompatible
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.12.0
@@ -134,7 +132,6 @@ require (
 
 require (
 	github.com/alicebob/miniredis/v2 v2.33.0
-	github.com/deepfactor-io/go-dep-parser v0.0.0-00010101000000-000000000000
 	github.com/github/go-spdx/v2 v2.3.1
 )
 

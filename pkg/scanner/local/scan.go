@@ -415,6 +415,10 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 
 			// Concluded licenses are stored in ConcludedLicenses array
 			for _, license := range lib.ConcludedLicenses {
+				if len(license.Name) == 0 {
+					continue
+				}
+
 				category, severity := scanner.Scan(license.Name)
 				langLicenses = append(langLicenses, types.DetectedLicense{
 					Severity:            severity,
@@ -454,6 +458,10 @@ func (s Scanner) scanLicenses(target types.ScanTarget, options types.ScanOptions
 	var fileLicenses []types.DetectedLicense
 	for _, license := range target.Licenses {
 		for _, finding := range license.Findings {
+			if len(finding.Name) == 0 {
+				continue
+			}
+
 			category, severity := scanner.Scan(finding.Name)
 			fileLicenses = append(fileLicenses, types.DetectedLicense{
 				Severity:            severity,

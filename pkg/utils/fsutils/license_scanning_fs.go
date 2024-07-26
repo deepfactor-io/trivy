@@ -107,18 +107,24 @@ func (w *RecursiveWalker) Walk(fsys fs.FS, root string, parentPkgID string) (boo
 		return w.handleSpecialPath(fsys, root)
 	}
 
-	pkgID, err := w.processPackageManifest(fsys, root, parentPkgID)
+	pkgID, foundPkgManifest, err := w.processPackageManifest(fsys, root)
 	if err != nil {
 		w.Logger.Error("Failed to process package manifest", log.String("Err", err.Error()))
 		return false, err
 	}
 
-	// If package was already found in the scan, we skip it from license scanning
-	// else we store it in pkgIDMap
-	if pkgID != types.LOOSE_LICENSES {
+	if !foundPkgManifest {
+		if parentPkgID == "" {
+			w.Logger.Debug("Parent PkgID is empty. Adding to loose licenses", log.String("path", root))
+			pkgID = types.LOOSE_LICENSES
+		} else {
+			w.Logger.Debug("Found Parent Pkg ID, using it", log.String("path", root), log.String("parent PkgID", parentPkgID))
+			pkgID = parentPkgID
+		}
+	} else {
+		// If package was already found in the scan before, we skip it from further processing, else we store it in pkgIDMap
 		if _, present := w.pkgIDMap.Load(pkgID); present {
-			w.Logger.Debug("pkgID is already present, skipping recursive walk",
-				log.String("pkgID", pkgID), log.String("path", root))
+			w.Logger.Debug("pkgID is already present, skipping recursive walk", log.String("pkgID", pkgID), log.String("path", root))
 			return true, nil
 		} else {
 			w.pkgIDMap.Store(pkgID, struct{}{})
@@ -126,7 +132,9 @@ func (w *RecursiveWalker) Walk(fsys fs.FS, root string, parentPkgID string) (boo
 	}
 
 	required := func(filePath string, d fs.DirEntry) bool {
-		// Skip PkgDependency Dir (Ex: node_modules) directory and for Package manifest file
+		// Skipping PkgDependency directory and Package manifest file given as in walker's input
+		// why? since the manifest file is already parsed above, we skip it.
+		// PkgDependencyDir is skipped since a recursive call is done for that sub-dir. So as part of recursive call, we process it
 		pkgDependencyDir := path.Join(root, w.PackageDependencyDir)
 		return !strings.HasPrefix(filePath, pkgDependencyDir) && !d.IsDir() && (filepath.Base(filePath) != w.PackageManifestFile)
 	}
@@ -169,6 +177,8 @@ func (w *RecursiveWalker) Walk(fsys fs.FS, root string, parentPkgID string) (boo
 }
 
 // For special packages (like scoped packages in npm), we need to recurse further for scanning
+// Ex: if root path is node_modules/@babel/, all the relevant node packages are grouped together in @babel folder
+// so to process each package we need to recur further into each package sub-dir and then continue processing
 func (w *RecursiveWalker) handleSpecialPath(fsys fs.FS, root string) (bool, error) {
 	dirEntries, err := fs.ReadDir(fsys, root)
 	if err != nil {
@@ -188,40 +198,33 @@ func (w *RecursiveWalker) handleSpecialPath(fsys fs.FS, root string) (bool, erro
 }
 
 // parses the package manifest file if present and valid. generates declared license
-func (w *RecursiveWalker) processPackageManifest(fsys fs.FS, root, parentPkgID string) (string, error) {
+func (w *RecursiveWalker) processPackageManifest(fsys fs.FS, root string) (string, bool, error) {
+	// Skip parsing manifest at "." root path, since all license findings found there fall under loose licenses
+	if root == "." || len(w.PackageManifestFile) == 0 {
+		return "", false, nil
+	}
+
 	packageManifestPath := path.Join(root, w.PackageManifestFile)
 
-	if root != "." && w.PackageManifestFile != "" {
-		// check if package Manifest file exists, if yes, then parse then we parse it
-		if f, err := fs.Stat(fsys, packageManifestPath); err == nil && f.Size() != 0 {
-			pkg, err := w.Parser.ParseManifest(fsys, packageManifestPath)
-			if err != nil {
-				w.Logger.Error("unable to parse package manifest", log.String("path", packageManifestPath), log.String("error", err.Error()))
-				return "", xerrors.Errorf("unable to parse package manifest: %w", err)
-			}
-
-			w.Logger.Debug("Found declared licenses", log.String("pkgID", pkg.PackageID()),
-				log.Any("declaredLicenses", pkg.DeclaredLicenses()))
-
-			w.mutex.Lock()
-			w.licenses[pkg.PackageID()] = append(w.licenses[pkg.PackageID()], pkg.DeclaredLicenses()...)
-			w.mutex.Unlock()
-
-			return pkg.PackageID(), nil
+	// check if package Manifest file exists, if yes, then parse then we parse it
+	if f, err := fs.Stat(fsys, packageManifestPath); err == nil && f.Size() != 0 {
+		pkg, err := w.Parser.ParseManifest(fsys, packageManifestPath)
+		if err != nil {
+			w.Logger.Error("unable to parse package manifest", log.String("path", packageManifestPath), log.String("error", err.Error()))
+			return "", false, xerrors.Errorf("unable to parse package manifest: %w", err)
 		}
+
+		w.Logger.Debug("Found declared licenses", log.String("pkgID", pkg.PackageID()),
+			log.Any("declaredLicenses", pkg.DeclaredLicenses()))
+
+		w.mutex.Lock()
+		w.licenses[pkg.PackageID()] = append(w.licenses[pkg.PackageID()], pkg.DeclaredLicenses()...)
+		w.mutex.Unlock()
+
+		return pkg.PackageID(), true, nil
 	}
 
-	var pkgID string
-	if parentPkgID == "" {
-		w.Logger.Debug("Parent PkgID is empty. Adding to loose licenses", log.String("path", root))
-		pkgID = types.LOOSE_LICENSES
-	} else {
-		w.Logger.Debug("Found Parent Pkg ID, using it", log.String("path", root),
-			log.String("parent PkgID", parentPkgID))
-		pkgID = parentPkgID
-	}
-
-	return pkgID, nil
+	return "", false, nil
 }
 
 // checks whether given package dependency dir is present in given fs or not

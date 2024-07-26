@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -37,6 +36,7 @@ var (
 	classifierPoolOnce    sync.Once
 	classifierPool        *licenseClassifierPool
 	errClassifierPoolInit error
+	licenseCopyrightRegex = regexp.MustCompile(`(?i)Copyright\s+((\(c\)|©)?\s*\d{4}(?:-\d{4})?\s+.*?)(?:\\n|$)`)
 )
 
 func initGoogleClassifier() error {
@@ -105,8 +105,7 @@ func Classify(filePath string, r io.Reader, confidenceLevel float64) (*types.Lic
 }
 
 type licenseClassifierPool struct {
-	pool  chan *classifier.Classifier
-	mutex sync.Mutex
+	pool chan *classifier.Classifier
 }
 
 // initializes a pool of classifiers
@@ -140,15 +139,11 @@ func InitGoogleLicenseClassifierPool(poolSize int) error {
 
 // gets a classifier from the pool of classifiers
 func (p *licenseClassifierPool) Get() *classifier.Classifier {
-	p.mutex.Lock()
-	defer p.mutex.Unlock()
 	return <-p.pool
 }
 
 // puts the classifier back to the pool of classifiers
 func (p *licenseClassifierPool) Put(classifier *classifier.Classifier) {
-	p.mutex.Lock()
-	defer p.mutex.Unlock()
 	p.pool <- classifier
 }
 
@@ -276,16 +271,18 @@ func (input *ClassifierInput) persistLicenseText(
 	licenseTextFilepath := filepath.Join(input.LicenseTextCacheDir, fmt.Sprintf("%s.txt", checksum))
 
 	// persist only when file does not exist
-	if _, err := os.Stat(licenseTextFilepath); errors.Is(err, fs.ErrNotExist) {
-		bytes, err := convertToUTF8([]byte(licenseText))
-		if err != nil {
-			return fmt.Errorf("failed to convert given bytes to utf-8 encoded, checksum: %s, err: %s", checksum, err.Error())
-		}
-		err = os.WriteFile(licenseTextFilepath, bytes, 0644)
-		if err != nil {
-			fmt.Println("Error! failed to persist license text: err:: ", err.Error())
-			return fmt.Errorf("failed to persist license text. (checksum: %s, err: %s)", checksum, err.Error())
-		}
+	if _, err := os.Stat(licenseTextFilepath); err == nil {
+		return nil
+	}
+
+	bytes, err := convertToUTF8([]byte(licenseText))
+	if err != nil {
+		return fmt.Errorf("failed to convert given bytes to utf-8 encoded, checksum: %s, err: %s", checksum, err.Error())
+	}
+	err = os.WriteFile(licenseTextFilepath, bytes, 0644)
+	if err != nil {
+		fmt.Println("Error! failed to persist license text: err:: ", err.Error())
+		return fmt.Errorf("failed to persist license text. (checksum: %s, err: %s)", checksum, err.Error())
 	}
 
 	return nil
@@ -293,8 +290,7 @@ func (input *ClassifierInput) persistLicenseText(
 
 // extracts the copyright text from given license text
 func extractCopyrightFromLicenseText(text string) string {
-	re := regexp.MustCompile(`(?i)Copyright\s+((\(c\)|©)?\s*\d{4}(?:-\d{4})?\s+.*?)(?:\\n|$)`)
-	matches := re.FindAllString(text, -1)
+	matches := licenseCopyrightRegex.FindAllString(text, -1)
 	if len(matches) == 0 {
 		return ""
 	}
