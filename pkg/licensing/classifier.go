@@ -250,11 +250,11 @@ func extractLicenseText(
 	licenseText = strings.ReplaceAll(licenseText, "\\n", "\n")
 	licenseText = strings.ReplaceAll(licenseText, "\\t", "\t")
 
-	return generateChecksum(licenseText), licenseText
+	return GenerateChecksum(licenseText), licenseText
 }
 
 // generates unique checksum for given text
-func generateChecksum(text string) string {
+func GenerateChecksum(text string) string {
 	if len(text) == 0 {
 		return ""
 	}
