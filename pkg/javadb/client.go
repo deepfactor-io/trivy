@@ -36,7 +36,7 @@ type Updater struct {
 	once           sync.Once // we need to update java-db once per run
 }
 
-func (u *Updater) Update() error {
+func (u *Updater) Update(ctx context.Context) error {
 	// logger object
 	logger, _ := log.NewLogger(true, false)
 
@@ -60,10 +60,12 @@ func (u *Updater) Update() error {
 
 		// TODO: support remote options
 		var a *oci.Artifact
+
 		if a, err = oci.NewArtifact(u.repo, u.quiet, u.registryOption); err != nil {
 			return xerrors.Errorf("oci error: %w", err)
 		}
-		if err = a.Download(context.Background(), dbDir, oci.DownloadOption{MediaType: mediaType}); err != nil {
+
+		if err = a.Download(ctx, dbDir, oci.DownloadOption{MediaType: mediaType}); err != nil {
 			return xerrors.Errorf("DB download error: %w", err)
 		}
 
@@ -78,6 +80,7 @@ func (u *Updater) Update() error {
 		if err = metac.Update(meta); err != nil {
 			return xerrors.Errorf("Java DB metadata update error: %w", err)
 		}
+
 		logger.Infof("Java DB download complete. Last Updated At: %s", meta.UpdatedAt.String())
 
 		log.Logger.Info("The Java DB is cached for 3 days. If you want to update the database more frequently, " +
@@ -113,14 +116,14 @@ func NewUpdater(
 	return updater
 }
 
-func Update() error {
+func Update(ctx context.Context) error {
 	if updater == nil {
 		return xerrors.New("Java DB client not initialized")
 	}
 
 	var err error
 	updater.once.Do(func() {
-		err = updater.Update()
+		err = updater.Update(ctx)
 	})
 	return err
 }
@@ -129,8 +132,8 @@ type DB struct {
 	driver db.DB
 }
 
-func NewClient() (*DB, error) {
-	if err := Update(); err != nil {
+func NewClient(ctx context.Context) (*DB, error) {
+	if err := Update(ctx); err != nil {
 		return nil, xerrors.Errorf("Java DB update failed: %s", err)
 	}
 
