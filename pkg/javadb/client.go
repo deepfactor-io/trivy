@@ -40,7 +40,7 @@ type Updater struct {
 	once           sync.Once // we need to update java-db once per run
 }
 
-func (u *Updater) Update() error {
+func (u *Updater) Update(ctx context.Context) error {
 	dbDir := u.dbDir
 	metac := db.NewMetadata(dbDir)
 
@@ -64,7 +64,8 @@ func (u *Updater) Update() error {
 		if a, err = oci.NewArtifact(u.repo.String(), u.quiet, u.registryOption); err != nil {
 			return xerrors.Errorf("oci error: %w", err)
 		}
-		if err = a.Download(context.Background(), dbDir, oci.DownloadOption{MediaType: mediaType}); err != nil {
+
+		if err = a.Download(ctx, dbDir, oci.DownloadOption{MediaType: mediaType}); err != nil {
 			return xerrors.Errorf("DB download error: %w", err)
 		}
 
@@ -98,14 +99,44 @@ func Init(cacheDir string, javaDBRepository name.Reference, skip, quiet bool, re
 	}
 }
 
-func Update() error {
+func NewUpdater(
+	cacheDir, javaDBRepository string,
+	skip, quiet bool,
+	registryOption ftypes.RegistryOptions,
+) (*Updater, error) {
+	var repository name.Reference
+	var err error
+
+	if repository, err = name.ParseReference(javaDBRepository, name.WithDefaultTag("")); err != nil {
+		return nil, xerrors.Errorf("invalid javadb repository: %w", err)
+	}
+
+	// Add the schema version if the tag is not specified for backward compatibility.
+	if t, ok := repository.(name.Tag); ok && t.TagStr() == "" {
+		repository = t.Tag(fmt.Sprint(SchemaVersion))
+		log.Info("Adding schema version to the Java DB repository for backward compatibility",
+			log.String("repository", repository.String()))
+	}
+
+	updater = &Updater{
+		repo:           repository,
+		dbDir:          filepath.Join(cacheDir, "java-db"),
+		skip:           skip,
+		quiet:          quiet,
+		registryOption: registryOption,
+	}
+
+	return updater, nil
+}
+
+func Update(ctx context.Context) error {
 	if updater == nil {
 		return xerrors.New("Java DB client not initialized")
 	}
 
 	var err error
 	updater.once.Do(func() {
-		err = updater.Update()
+		err = updater.Update(ctx)
 	})
 	return err
 }
@@ -122,8 +153,8 @@ type DB struct {
 	driver db.DB
 }
 
-func NewClient() (*DB, error) {
-	if err := Update(); err != nil {
+func NewClient(ctx context.Context) (*DB, error) {
+	if err := Update(ctx); err != nil {
 		return nil, xerrors.Errorf("Java DB update failed: %s", err)
 	}
 

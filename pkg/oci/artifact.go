@@ -182,9 +182,22 @@ func (a *Artifact) download(ctx context.Context, layer v1.Layer, fileName, dir s
 		_ = os.RemoveAll(tempDir)
 	}()
 
+	done := make(chan error, 1)
+
 	// Download the layer content into a temporal file
-	if _, err = io.Copy(f, pr); err != nil {
-		return xerrors.Errorf("copy error: %w", err)
+	go func() {
+		_, err := io.Copy(f, pr)
+		done <- err
+	}()
+
+	// handle context done
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	case err := <-done:
+		if err != nil {
+			return xerrors.Errorf("copy error: %w", err)
+		}
 	}
 
 	// Decompress the downloaded file if it is compressed and copy it into the dst
