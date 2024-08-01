@@ -18,13 +18,13 @@ import (
 
 	"github.com/aquasecurity/trivy-db/pkg/db"
 	"github.com/aquasecurity/trivy-db/pkg/metadata"
-	dbFile "github.com/deepfactor-io/trivy/pkg/db"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/policy"
-	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
-	"github.com/deepfactor-io/trivy/pkg/version"
-	rpcCache "github.com/deepfactor-io/trivy/rpc/cache"
+	dbFile "github.com/deepfactor-io/trivy/v3/pkg/db"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/policy"
+	"github.com/deepfactor-io/trivy/v3/pkg/utils/fsutils"
+	"github.com/deepfactor-io/trivy/v3/pkg/version"
+	rpcCache "github.com/deepfactor-io/trivy/v3/rpc/cache"
 )
 
 func Test_dbWorker_update(t *testing.T) {

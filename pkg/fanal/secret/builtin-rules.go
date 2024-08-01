@@ -6,7 +6,7 @@ import (
 	"github.com/samber/lo"
 
 	defsecRules "github.com/aquasecurity/trivy-iac/pkg/rules"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 var (

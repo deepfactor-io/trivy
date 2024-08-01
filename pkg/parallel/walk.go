@@ -9,7 +9,7 @@ import (
 	"golang.org/x/xerrors"
 
 	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 const defaultParallel = 5

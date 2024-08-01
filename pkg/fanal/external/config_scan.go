@@ -4,15 +4,15 @@ import (
 	"context"
 	"errors"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact/local"
-	"github.com/deepfactor-io/trivy/pkg/fanal/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/applier"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact/local"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
 
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config/all"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/config/all"
 )
 
 type ConfigScanner struct {

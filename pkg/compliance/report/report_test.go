@@ -9,10 +9,10 @@ import (
 	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
-	"github.com/deepfactor-io/trivy/pkg/compliance/report"
-	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/compliance/report"
+	"github.com/deepfactor-io/trivy/v3/pkg/compliance/spec"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 func TestBuildComplianceReport(t *testing.T) {

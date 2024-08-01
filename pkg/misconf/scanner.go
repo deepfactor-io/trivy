@@ -26,9 +26,9 @@ import (
 	k8sscanner "github.com/aquasecurity/trivy-iac/pkg/scanners/kubernetes"
 	tfscanner "github.com/aquasecurity/trivy-iac/pkg/scanners/terraform"
 	tfpscanner "github.com/aquasecurity/trivy-iac/pkg/scanners/terraformplan"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/mapfs"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/mapfs"
 
 	_ "embed"
 )

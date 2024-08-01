@@ -5,10 +5,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
-	"github.com/deepfactor-io/trivy/pkg/fanal/secret"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/compliance/spec"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/secret"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 func TestMapSpecCheckIDToFilteredResults(t *testing.T) {

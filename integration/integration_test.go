@@ -27,10 +27,10 @@ import (
 
 	"github.com/aquasecurity/trivy-db/pkg/db"
 	"github.com/aquasecurity/trivy-db/pkg/metadata"
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	"github.com/deepfactor-io/trivy/pkg/commands"
-	"github.com/deepfactor-io/trivy/pkg/dbtest"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/commands"
+	"github.com/deepfactor-io/trivy/v3/pkg/dbtest"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 
 	_ "modernc.org/sqlite"
 )

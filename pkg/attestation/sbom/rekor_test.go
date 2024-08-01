@@ -7,9 +7,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/attestation/sbom"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/rekortest"
+	"github.com/deepfactor-io/trivy/v3/pkg/attestation/sbom"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/rekortest"
 )
 
 func TestRekor_RetrieveSBOM(t *testing.T) {

@@ -11,13 +11,13 @@ import (
 
 	"github.com/aquasecurity/trivy-aws/pkg/errs"
 	awsScanner "github.com/aquasecurity/trivy-aws/pkg/scanner"
-	"github.com/deepfactor-io/trivy/pkg/cloud"
-	"github.com/deepfactor-io/trivy/pkg/cloud/aws/config"
-	"github.com/deepfactor-io/trivy/pkg/cloud/aws/scanner"
-	"github.com/deepfactor-io/trivy/pkg/cloud/report"
-	"github.com/deepfactor-io/trivy/pkg/commands/operation"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/cloud"
+	"github.com/deepfactor-io/trivy/v3/pkg/cloud/aws/config"
+	"github.com/deepfactor-io/trivy/v3/pkg/cloud/aws/scanner"
+	"github.com/deepfactor-io/trivy/v3/pkg/cloud/report"
+	"github.com/deepfactor-io/trivy/v3/pkg/commands/operation"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 var allSupportedServicesFunc = awsScanner.AllSupportedServices

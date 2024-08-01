@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/deepfactor-io/trivy/pkg/licensing"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing"
 )
 
 func TestSplitLicenses(t *testing.T) {

@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 const (

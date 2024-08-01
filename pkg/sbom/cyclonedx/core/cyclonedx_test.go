@@ -8,11 +8,11 @@ import (
 	"github.com/package-url/packageurl-go"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	"github.com/deepfactor-io/trivy/pkg/digest"
-	"github.com/deepfactor-io/trivy/pkg/purl"
-	"github.com/deepfactor-io/trivy/pkg/sbom/cyclonedx/core"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/digest"
+	"github.com/deepfactor-io/trivy/v3/pkg/purl"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/cyclonedx/core"
+	"github.com/deepfactor-io/trivy/v3/pkg/uuid"
 )
 
 func TestMarshaler_CoreComponent(t *testing.T) {

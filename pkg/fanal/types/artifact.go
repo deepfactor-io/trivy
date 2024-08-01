@@ -6,7 +6,7 @@ import (
 	v1 "github.com/google/go-containerregistry/pkg/v1"
 	"github.com/samber/lo"
 
-	"github.com/deepfactor-io/trivy/pkg/digest"
+	"github.com/deepfactor-io/trivy/v3/pkg/digest"
 )
 
 type OS struct {

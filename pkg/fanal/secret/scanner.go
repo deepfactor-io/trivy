@@ -14,8 +14,8 @@ import (
 	"golang.org/x/xerrors"
 	"gopkg.in/yaml.v3"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/log"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 var lineSep = []byte{'\n'}

@@ -10,8 +10,8 @@ import (
 
 	"github.com/aquasecurity/table"
 	"github.com/aquasecurity/tml"
-	pkgReport "github.com/deepfactor-io/trivy/pkg/report/table"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	pkgReport "github.com/deepfactor-io/trivy/v3/pkg/report/table"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 type sortableRow struct {

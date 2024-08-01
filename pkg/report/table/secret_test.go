@@ -7,9 +7,9 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/report/table"
+	"github.com/deepfactor-io/trivy/v3/pkg/report/table"
 
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 func TestSecretRenderer(t *testing.T) {

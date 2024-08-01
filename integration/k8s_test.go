@@ -9,8 +9,8 @@ import (
 	"testing"
 
 	cdx "github.com/CycloneDX/cyclonedx-go"
-	"github.com/deepfactor-io/trivy/pkg/k8s/report"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/k8s/report"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"

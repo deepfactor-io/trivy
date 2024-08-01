@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/deepfactor-io/trivy/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
 
 	"github.com/aws/aws-sdk-go-v2/aws/arn"
 	"github.com/stretchr/testify/assert"
@@ -15,7 +15,7 @@ import (
 	"github.com/aquasecurity/defsec/pkg/scan"
 	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
 )
 
 func Test_ServiceReport(t *testing.T) {

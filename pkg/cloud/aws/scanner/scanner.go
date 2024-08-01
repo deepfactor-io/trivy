@@ -12,11 +12,11 @@ import (
 	"github.com/aquasecurity/defsec/pkg/scanners/options"
 	"github.com/aquasecurity/defsec/pkg/state"
 	aws "github.com/aquasecurity/trivy-aws/pkg/scanner"
-	"github.com/deepfactor-io/trivy/pkg/cloud/aws/cache"
-	"github.com/deepfactor-io/trivy/pkg/commands/operation"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
+	"github.com/deepfactor-io/trivy/v3/pkg/cloud/aws/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/commands/operation"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
 )
 
 type AWSScanner struct {

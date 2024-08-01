@@ -8,7 +8,7 @@ import (
 	"golang.org/x/xerrors"
 
 	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
-	"github.com/deepfactor-io/trivy/pkg/mapfs"
+	"github.com/deepfactor-io/trivy/v3/pkg/mapfs"
 )
 
 // memFS is a wrapper of mapfs.FS and can change its underlying file system

@@ -7,9 +7,9 @@ import (
 
 	"github.com/bmatcuk/doublestar/v4"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/utils"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/utils"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 var (

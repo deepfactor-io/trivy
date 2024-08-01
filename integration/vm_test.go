@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 func TestVM(t *testing.T) {

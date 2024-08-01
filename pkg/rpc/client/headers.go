@@ -6,7 +6,7 @@ import (
 
 	"github.com/twitchtv/twirp"
 
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 // WithCustomHeaders adds custom headers to request headers

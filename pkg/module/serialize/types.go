@@ -1,7 +1,7 @@
 package serialize
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 // TinyGo doesn't support encoding/json, but github.com/mailru/easyjson for now.
