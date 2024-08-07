@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/image/registry/azure"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image/registry/azure"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 func TestRegistry_CheckOptions(t *testing.T) {

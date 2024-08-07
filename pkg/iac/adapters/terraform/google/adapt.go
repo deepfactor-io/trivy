@@ -1,16 +1,16 @@
 package google
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/google/bigquery"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/google/compute"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/google/dns"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/google/gke"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/google/iam"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/google/kms"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/google/sql"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/google/storage"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/google"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/google/bigquery"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/google/compute"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/google/dns"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/google/gke"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/google/iam"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/google/kms"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/google/sql"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/google/storage"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/google"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 func Adapt(modules terraform.Modules) google.Google {

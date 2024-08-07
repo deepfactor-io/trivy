@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 const (

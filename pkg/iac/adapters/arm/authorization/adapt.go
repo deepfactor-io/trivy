@@ -1,8 +1,8 @@
 package authorization
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/azure/authorization"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/azure/authorization"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure"
 )
 
 func Adapt(deployment azure.Deployment) authorization.Authorization {

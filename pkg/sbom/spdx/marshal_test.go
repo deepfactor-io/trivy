@@ -14,14 +14,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/report"
-	"github.com/deepfactor-io/trivy/pkg/sbom/core"
-	tspdx "github.com/deepfactor-io/trivy/pkg/sbom/spdx"
-	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/report"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/core"
+	tspdx "github.com/deepfactor-io/trivy/v3/pkg/sbom/spdx"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/uuid"
 )
 
 func TestMarshaler_Marshal(t *testing.T) {

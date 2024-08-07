@@ -7,10 +7,10 @@ import (
 
 	"golang.org/x/xerrors"
 
-	core "github.com/deepfactor-io/trivy/pkg/dependency/parser/dotnet/core_deps"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	core "github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/dotnet/core_deps"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 func init() {

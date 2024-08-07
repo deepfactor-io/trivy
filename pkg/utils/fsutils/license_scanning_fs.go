@@ -10,11 +10,11 @@ import (
 	"strings"
 	"sync"
 
-	licenseutils "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/licensing"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/licensing"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	licenseutils "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/licensing"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 	"golang.org/x/xerrors"
 )
 

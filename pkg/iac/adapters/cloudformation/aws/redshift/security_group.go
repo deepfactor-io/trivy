@@ -1,8 +1,8 @@
 package redshift
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/redshift"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/redshift"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
 )
 
 func getSecurityGroups(ctx parser.FileContext) (groups []redshift.SecurityGroup) {

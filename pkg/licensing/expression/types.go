@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/deepfactor-io/trivy/pkg/licensing"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing"
 )
 
 var versioned = []string{

@@ -1,9 +1,9 @@
 package network
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/nifcloud/network"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/nifcloud/network"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func adaptLoadBalancers(modules terraform.Modules) []network.LoadBalancer {

@@ -1,9 +1,9 @@
 package appservice
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/azure/appservice"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/azure/appservice"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func Adapt(deployment azure.Deployment) appservice.AppService {

@@ -7,9 +7,9 @@ import (
 
 	"github.com/spf13/cobra/doc"
 
-	"github.com/deepfactor-io/trivy/pkg/commands"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/commands"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 // Generate CLI references

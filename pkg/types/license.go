@@ -1,6 +1,8 @@
 package types
 
-import "github.com/deepfactor-io/trivy/pkg/fanal/types"
+import (
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+)
 
 type DetectedLicense struct {
 	// Severity is the consistent parameter indicating how severe the issue is

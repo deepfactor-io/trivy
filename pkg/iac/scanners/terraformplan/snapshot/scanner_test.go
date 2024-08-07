@@ -13,9 +13,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
-	tfscanner "github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
+	tfscanner "github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform"
 )
 
 func initScanner(opts ...options.ScannerOption) *Scanner {

@@ -13,7 +13,7 @@ import (
 	"github.com/sigstore/rekor/pkg/generated/models"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/deepfactor-io/trivy/pkg/attestation"
+	"github.com/deepfactor-io/trivy/v3/pkg/attestation"
 )
 
 var (

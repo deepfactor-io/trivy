@@ -3,9 +3,9 @@ package compute
 import (
 	"encoding/base64"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/azure/compute"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/azure/compute"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 const AzureVirtualMachine = "azurerm_virtual_machine"

@@ -1,9 +1,9 @@
 package ecs
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ecs"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/ecs"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func getTaskDefinitions(ctx parser.FileContext) (taskDefinitions []ecs.TaskDefinition) {

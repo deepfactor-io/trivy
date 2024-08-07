@@ -6,10 +6,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/tftestutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/elb"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/tftestutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/elb"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func Test_Adapt(t *testing.T) {

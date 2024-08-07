@@ -8,9 +8,8 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 var nameRegexp = regexp.MustCompile(`^(@[A-Za-z0-9-._]+/)?[A-Za-z0-9-._]+$`)
@@ -37,11 +36,11 @@ func (p Package) PackageID() string {
 	return p.ID
 }
 
-func (p Package) DeclaredLicenses() []types.License {
-	var declaredLicenses []types.License
+func (p Package) DeclaredLicenses() []ftypes.License {
+	var declaredLicenses []ftypes.License
 
 	for _, license := range p.Licenses {
-		declaredLicenses = append(declaredLicenses, types.License{Name: license, IsDeclared: true})
+		declaredLicenses = append(declaredLicenses, ftypes.License{Name: license, IsDeclared: true})
 	}
 
 	return declaredLicenses

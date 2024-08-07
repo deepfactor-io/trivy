@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 
 	"github.com/samber/lo"
 )

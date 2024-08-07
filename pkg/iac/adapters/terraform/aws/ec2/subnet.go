@@ -1,8 +1,8 @@
 package ec2
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ec2"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/ec2"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 func adaptSubnets(modules terraform.Modules) []ec2.Subnet {

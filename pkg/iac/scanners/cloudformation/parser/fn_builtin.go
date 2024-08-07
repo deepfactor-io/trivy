@@ -6,7 +6,7 @@ import (
 
 	"github.com/apparentlymart/go-cidr/cidr"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/cftypes"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/cftypes"
 )
 
 func GetAzs(property *Property) (*Property, bool) {

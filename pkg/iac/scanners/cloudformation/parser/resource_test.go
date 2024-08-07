@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/cftypes"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/cftypes"
 )
 
 func Test_GetProperty_PropIsFunction(t *testing.T) {

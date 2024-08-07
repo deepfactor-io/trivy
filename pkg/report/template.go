@@ -5,7 +5,7 @@ import (
 	"io"
 	"text/template"
 
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 // CustomTemplateFuncMap is used to overwrite existing functions for testing.

@@ -13,7 +13,7 @@ import (
 
 	"github.com/liamg/memoryfs"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/detection"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/detection"
 )
 
 var errSkipFS = errors.New("skip parse FS")

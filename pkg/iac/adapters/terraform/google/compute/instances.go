@@ -3,9 +3,9 @@ package compute
 import (
 	"github.com/zclconf/go-cty/cty"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/compute"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/google/compute"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func adaptInstances(modules terraform.Modules) (instances []compute.Instance) {

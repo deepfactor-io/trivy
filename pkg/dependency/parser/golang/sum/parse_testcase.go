@@ -1,6 +1,6 @@
 package sum
 
-import ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+import ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 
 var (
 	// docker run --name gomod --rm -it golang:1.15 bash

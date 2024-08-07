@@ -6,7 +6,7 @@ package server
 import (
 	"github.com/google/wire"
 
-	"github.com/deepfactor-io/trivy/pkg/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
 )
 
 func initializeScanServer(localArtifactCache cache.LocalArtifactCache) *ScanServer {

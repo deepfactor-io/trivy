@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func TestResult_GetCode(t *testing.T) {

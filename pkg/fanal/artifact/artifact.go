@@ -4,11 +4,11 @@ import (
 	"context"
 	"sort"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
-	"github.com/deepfactor-io/trivy/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/walker"
+	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/core"
 	v1 "github.com/google/go-containerregistry/pkg/v1"
 )
 

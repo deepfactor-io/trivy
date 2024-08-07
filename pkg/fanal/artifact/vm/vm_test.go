@@ -14,17 +14,17 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact/vm"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact/vm"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/walker"
+	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os/alpine"
-	_ "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/pkg/apk"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/os/alpine"
+	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/pkg/apk"
 )
 
 const (

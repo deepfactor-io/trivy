@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 // logger implements LeveledLogger

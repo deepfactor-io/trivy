@@ -4,7 +4,7 @@ import (
 	"io"
 	"io/fs"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/framework"
 )
 
 type ConfigurableScanner interface {

@@ -6,9 +6,9 @@ import (
 	v1 "github.com/google/go-containerregistry/pkg/v1" // nolint: goimports
 	"github.com/google/uuid"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/core"
 )
 
 // Report represents a scan result

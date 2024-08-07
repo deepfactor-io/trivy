@@ -18,7 +18,7 @@ import (
 
 	// Trivy packages should not be imported in Mage (see https://github.com/deepfactor-io/trivy/pull/4242),
 	// but this package doesn't have so many dependencies, and Mage is still fast.
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 var (

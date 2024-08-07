@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
 )
 
 func Test_DefaultRegistry(t *testing.T) {

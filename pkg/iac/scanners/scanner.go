@@ -5,7 +5,7 @@ import (
 	"io/fs"
 	"os"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
 )
 
 type WriteFileFS interface {

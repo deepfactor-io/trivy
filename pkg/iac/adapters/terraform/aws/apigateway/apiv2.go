@@ -1,9 +1,9 @@
 package apigateway
 
 import (
-	v2 "github.com/deepfactor-io/trivy/pkg/iac/providers/aws/apigateway/v2"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	v2 "github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/apigateway/v2"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func adaptAPIsV2(modules terraform.Modules) []v2.API {

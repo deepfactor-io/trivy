@@ -3,10 +3,10 @@ package compute
 import (
 	"testing"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/tftestutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/compute"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/tftestutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/google/compute"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func Test_adaptDisks(t *testing.T) {

@@ -5,10 +5,10 @@ import (
 
 	"github.com/liamg/iamgo"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/tftestutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/iam"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/tftestutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/iam"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func defaultPolicyDocuemnt(offset bool) iam.Document {

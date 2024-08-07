@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/require"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/scanner/post"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/scanner/post"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 type testPostScanner struct{}

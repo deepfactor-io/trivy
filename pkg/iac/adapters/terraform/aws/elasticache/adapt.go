@@ -1,8 +1,8 @@
 package elasticache
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/elasticache"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/elasticache"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 func Adapt(modules terraform.Modules) elasticache.ElastiCache {

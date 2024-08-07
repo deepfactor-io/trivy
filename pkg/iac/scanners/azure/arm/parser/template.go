@@ -1,9 +1,9 @@
 package parser
 
 import (
-	types2 "github.com/deepfactor-io/trivy/pkg/iac/scanners/azure"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure/arm/parser/armjson"
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	types2 "github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure/arm/parser/armjson"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 type Template struct {

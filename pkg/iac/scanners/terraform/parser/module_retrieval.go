@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/fs"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform/parser/resolvers"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform/parser/resolvers"
 )
 
 type ModuleResolver interface {

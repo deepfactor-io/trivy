@@ -5,9 +5,9 @@ import (
 
 	"github.com/liamg/iamgo"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/iam"
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/iam"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 type wrappedDocument struct {

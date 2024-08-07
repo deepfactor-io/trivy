@@ -3,9 +3,9 @@ package apigateway
 import (
 	"testing"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/tftestutil"
-	v2 "github.com/deepfactor-io/trivy/pkg/iac/providers/aws/apigateway/v2"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/tftestutil"
+	v2 "github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/apigateway/v2"
 )
 
 func Test_adaptAPIsV2(t *testing.T) {

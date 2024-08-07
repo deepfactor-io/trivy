@@ -8,9 +8,9 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 type Parser struct{}

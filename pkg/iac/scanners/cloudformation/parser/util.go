@@ -6,8 +6,8 @@ import (
 	"github.com/liamg/jfather"
 	"gopkg.in/yaml.v3"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/cftypes"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/kubernetes/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/cftypes"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/kubernetes/parser"
 )
 
 func setPropertyValueFromJson(node jfather.Node, propertyData *PropertyInner) error {

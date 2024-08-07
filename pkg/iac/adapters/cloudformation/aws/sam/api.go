@@ -1,9 +1,9 @@
 package sam
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/sam"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/sam"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func getApis(cfFile parser.FileContext) (apis []sam.API) {

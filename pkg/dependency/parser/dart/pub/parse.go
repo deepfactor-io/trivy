@@ -5,10 +5,10 @@ import (
 	"gopkg.in/yaml.v3"
 
 	goversion "github.com/aquasecurity/go-version/pkg/version"
-	"github.com/deepfactor-io/trivy/pkg/dependency"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 const (

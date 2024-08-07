@@ -5,11 +5,11 @@ import (
 
 	"github.com/google/go-containerregistry/pkg/authn"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/image/registry/azure"
-	"github.com/deepfactor-io/trivy/pkg/fanal/image/registry/ecr"
-	"github.com/deepfactor-io/trivy/pkg/fanal/image/registry/google"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image/registry/azure"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image/registry/ecr"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image/registry/google"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 var (

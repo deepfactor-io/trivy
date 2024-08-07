@@ -12,7 +12,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	xsync "github.com/deepfactor-io/trivy/pkg/x/sync"
+	xsync "github.com/deepfactor-io/trivy/v3/pkg/x/sync"
 )
 
 type allFS interface {

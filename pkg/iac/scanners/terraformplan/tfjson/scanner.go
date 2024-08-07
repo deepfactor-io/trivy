@@ -8,13 +8,13 @@ import (
 
 	"github.com/bmatcuk/doublestar/v4"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/debug"
-	"github.com/deepfactor-io/trivy/pkg/iac/framework"
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
-	terraformScanner "github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform/executor"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraformplan/tfjson/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
+	terraformScanner "github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform/executor"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraformplan/tfjson/parser"
 )
 
 var tfPlanExts = []string{

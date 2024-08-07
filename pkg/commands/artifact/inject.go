@@ -8,11 +8,11 @@ import (
 
 	"github.com/google/wire"
 
-	"github.com/deepfactor-io/trivy/pkg/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/rpc/client"
-	"github.com/deepfactor-io/trivy/pkg/scanner"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/rpc/client"
+	"github.com/deepfactor-io/trivy/v3/pkg/scanner"
 )
 
 //////////////

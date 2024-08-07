@@ -4,9 +4,8 @@ import (
 	"sort"
 
 	dtypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/digest"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/digest"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 const (
@@ -129,7 +128,7 @@ type Component struct {
 
 	// ConcludedLicenses is a list of concluded licenses that apply to the component
 	// SPDX: package.licenseConcluded
-	ConcludedLicenses []types.License
+	ConcludedLicenses []ftypes.License
 
 	// PkgIdentifier has PURL and BOMRef for the component
 	// PURL:
