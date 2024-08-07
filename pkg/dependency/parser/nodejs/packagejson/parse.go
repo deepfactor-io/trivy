@@ -32,6 +32,20 @@ type Package struct {
 	Workspaces           []string
 }
 
+func (p Package) PackageID() string {
+	return p.ID
+}
+
+func (p Package) DeclaredLicenses() []ftypes.License {
+	var declaredLicenses []ftypes.License
+
+	for _, license := range p.Licenses {
+		declaredLicenses = append(declaredLicenses, ftypes.License{Name: license, IsDeclared: true})
+	}
+
+	return declaredLicenses
+}
+
 type Parser struct{}
 
 func NewParser() *Parser {

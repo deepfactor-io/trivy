@@ -479,6 +479,7 @@ func (r *runner) initScannerConfig(opts flag.Options) (ScannerConfig, types.Scan
 		Scanners:            opts.Scanners,
 		ImageConfigScanners: opts.ImageConfigScanners, // this is valid only for 'image' subcommand
 		ScanRemovedPackages: opts.ScanRemovedPkgs,     // this is valid only for 'image' subcommand
+		LicenseFull:         opts.LicenseFull,
 		LicenseCategories:   opts.LicenseCategories,
 		FilePatterns:        opts.FilePatterns,
 		OnlyInspectArtifact: opts.OnlyInspectArtifact,
@@ -605,8 +606,11 @@ func (r *runner) initScannerConfig(opts flag.Options) (ScannerConfig, types.Scan
 
 			// For license scanning
 			LicenseScannerOption: analyzer.LicenseScannerOption{
+				Enabled:                   opts.Scanners.Enabled(types.LicenseScanner),
 				Full:                      opts.LicenseFull,
 				ClassifierConfidenceLevel: opts.LicenseConfidenceLevel,
+				LicenseTextCacheDir:       opts.LicenseTextCacheDir,
+				LicenseScanWorkers:        opts.LicenseScanWorkers,
 			},
 			OnlyFetchDFScanRegistrationMeta: opts.OnlyFetchDFScanRegistrationMeta,
 			// For file walking

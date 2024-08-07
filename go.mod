@@ -130,7 +130,10 @@ require (
 	sigs.k8s.io/yaml v1.4.0
 )
 
-require github.com/alicebob/miniredis/v2 v2.33.0
+require (
+	github.com/alicebob/miniredis/v2 v2.33.0
+	github.com/github/go-spdx/v2 v2.3.1
+)
 
 require (
 	cloud.google.com/go v0.112.1 // indirect

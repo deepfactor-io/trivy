@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/json"
+	"io/fs"
 	"strings"
 
 	"github.com/package-url/packageurl-go"
@@ -156,19 +157,21 @@ type BuildInfo struct {
 }
 
 type Package struct {
-	ID                 string        `json:",omitempty"`
-	Name               string        `json:",omitempty"`
-	Identifier         PkgIdentifier `json:",omitempty"`
-	Version            string        `json:",omitempty"`
-	Release            string        `json:",omitempty"`
-	Epoch              int           `json:",omitempty"`
-	Arch               string        `json:",omitempty"`
-	Dev                bool          `json:",omitempty"`
-	SrcName            string        `json:",omitempty"`
-	SrcVersion         string        `json:",omitempty"`
-	SrcRelease         string        `json:",omitempty"`
-	SrcEpoch           int           `json:",omitempty"`
-	Licenses           []string      `json:",omitempty"`
+	ID         string        `json:",omitempty"`
+	Name       string        `json:",omitempty"`
+	Identifier PkgIdentifier `json:",omitempty"`
+	Version    string        `json:",omitempty"`
+	Release    string        `json:",omitempty"`
+	Epoch      int           `json:",omitempty"`
+	Arch       string        `json:",omitempty"`
+	Dev        bool          `json:",omitempty"`
+	SrcName    string        `json:",omitempty"`
+	SrcVersion string        `json:",omitempty"`
+	SrcRelease string        `json:",omitempty"`
+	SrcEpoch   int           `json:",omitempty"`
+	Licenses   []string      `json:",omitempty"`
+	// For deep license scanning, ConcludedLicenses field is used
+	ConcludedLicenses  []License     `json:",omitempty"`
 	Maintainer         string        `json:",omitempty"`
 	ExternalReferences []ExternalRef `json:"-" hash:"ignore"`
 
@@ -207,6 +210,16 @@ type Package struct {
 
 	// Build ID
 	BuildID string `json:",omitempty"`
+}
+
+type License struct {
+	Name                string
+	Type                LicenseType
+	IsDeclared          bool
+	FilePath            string
+	LicenseTextChecksum string
+	CopyrightText       string          `json:",omitempty"`
+	Findings            LicenseFindings `json:"-"`
 }
 
 func (pkg *Package) Empty() bool {
@@ -270,3 +283,14 @@ func (deps Dependencies) Less(i, j int) bool {
 	return deps[i].ID < deps[j].ID
 }
 func (deps Dependencies) Swap(i, j int) { deps[i], deps[j] = deps[j], deps[i] }
+
+type PackageManifest interface {
+	// Pkg ID is formed using Pkg Name and version
+	PackageID() string
+	// Declared license with the package manifest
+	DeclaredLicenses() []License
+}
+
+type PackageManifestParser interface {
+	ParseManifest(fsys fs.FS, path string) (PackageManifest, error)
+}
