@@ -1,17 +1,18 @@
 package amazon_test
 
 import (
+	"context"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	fake "k8s.io/utils/clock/testing"
 
 	"github.com/aquasecurity/trivy-db/pkg/db"
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
-	"github.com/deepfactor-io/trivy/v3/pkg/dbtest"
+	"github.com/deepfactor-io/trivy/v3/internal/dbtest"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
 	"github.com/deepfactor-io/trivy/v3/pkg/detector/ospkg/amazon"
 	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/v3/pkg/types"
@@ -108,7 +109,7 @@ func TestScanner_Detect(t *testing.T) {
 				"testdata/fixtures/data-source.yaml",
 			},
 			args: args{
-				osVer: "2023",
+				osVer: "2023.3.20240304",
 				pkgs: []ftypes.Package{
 					{
 						Name:    "protobuf",
@@ -177,13 +178,13 @@ func TestScanner_Detect(t *testing.T) {
 			defer db.Close()
 
 			s := amazon.NewScanner()
-			got, err := s.Detect(tt.args.osVer, nil, tt.args.pkgs)
+			got, err := s.Detect(nil, tt.args.osVer, nil, tt.args.pkgs)
 			if tt.wantErr != "" {
 				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.wantErr)
 				return
 			}
-			assert.NoError(t, err)
+			require.NoError(t, err)
 			assert.Equal(t, tt.want, got)
 		})
 	}
@@ -248,8 +249,9 @@ func TestScanner_IsSupportedVersion(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := amazon.NewScanner(amazon.WithClock(fake.NewFakeClock(tt.now)))
-			got := s.IsSupportedVersion(tt.args.osFamily, tt.args.osVer)
+			ctx := clock.With(context.Background(), tt.now)
+			s := amazon.NewScanner()
+			got := s.IsSupportedVersion(ctx, tt.args.osFamily, tt.args.osVer)
 			assert.Equal(t, tt.want, got)
 		})
 	}

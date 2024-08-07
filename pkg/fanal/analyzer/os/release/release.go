@@ -4,9 +4,8 @@ import (
 	"bufio"
 	"context"
 	"os"
+	"slices"
 	"strings"
-
-	"golang.org/x/exp/slices"
 
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"

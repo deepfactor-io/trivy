@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"os"
 
 	"golang.org/x/xerrors"
@@ -9,23 +10,25 @@ import (
 	"github.com/deepfactor-io/trivy/v3/pkg/commands"
 	"github.com/deepfactor-io/trivy/v3/pkg/log"
 	"github.com/deepfactor-io/trivy/v3/pkg/plugin"
-
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 	_ "modernc.org/sqlite" // sqlite driver for RPM DB and Java DB
 )
 
 func main() {
 	if err := run(); err != nil {
-		log.Fatal(err)
+		var exitError *types.ExitError
+		if errors.As(err, &exitError) {
+			os.Exit(exitError.Code)
+		}
+		log.Fatal("Fatal error", log.Err(err))
 	}
 }
 
 func run() error {
 	// Trivy behaves as the specified plugin.
 	if runAsPlugin := os.Getenv("TRIVY_RUN_AS_PLUGIN"); runAsPlugin != "" {
-		if !plugin.IsPredefined(runAsPlugin) {
-			return xerrors.Errorf("unknown plugin: %s", runAsPlugin)
-		}
-		if err := plugin.RunWithURL(context.Background(), runAsPlugin, plugin.RunOptions{Args: os.Args[1:]}); err != nil {
+		log.InitLogger(false, false)
+		if err := plugin.Run(context.Background(), runAsPlugin, plugin.Options{Args: os.Args[1:]}); err != nil {
 			return xerrors.Errorf("plugin error: %w", err)
 		}
 		return nil

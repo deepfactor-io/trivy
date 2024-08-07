@@ -6,27 +6,28 @@ import (
 	"io"
 	"os"
 	"reflect"
+	"slices"
 	"strings"
 	"sync"
 
 	v1 "github.com/google/go-containerregistry/pkg/v1"
 	"github.com/samber/lo"
-	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/handler"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image"
-	"github.com/deepfactor-io/trivy/v3/pkg/fanal/log"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/walker"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 	"github.com/deepfactor-io/trivy/v3/pkg/parallel"
 	"github.com/deepfactor-io/trivy/v3/pkg/semaphore"
 )
 
 type Artifact struct {
+	logger         *log.Logger
 	image          types.Image
 	cache          cache.ArtifactCache
 	walker         walker.LayerTar
@@ -60,9 +61,10 @@ func NewArtifact(img types.Image, c cache.ArtifactCache, opt artifact.Option) (a
 	}
 
 	return Artifact{
+		logger:         log.WithPrefix("image"),
 		image:          img,
 		cache:          c,
-		walker:         walker.NewLayerTar(opt.SkipFiles, opt.SkipDirs),
+		walker:         walker.NewLayerTar(opt.WalkerOption),
 		analyzer:       a,
 		configAnalyzer: ca,
 		handlerManager: handlerManager,
@@ -71,17 +73,18 @@ func NewArtifact(img types.Image, c cache.ArtifactCache, opt artifact.Option) (a
 	}, nil
 }
 
-func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) {
+func (a Artifact) Inspect(ctx context.Context) (artifact.Reference, error) {
 	imageID, err := a.image.ID()
 	if err != nil {
-		return types.ArtifactReference{}, xerrors.Errorf("unable to get the image ID: %w", err)
+		return artifact.Reference{}, xerrors.Errorf("unable to get the image ID: %w", err)
 	}
+	a.logger.Debug("Detected image ID", log.String("image_id", imageID))
 
 	if a.artifactOption.OnlyFetchDFScanRegistrationMeta {
-		return types.ArtifactReference{
+		return artifact.Reference{
 			Name: a.image.Name(),
-			Type: types.ArtifactContainerImage,
-			ImageMetadata: types.ImageMetadata{
+			Type: artifact.TypeContainerImage,
+			ImageMetadata: artifact.ImageMetadata{
 				ID:          imageID,
 				RepoTags:    a.image.RepoTags(),
 				RepoDigests: a.image.RepoDigests(),
@@ -91,14 +94,11 @@ func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) 
 
 	configFile, err := a.image.ConfigFile()
 	if err != nil {
-		return types.ArtifactReference{}, xerrors.Errorf("unable to get the image's config file: %w", err)
+		return artifact.Reference{}, xerrors.Errorf("unable to get the image's config file: %w", err)
 	}
 
 	diffIDs := a.diffIDs(configFile)
-
-	// Debug
-	log.Logger.Debugf("Image ID: %s", imageID)
-	log.Logger.Debugf("Diff IDs: %v", diffIDs)
+	a.logger.Debug("Detected diff ID", log.Any("diff_ids", diffIDs))
 
 	// Try retrieving a remote SBOM document
 	if res, err := a.retrieveRemoteSBOM(ctx); err == nil {
@@ -106,17 +106,17 @@ func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) 
 		return res, nil
 	} else if !errors.Is(err, errNoSBOMFound) {
 		// Fail on unexpected error, otherwise it falls into the usual scanning.
-		return types.ArtifactReference{}, xerrors.Errorf("remote SBOM fetching error: %w", err)
+		return artifact.Reference{}, xerrors.Errorf("remote SBOM fetching error: %w", err)
 	}
 
 	// Try to detect base layers.
 	baseDiffIDs, baseImageIndex := a.guessBaseLayers(diffIDs, configFile)
-	log.Logger.Debugf("Base Layers: %v", baseDiffIDs)
+	a.logger.Debug("Base Layers: %v", log.Any("baseDiffIDs", baseDiffIDs))
 
 	// Convert image ID and layer IDs to cache keys
 	imageKey, layerKeys, err := a.calcCacheKeys(imageID, diffIDs)
 	if err != nil {
-		return types.ArtifactReference{}, err
+		return artifact.Reference{}, err
 	}
 
 	// Parse histories and extract a list of "created_by"
@@ -124,12 +124,12 @@ func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) 
 
 	missingImage, missingLayers, err := a.cache.MissingBlobs(imageKey, layerKeys)
 	if err != nil {
-		return types.ArtifactReference{}, xerrors.Errorf("unable to get missing layers: %w", err)
+		return artifact.Reference{}, xerrors.Errorf("unable to get missing layers: %w", err)
 	}
 
 	missingImageKey := imageKey
 	if missingImage {
-		log.Logger.Debugf("Missing image ID in cache: %s", imageID)
+		a.logger.Debug("Missing image ID in cache", log.String("image_id", imageID))
 	} else {
 		missingImageKey = ""
 	}
@@ -141,15 +141,15 @@ func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) 
 				err = xerrors.Errorf(";unable to clean up layer cache %s;%s", cErr, err)
 			}
 		}
-		return types.ArtifactReference{}, xerrors.Errorf("analyze error: %w", err)
+		return artifact.Reference{}, xerrors.Errorf("analyze error: %w", err)
 	}
 
-	return types.ArtifactReference{
+	return artifact.Reference{
 		Name:    a.image.Name(),
-		Type:    types.ArtifactContainerImage,
+		Type:    artifact.TypeContainerImage,
 		ID:      imageKey,
 		BlobIDs: layerKeys,
-		ImageMetadata: types.ImageMetadata{
+		ImageMetadata: artifact.ImageMetadata{
 			ID:                    imageID,
 			DiffIDs:               diffIDs,
 			RepoTags:              a.image.RepoTags(),
@@ -161,7 +161,7 @@ func (a Artifact) Inspect(ctx context.Context) (types.ArtifactReference, error) 
 	}, nil
 }
 
-func (Artifact) Clean(_ types.ArtifactReference) error {
+func (Artifact) Clean(_ artifact.Reference) error {
 	return nil
 }
 
@@ -274,7 +274,7 @@ func (a Artifact) inspect(ctx context.Context, missingImage string, layerKeys, b
 }
 
 func (a Artifact) inspectLayer(ctx context.Context, layerInfo LayerInfo, disabled []analyzer.Type) (types.BlobInfo, error) {
-	log.Logger.Debugf("Missing diff ID in cache: %s", layerInfo.DiffID)
+	a.logger.Debug("Missing diff ID in cache", log.String("diff_id", layerInfo.DiffID))
 
 	layerDigest, rc, err := a.uncompressedLayer(layerInfo.DiffID)
 	if err != nil {

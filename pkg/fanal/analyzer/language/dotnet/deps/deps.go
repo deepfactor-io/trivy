@@ -7,7 +7,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	core "github.com/deepfactor-io/go-dep-parser/pkg/dotnet/core_deps"
+	core "github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/dotnet/core_deps"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"

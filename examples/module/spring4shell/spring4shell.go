@@ -15,7 +15,6 @@ import (
 	"github.com/deepfactor-io/trivy/v3/pkg/module/api"
 	"github.com/deepfactor-io/trivy/v3/pkg/module/serialize"
 	"github.com/deepfactor-io/trivy/v3/pkg/module/wasm"
-	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 const (
@@ -226,7 +225,7 @@ func (Spring4Shell) PostScan(results serialize.Results) (serialize.Results, erro
 	var javaMajorVersion int
 	var tomcatVersion string
 	for _, result := range results {
-		if result.Class != types.ClassCustom {
+		if result.Class != "custom" {
 			continue
 		}
 

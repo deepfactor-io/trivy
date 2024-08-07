@@ -6,21 +6,22 @@ import (
 	"io/fs"
 	"os"
 	"regexp"
+	"slices"
 	"sort"
 	"strings"
 	"sync"
 
 	"github.com/samber/lo"
-	"golang.org/x/exp/slices"
 	"golang.org/x/sync/semaphore"
 	"golang.org/x/xerrors"
 
-	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
-	godepparserutils "github.com/deepfactor-io/go-dep-parser/pkg/utils"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/utils"
 	fos "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/os"
-	"github.com/deepfactor-io/trivy/v3/pkg/fanal/log"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 var (
@@ -93,7 +94,7 @@ const GroupBuiltin Group = "builtin"
 
 func RegisterAnalyzer(analyzer analyzer) {
 	if _, ok := analyzers[analyzer.Type()]; ok {
-		log.Logger.Fatalf("analyzer %s is registered twice", analyzer.Type())
+		log.Fatal("Analyzer is registered twice", log.String("type", string(analyzer.Type())))
 	}
 	analyzers[analyzer.Type()] = analyzer
 }
@@ -102,7 +103,7 @@ type postAnalyzerInitialize func(options AnalyzerOptions) (PostAnalyzer, error)
 
 func RegisterPostAnalyzer(t Type, initializer postAnalyzerInitialize) {
 	if _, ok := postAnalyzers[t]; ok {
-		log.Logger.Fatalf("analyzer %s is registered twice", t)
+		log.Fatal("Analyzer is registered twice", log.String("type", string(t)))
 	}
 	postAnalyzers[t] = initializer
 }
@@ -118,9 +119,10 @@ type CustomGroup interface {
 	Group() Group
 }
 
-type Opener func() (dio.ReadSeekCloserAt, error)
+type Opener func() (xio.ReadSeekCloserAt, error)
 
 type AnalyzerGroup struct {
+	logger        *log.Logger
 	analyzers     []analyzer
 	postAnalyzers []PostAnalyzer
 	filePatterns  map[Type][]*regexp.Regexp
@@ -134,7 +136,7 @@ type AnalysisInput struct {
 	Dir      string
 	FilePath string
 	Info     os.FileInfo
-	Content  dio.ReadSeekerAt
+	Content  xio.ReadSeekerAt
 
 	Options AnalysisOptions
 }
@@ -202,7 +204,7 @@ func (r *AnalysisResult) Sort() {
 	})
 
 	for _, app := range r.Applications {
-		sort.Sort(app.Libraries)
+		sort.Sort(app.Packages)
 	}
 
 	// Custom resources
@@ -319,6 +321,7 @@ func NewAnalyzerGroup(opt AnalyzerOptions) (AnalyzerGroup, error) {
 	}
 
 	group := AnalyzerGroup{
+		logger:       log.WithPrefix("analyzer"),
 		filePatterns: make(map[Type][]*regexp.Regexp),
 	}
 	for _, p := range opt.FilePatterns {
@@ -416,7 +419,7 @@ func (ag AnalyzerGroup) AnalyzeFile(ctx context.Context, wg *sync.WaitGroup, ter
 		}
 		rc, err := opener()
 		if errors.Is(err, fs.ErrPermission) {
-			log.Logger.Debugf("Permission error: %s", filePath)
+			ag.logger.Debug("Permission error", log.FilePath(filePath))
 			break
 		} else if err != nil {
 			return xerrors.Errorf("unable to open %s: %w", filePath, err)
@@ -427,7 +430,7 @@ func (ag AnalyzerGroup) AnalyzeFile(ctx context.Context, wg *sync.WaitGroup, ter
 		}
 		wg.Add(1)
 
-		go func(a analyzer, rc dio.ReadSeekCloserAt) {
+		go func(a analyzer, rc xio.ReadSeekCloserAt) {
 			defer limit.Release(1)
 			defer wg.Done()
 			defer rc.Close()
@@ -445,7 +448,7 @@ func (ag AnalyzerGroup) AnalyzeFile(ctx context.Context, wg *sync.WaitGroup, ter
 				Options:  opts,
 			})
 			if err != nil && !errors.Is(err, fos.AnalyzeOSError) {
-				log.Logger.Debugf("Analysis error: %s", err)
+				ag.logger.Debug("Analysis error: %s", log.Err(err))
 				if IsWalkTerminationRequired(err) {
 					// Terminate walk and update error
 					*terminateWalk = true
@@ -493,12 +496,12 @@ func (ag AnalyzerGroup) PostAnalyze(ctx context.Context, compositeFS *CompositeF
 		skippedFiles := result.SystemInstalledFiles
 		for _, app := range result.Applications {
 			skippedFiles = append(skippedFiles, app.FilePath)
-			for _, lib := range app.Libraries {
+			for _, pkg := range app.Packages {
 				// The analysis result could contain packages listed in SBOM.
 				// The files of those packages don't have to be analyzed.
 				// This is especially helpful for expensive post-analyzers such as the JAR analyzer.
-				if lib.FilePath != "" {
-					skippedFiles = append(skippedFiles, lib.FilePath)
+				if pkg.FilePath != "" {
+					skippedFiles = append(skippedFiles, pkg.FilePath)
 				}
 			}
 		}
@@ -539,5 +542,5 @@ func (ag AnalyzerGroup) filePatternMatch(analyzerType Type, filePath string) boo
 // i.e protocol , internal, unexpected EOF, semaphore acquire error etc.
 
 func IsWalkTerminationRequired(err error) bool {
-	return strings.Contains(err.Error(), godepparserutils.JAVA_ARTIFACT_PARSER_ERROR) || strings.Contains(err.Error(), "walk error") || strings.Contains(err.Error(), "failed analysis")
+	return strings.Contains(err.Error(), utils.JAVA_ARTIFACT_PARSER_ERROR) || strings.Contains(err.Error(), "walk error") || strings.Contains(err.Error(), "failed analysis")
 }

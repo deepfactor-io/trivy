@@ -7,16 +7,17 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/sync/semaphore"
 	"golang.org/x/xerrors"
 
-	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/v3/pkg/javadb"
 	"github.com/deepfactor-io/trivy/v3/pkg/mapfs"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 
 	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/imgconf/apk"
 	_ "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language/java/jar"
@@ -68,7 +69,7 @@ func TestAnalysisResult_Merge(t *testing.T) {
 					{
 						Type:     "bundler",
 						FilePath: "app/Gemfile.lock",
-						Libraries: types.Packages{
+						Packages: types.Packages{
 							{
 								Name:    "rails",
 								Version: "5.0.0",
@@ -94,7 +95,7 @@ func TestAnalysisResult_Merge(t *testing.T) {
 						{
 							Type:     "bundler",
 							FilePath: "app2/Gemfile.lock",
-							Libraries: types.Packages{
+							Packages: types.Packages{
 								{
 									Name:    "nokogiri",
 									Version: "1.0.0",
@@ -133,7 +134,7 @@ func TestAnalysisResult_Merge(t *testing.T) {
 					{
 						Type:     "bundler",
 						FilePath: "app/Gemfile.lock",
-						Libraries: types.Packages{
+						Packages: types.Packages{
 							{
 								Name:    "rails",
 								Version: "5.0.0",
@@ -143,7 +144,7 @@ func TestAnalysisResult_Merge(t *testing.T) {
 					{
 						Type:     "bundler",
 						FilePath: "app2/Gemfile.lock",
-						Libraries: types.Packages{
+						Packages: types.Packages{
 							{
 								Name:    "nokogiri",
 								Version: "1.0.0",
@@ -335,15 +336,18 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 						FilePath: "/lib/apk/db/installed",
 						Packages: types.Packages{
 							{
-								ID:             "musl@1.1.24-r2",
-								Name:           "musl",
-								Version:        "1.1.24-r2",
-								SrcName:        "musl",
-								SrcVersion:     "1.1.24-r2",
-								Licenses:       []string{"MIT"},
-								Arch:           "x86_64",
-								Digest:         "sha1:cb2316a189ebee5282c4a9bd98794cc2477a74c6",
-								InstalledFiles: []string{"lib/libc.musl-x86_64.so.1", "lib/ld-musl-x86_64.so.1"},
+								ID:         "musl@1.1.24-r2",
+								Name:       "musl",
+								Version:    "1.1.24-r2",
+								SrcName:    "musl",
+								SrcVersion: "1.1.24-r2",
+								Licenses:   []string{"MIT"},
+								Arch:       "x86_64",
+								Digest:     "sha1:cb2316a189ebee5282c4a9bd98794cc2477a74c6",
+								InstalledFiles: []string{
+									"lib/libc.musl-x86_64.so.1",
+									"lib/ld-musl-x86_64.so.1",
+								},
 							},
 						},
 					},
@@ -374,12 +378,13 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 					{
 						Type:     "bundler",
 						FilePath: "/app/Gemfile.lock",
-						Libraries: types.Packages{
+						Packages: types.Packages{
 							{
-								ID:       "actioncable@5.2.3",
-								Name:     "actioncable",
-								Version:  "5.2.3",
-								Indirect: false,
+								ID:           "actioncable@5.2.3",
+								Name:         "actioncable",
+								Version:      "5.2.3",
+								Indirect:     false,
+								Relationship: types.RelationshipDirect,
 								DependsOn: []string{
 									"actionpack@5.2.3",
 								},
@@ -391,10 +396,11 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 								},
 							},
 							{
-								ID:       "actionpack@5.2.3",
-								Name:     "actionpack",
-								Version:  "5.2.3",
-								Indirect: true,
+								ID:           "actionpack@5.2.3",
+								Name:         "actionpack",
+								Version:      "5.2.3",
+								Indirect:     true,
+								Relationship: types.RelationshipIndirect,
 								Locations: []types.Location{
 									{
 										StartLine: 6,
@@ -435,12 +441,13 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 					{
 						Type:     "bundler",
 						FilePath: "/app/Gemfile-dev.lock",
-						Libraries: types.Packages{
+						Packages: types.Packages{
 							{
-								ID:       "actioncable@5.2.3",
-								Name:     "actioncable",
-								Version:  "5.2.3",
-								Indirect: false,
+								ID:           "actioncable@5.2.3",
+								Name:         "actioncable",
+								Version:      "5.2.3",
+								Indirect:     false,
+								Relationship: types.RelationshipDirect,
 								DependsOn: []string{
 									"actionpack@5.2.3",
 								},
@@ -452,10 +459,11 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 								},
 							},
 							{
-								ID:       "actionpack@5.2.3",
-								Name:     "actionpack",
-								Version:  "5.2.3",
-								Indirect: true,
+								ID:           "actionpack@5.2.3",
+								Name:         "actionpack",
+								Version:      "5.2.3",
+								Indirect:     true,
+								Relationship: types.RelationshipIndirect,
 								Locations: []types.Location{
 									{
 										StartLine: 6,
@@ -506,8 +514,6 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var wg sync.WaitGroup
-			var terminateWalk bool
-			var terminateError string
 			limit := semaphore.NewWeighted(3)
 
 			got := new(analyzer.AnalysisResult)
@@ -516,7 +522,7 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 				DisabledAnalyzers: tt.args.disabledAnalyzers,
 			})
 			if err != nil && tt.wantErr != "" {
-				require.NotNil(t, err)
+				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.wantErr)
 				return
 			}
@@ -526,8 +532,8 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 			require.NoError(t, err)
 
 			ctx := context.Background()
-			err = a.AnalyzeFile(ctx, &wg, &terminateWalk, &terminateError, limit, got, "", tt.args.filePath, info,
-				func() (dio.ReadSeekCloserAt, error) {
+			err = a.AnalyzeFile(ctx, &wg, nil, nil, limit, got, "", tt.args.filePath, info,
+				func() (xio.ReadSeekCloserAt, error) {
 					if tt.args.testFilePath == "testdata/error" {
 						return nil, xerrors.New("error")
 					} else if tt.args.testFilePath == "testdata/no-permission" {
@@ -543,7 +549,7 @@ func TestAnalyzerGroup_AnalyzeFile(t *testing.T) {
 
 			wg.Wait()
 			if tt.wantErr != "" {
-				require.NotNil(t, err)
+				require.Error(t, err)
 				assert.Contains(t, err.Error(), tt.wantErr)
 				return
 			}
@@ -570,7 +576,7 @@ func TestAnalyzerGroup_PostAnalyze(t *testing.T) {
 					{
 						Type:     types.Jar,
 						FilePath: "testdata/post-apps/jar/jackson-annotations-2.15.0-rc2.jar",
-						Libraries: types.Packages{
+						Packages: types.Packages{
 							{
 								Name:     "com.fasterxml.jackson.core:jackson-annotations",
 								Version:  "2.15.0-rc2",
@@ -590,7 +596,7 @@ func TestAnalyzerGroup_PostAnalyze(t *testing.T) {
 					{
 						Type:     types.Poetry,
 						FilePath: "testdata/post-apps/poetry/happy/poetry.lock",
-						Libraries: types.Packages{
+						Packages: types.Packages{
 							{
 								ID:      "certifi@2022.12.7",
 								Name:    "certifi",
@@ -617,7 +623,9 @@ func TestAnalyzerGroup_PostAnalyze(t *testing.T) {
 
 			if tt.analyzerType == analyzer.TypeJar {
 				// init java-trivy-db with skip update
-				javadb.Init("./language/java/jar/testdata", "ghcr.io/aquasecurity/trivy-java-db", true, false, types.RegistryOptions{Insecure: false})
+				repo, err := name.NewTag(javadb.DefaultRepository)
+				require.NoError(t, err)
+				javadb.Init("./language/java/jar/testdata", repo, true, false, types.RegistryOptions{Insecure: false})
 			}
 
 			ctx := context.Background()

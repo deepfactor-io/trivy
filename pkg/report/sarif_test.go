@@ -2,15 +2,18 @@ package report_test
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"testing"
 
 	"github.com/owenrumney/go-sarif/v2/sarif"
 	"github.com/samber/lo"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/vulnerability"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
 	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/v3/pkg/report"
 	"github.com/deepfactor-io/trivy/v3/pkg/types"
@@ -26,8 +29,9 @@ func TestReportWriter_Sarif(t *testing.T) {
 			name: "report with vulnerabilities",
 			input: types.Report{
 				ArtifactName: "debian:9",
-				ArtifactType: ftypes.ArtifactContainerImage,
+				ArtifactType: artifact.TypeContainerImage,
 				Metadata: types.Metadata{
+					ImageID: "sha256:7640c3f9e75002deb419d5e32738eeff82cf2b3edca3781b4fe1f1f626d11b20",
 					RepoTags: []string{
 						"debian:9",
 					},
@@ -108,8 +112,8 @@ func TestReportWriter_Sarif(t *testing.T) {
 											Level: "error",
 										},
 										HelpURI: lo.ToPtr("https://avd.aquasec.com/nvd/cve-2020-0001"),
-										Properties: map[string]interface{}{
-											"tags": []interface{}{
+										Properties: map[string]any{
+											"tags": []any{
 												"vulnerability",
 												"security",
 												"HIGH",
@@ -118,8 +122,8 @@ func TestReportWriter_Sarif(t *testing.T) {
 											"security-severity": "7.5",
 										},
 										Help: &sarif.MultiformatMessageString{
-											Text:     lo.ToPtr("Vulnerability CVE-2020-0001\\nSeverity: HIGH\\nPackage: foo\\nFixed Version: 3.4.5\\nLink: [CVE-2020-0001](https://avd.aquasec.com/nvd/cve-2020-0001)\\nbaz"),
-											Markdown: lo.ToPtr("**Vulnerability CVE-2020-0001**\\n| Severity | Package | Fixed Version | Link |\\n| --- | --- | --- | --- |\\n|HIGH|foo|3.4.5|[CVE-2020-0001](https://avd.aquasec.com/nvd/cve-2020-0001)|\\n\\nbaz"),
+											Text:     lo.ToPtr("Vulnerability CVE-2020-0001\nSeverity: HIGH\nPackage: foo\nFixed Version: 3.4.5\nLink: [CVE-2020-0001](https://avd.aquasec.com/nvd/cve-2020-0001)\nbaz"),
+											Markdown: lo.ToPtr("**Vulnerability CVE-2020-0001**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|foo|3.4.5|[CVE-2020-0001](https://avd.aquasec.com/nvd/cve-2020-0001)|\n\nbaz"),
 										},
 									},
 								},
@@ -130,7 +134,7 @@ func TestReportWriter_Sarif(t *testing.T) {
 								RuleID:    lo.ToPtr("CVE-2020-0001"),
 								RuleIndex: lo.ToPtr[uint](0),
 								Level:     lo.ToPtr("error"),
-								Message:   sarif.Message{Text: lo.ToPtr("Package: foo\\nInstalled Version: 1.2.3\\nVulnerability CVE-2020-0001\\nSeverity: HIGH\\nFixed Version: 3.4.5\\nLink: [CVE-2020-0001](https://avd.aquasec.com/nvd/cve-2020-0001)")},
+								Message:   sarif.Message{Text: lo.ToPtr("Package: foo\nInstalled Version: 1.2.3\nVulnerability CVE-2020-0001\nSeverity: HIGH\nFixed Version: 3.4.5\nLink: [CVE-2020-0001](https://avd.aquasec.com/nvd/cve-2020-0001)")},
 								Locations: []*sarif.Location{
 									{
 										Message: &sarif.Message{Text: lo.ToPtr("library/test: foo@1.2.3")},
@@ -172,10 +176,11 @@ func TestReportWriter_Sarif(t *testing.T) {
 							},
 						},
 						PropertyBag: sarif.PropertyBag{
-							Properties: map[string]interface{}{
+							Properties: map[string]any{
 								"imageName":   "debian:9",
-								"repoDigests": []interface{}{"debian@sha256:a8cc1744bbdd5266678e3e8b3e6387e45c053218438897e86876f2eb104e5534"},
-								"repoTags":    []interface{}{"debian:9"},
+								"imageID":     "sha256:7640c3f9e75002deb419d5e32738eeff82cf2b3edca3781b4fe1f1f626d11b20",
+								"repoDigests": []any{"debian@sha256:a8cc1744bbdd5266678e3e8b3e6387e45c053218438897e86876f2eb104e5534"},
+								"repoTags":    []any{"debian:9"},
 							},
 						},
 					},
@@ -197,7 +202,7 @@ func TestReportWriter_Sarif(t *testing.T) {
 								Message:    "Message",
 								Severity:   "HIGH",
 								PrimaryURL: "https://avd.aquasec.com/appshield/ksv001",
-								Status:     types.StatusFailure,
+								Status:     types.MisconfStatusFailure,
 							},
 							{
 								Type:       "Kubernetes Security Check",
@@ -206,7 +211,7 @@ func TestReportWriter_Sarif(t *testing.T) {
 								Message:    "Message",
 								Severity:   "CRITICAL",
 								PrimaryURL: "https://avd.aquasec.com/appshield/ksv002",
-								Status:     types.StatusPassed,
+								Status:     types.MisconfStatusPassed,
 							},
 						},
 					},
@@ -233,8 +238,8 @@ func TestReportWriter_Sarif(t *testing.T) {
 											Level: "error",
 										},
 										HelpURI: lo.ToPtr("https://avd.aquasec.com/appshield/ksv001"),
-										Properties: map[string]interface{}{
-											"tags": []interface{}{
+										Properties: map[string]any{
+											"tags": []any{
 												"misconfiguration",
 												"security",
 												"HIGH",
@@ -243,8 +248,8 @@ func TestReportWriter_Sarif(t *testing.T) {
 											"security-severity": "8.0",
 										},
 										Help: &sarif.MultiformatMessageString{
-											Text:     lo.ToPtr("Misconfiguration KSV001\\nType: Kubernetes Security Check\\nSeverity: HIGH\\nCheck: Image tag ':latest' used\\nMessage: Message\\nLink: [KSV001](https://avd.aquasec.com/appshield/ksv001)\\n"),
-											Markdown: lo.ToPtr("**Misconfiguration KSV001**\\n| Type | Severity | Check | Message | Link |\\n| --- | --- | --- | --- | --- |\\n|Kubernetes Security Check|HIGH|Image tag ':latest' used|Message|[KSV001](https://avd.aquasec.com/appshield/ksv001)|\\n\\n"),
+											Text:     lo.ToPtr("Misconfiguration KSV001\nType: Kubernetes Security Check\nSeverity: HIGH\nCheck: Image tag ':latest' used\nMessage: Message\nLink: [KSV001](https://avd.aquasec.com/appshield/ksv001)\n"),
+											Markdown: lo.ToPtr("**Misconfiguration KSV001**\n| Type | Severity | Check | Message | Link |\n| --- | --- | --- | --- | --- |\n|Kubernetes Security Check|HIGH|Image tag ':latest' used|Message|[KSV001](https://avd.aquasec.com/appshield/ksv001)|\n\n"),
 										},
 									},
 									{
@@ -256,8 +261,8 @@ func TestReportWriter_Sarif(t *testing.T) {
 											Level: "error",
 										},
 										HelpURI: lo.ToPtr("https://avd.aquasec.com/appshield/ksv002"),
-										Properties: map[string]interface{}{
-											"tags": []interface{}{
+										Properties: map[string]any{
+											"tags": []any{
 												"misconfiguration",
 												"security",
 												"CRITICAL",
@@ -266,8 +271,8 @@ func TestReportWriter_Sarif(t *testing.T) {
 											"security-severity": "9.5",
 										},
 										Help: &sarif.MultiformatMessageString{
-											Text:     lo.ToPtr("Misconfiguration KSV002\\nType: Kubernetes Security Check\\nSeverity: CRITICAL\\nCheck: SYS_ADMIN capability added\\nMessage: Message\\nLink: [KSV002](https://avd.aquasec.com/appshield/ksv002)\\n"),
-											Markdown: lo.ToPtr("**Misconfiguration KSV002**\\n| Type | Severity | Check | Message | Link |\\n| --- | --- | --- | --- | --- |\\n|Kubernetes Security Check|CRITICAL|SYS_ADMIN capability added|Message|[KSV002](https://avd.aquasec.com/appshield/ksv002)|\\n\\n"),
+											Text:     lo.ToPtr("Misconfiguration KSV002\nType: Kubernetes Security Check\nSeverity: CRITICAL\nCheck: SYS_ADMIN capability added\nMessage: Message\nLink: [KSV002](https://avd.aquasec.com/appshield/ksv002)\n"),
+											Markdown: lo.ToPtr("**Misconfiguration KSV002**\n| Type | Severity | Check | Message | Link |\n| --- | --- | --- | --- | --- |\n|Kubernetes Security Check|CRITICAL|SYS_ADMIN capability added|Message|[KSV002](https://avd.aquasec.com/appshield/ksv002)|\n\n"),
 										},
 									},
 								},
@@ -278,7 +283,7 @@ func TestReportWriter_Sarif(t *testing.T) {
 								RuleID:    lo.ToPtr("KSV001"),
 								RuleIndex: lo.ToPtr[uint](0),
 								Level:     lo.ToPtr("error"),
-								Message:   sarif.Message{Text: lo.ToPtr("Artifact: library/test\\nType: \\nVulnerability KSV001\\nSeverity: HIGH\\nMessage: Message\\nLink: [KSV001](https://avd.aquasec.com/appshield/ksv001)")},
+								Message:   sarif.Message{Text: lo.ToPtr("Artifact: library/test\nType: \nVulnerability KSV001\nSeverity: HIGH\nMessage: Message\nLink: [KSV001](https://avd.aquasec.com/appshield/ksv001)")},
 								Locations: []*sarif.Location{
 									{
 										Message: &sarif.Message{Text: lo.ToPtr("library/test")},
@@ -301,7 +306,7 @@ func TestReportWriter_Sarif(t *testing.T) {
 								RuleID:    lo.ToPtr("KSV002"),
 								RuleIndex: lo.ToPtr[uint](1),
 								Level:     lo.ToPtr("error"),
-								Message:   sarif.Message{Text: lo.ToPtr("Artifact: library/test\\nType: \\nVulnerability KSV002\\nSeverity: CRITICAL\\nMessage: Message\\nLink: [KSV002](https://avd.aquasec.com/appshield/ksv002)")},
+								Message:   sarif.Message{Text: lo.ToPtr("Artifact: library/test\nType: \nVulnerability KSV002\nSeverity: CRITICAL\nMessage: Message\nLink: [KSV002](https://avd.aquasec.com/appshield/ksv002)")},
 								Locations: []*sarif.Location{
 									{
 										Message: &sarif.Message{Text: lo.ToPtr("library/test")},
@@ -338,7 +343,7 @@ func TestReportWriter_Sarif(t *testing.T) {
 					{
 						Target: "library/test",
 						Class:  types.ClassSecret,
-						Secrets: []ftypes.SecretFinding{
+						Secrets: []types.DetectedSecret{
 							{
 								RuleID:    "aws-secret-access-key",
 								Category:  "AWS",
@@ -372,9 +377,9 @@ func TestReportWriter_Sarif(t *testing.T) {
 										DefaultConfiguration: &sarif.ReportingConfiguration{
 											Level: "error",
 										},
-										HelpURI: lo.ToPtr("https://github.com/aquasecurity/trivy/blob/main/pkg/fanal/secret/builtin-rules.go"),
-										Properties: map[string]interface{}{
-											"tags": []interface{}{
+										HelpURI: lo.ToPtr("https://github.com/deepfactor-io/trivy/blob/main/pkg/fanal/secret/builtin-rules.go"),
+										Properties: map[string]any{
+											"tags": []any{
 												"secret",
 												"security",
 												"CRITICAL",
@@ -383,8 +388,8 @@ func TestReportWriter_Sarif(t *testing.T) {
 											"security-severity": "9.5",
 										},
 										Help: &sarif.MultiformatMessageString{
-											Text:     lo.ToPtr("Secret AWS Secret Access Key\\nSeverity: CRITICAL\\nMatch: 'AWS_secret_KEY'=\"****************************************\""),
-											Markdown: lo.ToPtr("**Secret AWS Secret Access Key**\\n| Severity | Match |\\n| --- | --- |\\n|CRITICAL|'AWS_secret_KEY'=\"****************************************\"|"),
+											Text:     lo.ToPtr("Secret AWS Secret Access Key\nSeverity: CRITICAL\nMatch: 'AWS_secret_KEY'=\"****************************************\""),
+											Markdown: lo.ToPtr("**Secret AWS Secret Access Key**\n| Severity | Match |\n| --- | --- |\n|CRITICAL|'AWS_secret_KEY'=\"****************************************\"|"),
 										},
 									},
 								},
@@ -395,7 +400,7 @@ func TestReportWriter_Sarif(t *testing.T) {
 								RuleID:    lo.ToPtr("aws-secret-access-key"),
 								RuleIndex: lo.ToPtr[uint](0),
 								Level:     lo.ToPtr("error"),
-								Message:   sarif.Message{Text: lo.ToPtr("Artifact: library/test\\nType: \\nSecret AWS Secret Access Key\\nSeverity: CRITICAL\\nMatch: 'AWS_secret_KEY'=\"****************************************\"")},
+								Message:   sarif.Message{Text: lo.ToPtr("Artifact: library/test\nType: \nSecret AWS Secret Access Key\nSeverity: CRITICAL\nMatch: 'AWS_secret_KEY'=\"****************************************\"")},
 								Locations: []*sarif.Location{
 									{
 										Message: &sarif.Message{Text: lo.ToPtr("library/test")},
@@ -464,10 +469,10 @@ func TestReportWriter_Sarif(t *testing.T) {
 										ShortDescription:     sarif.NewMultiformatMessageString("GPL-3.0 in alpine-base"),
 										FullDescription:      sarif.NewMultiformatMessageString("GPL-3.0 in alpine-base"),
 										DefaultConfiguration: sarif.NewReportingConfiguration().WithLevel("error"),
-										Help: sarif.NewMultiformatMessageString("License GPL-3.0\\nClassification: restricted\\nPkgName: alpine-base\\nPath: ").
-											WithMarkdown("**License GPL-3.0**\\n| PkgName | Classification | Path |\\n| --- | --- | --- |\\n|alpine-base|restricted||"),
-										Properties: map[string]interface{}{
-											"tags": []interface{}{
+										Help: sarif.NewMultiformatMessageString("License GPL-3.0\nClassification: restricted\nPkgName: alpine-base\nPath: ").
+											WithMarkdown("**License GPL-3.0**\n| PkgName | Classification | Path |\n| --- | --- | --- |\n|alpine-base|restricted||"),
+										Properties: map[string]any{
+											"tags": []any{
 												"license",
 												"security",
 												"HIGH",
@@ -484,7 +489,7 @@ func TestReportWriter_Sarif(t *testing.T) {
 								RuleID:    lo.ToPtr("alpine-base:GPL-3.0"),
 								RuleIndex: lo.ToPtr(uint(0)),
 								Level:     lo.ToPtr("error"),
-								Message:   sarif.Message{Text: lo.ToPtr("Artifact: OS Packages\\nLicense GPL-3.0\\nPkgName: restricted\\n Classification: alpine-base\\n Path: ")},
+								Message:   sarif.Message{Text: lo.ToPtr("Artifact: OS Packages\nLicense GPL-3.0\nPkgName: restricted\n Classification: alpine-base\n Path: ")},
 								Locations: []*sarif.Location{
 									{
 										Message: sarif.NewTextMessage(""),
@@ -541,6 +546,126 @@ func TestReportWriter_Sarif(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "ref to github",
+			input: types.Report{
+				Results: types.Results{
+					{
+						Target: "git::https:/github.com/terraform-google-modules/terraform-google-kubernetes-engine?ref=c4809044b52b91505bfba5ef9f25526aa0361788/modules/workload-identity/main.tf",
+						Class:  types.ClassConfig,
+						Type:   ftypes.Terraform,
+						Misconfigurations: []types.DetectedMisconfiguration{
+							{
+								Type:        "Terraform Security Check",
+								ID:          "AVD-GCP-0007",
+								AVDID:       "AVD-GCP-0007",
+								Title:       "Service accounts should not have roles assigned with excessive privileges",
+								Description: "Service accounts should have a minimal set of permissions assigned in order to do their job. They should never have excessive access as if compromised, an attacker can escalate privileges and take over the entire account.",
+								Message:     "Service account is granted a privileged role.",
+								Query:       "data..",
+								Resolution:  "Limit service account access to minimal required set",
+								Severity:    "HIGH",
+								PrimaryURL:  "https://avd.aquasec.com/misconfig/avd-gcp-0007",
+								References: []string{
+									"https://cloud.google.com/iam/docs/understanding-roles",
+									"https://avd.aquasec.com/misconfig/avd-gcp-0007",
+								},
+								Status: "Fail",
+								CauseMetadata: ftypes.CauseMetadata{
+									StartLine: 91,
+									EndLine:   91,
+									Occurrences: []ftypes.Occurrence{
+										{
+											Resource: "google_project_iam_member.workload_identity_sa_bindings[\"roles/storage.admin\"]",
+											Filename: "git::https:/github.com/terraform-google-modules/terraform-google-kubernetes-engine?ref=c4809044b52b91505bfba5ef9f25526aa0361788/modules/workload-identity/main.tf",
+											Location: ftypes.Location{
+												StartLine: 87,
+												EndLine:   93,
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			want: &sarif.Report{
+				Version: "2.1.0",
+				Schema:  "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+				Runs: []*sarif.Run{
+					{
+						Tool: *sarif.NewTool(
+							&sarif.ToolComponent{
+								FullName:       lo.ToPtr("Trivy Vulnerability Scanner"),
+								Name:           "Trivy",
+								Version:        lo.ToPtr(""),
+								InformationURI: lo.ToPtr("https://github.com/aquasecurity/trivy"),
+								Rules: []*sarif.ReportingDescriptor{
+									{
+										ID:               "AVD-GCP-0007",
+										Name:             lo.ToPtr("Misconfiguration"),
+										ShortDescription: sarif.NewMultiformatMessageString("Service accounts should not have roles assigned with excessive privileges"),
+										FullDescription:  sarif.NewMultiformatMessageString("Service accounts should have a minimal set of permissions assigned in order to do their job. They should never have excessive access as if compromised, an attacker can escalate privileges and take over the entire account."),
+										DefaultConfiguration: &sarif.ReportingConfiguration{
+											Level: "error",
+										},
+										HelpURI: lo.ToPtr("https://avd.aquasec.com/misconfig/avd-gcp-0007"),
+										Help: &sarif.MultiformatMessageString{
+											Text:     lo.ToPtr("Misconfiguration AVD-GCP-0007\nType: Terraform Security Check\nSeverity: HIGH\nCheck: Service accounts should not have roles assigned with excessive privileges\nMessage: Service account is granted a privileged role.\nLink: [AVD-GCP-0007](https://avd.aquasec.com/misconfig/avd-gcp-0007)\nService accounts should have a minimal set of permissions assigned in order to do their job. They should never have excessive access as if compromised, an attacker can escalate privileges and take over the entire account."),
+											Markdown: lo.ToPtr("**Misconfiguration AVD-GCP-0007**\n| Type | Severity | Check | Message | Link |\n| --- | --- | --- | --- | --- |\n|Terraform Security Check|HIGH|Service accounts should not have roles assigned with excessive privileges|Service account is granted a privileged role.|[AVD-GCP-0007](https://avd.aquasec.com/misconfig/avd-gcp-0007)|\n\nService accounts should have a minimal set of permissions assigned in order to do their job. They should never have excessive access as if compromised, an attacker can escalate privileges and take over the entire account."),
+										},
+										Properties: sarif.Properties{
+											"tags": []any{
+												"misconfiguration",
+												"security",
+												"HIGH",
+											},
+											"precision":         "very-high",
+											"security-severity": "8.0",
+										},
+									},
+								},
+							},
+						),
+						Results: []*sarif.Result{
+							{
+								RuleID:    lo.ToPtr("AVD-GCP-0007"),
+								RuleIndex: lo.ToPtr(uint(0)),
+								Level:     lo.ToPtr("error"),
+								Message:   *sarif.NewTextMessage("Artifact: github.com/terraform-google-modules/terraform-google-kubernetes-engine?ref=c4809044b52b91505bfba5ef9f25526aa0361788/modules/workload-identity/main.tf\nType: terraform\nVulnerability AVD-GCP-0007\nSeverity: HIGH\nMessage: Service account is granted a privileged role.\nLink: [AVD-GCP-0007](https://avd.aquasec.com/misconfig/avd-gcp-0007)"),
+								Locations: []*sarif.Location{
+									{
+										PhysicalLocation: sarif.NewPhysicalLocation().
+											WithArtifactLocation(
+												&sarif.ArtifactLocation{
+													URI:       lo.ToPtr("github.com/terraform-google-modules/terraform-google-kubernetes-engine?ref=c4809044b52b91505bfba5ef9f25526aa0361788/modules/workload-identity/main.tf"),
+													URIBaseId: lo.ToPtr("ROOTPATH"),
+												},
+											).
+											WithRegion(
+												&sarif.Region{
+													StartLine:   lo.ToPtr(91),
+													StartColumn: lo.ToPtr(1),
+													EndLine:     lo.ToPtr(91),
+													EndColumn:   lo.ToPtr(1),
+												},
+											),
+										Message: sarif.NewTextMessage("github.com/terraform-google-modules/terraform-google-kubernetes-engine?ref=c4809044b52b91505bfba5ef9f25526aa0361788/modules/workload-identity/main.tf"),
+									},
+								},
+							},
+						},
+						ColumnKind: "utf16CodeUnits",
+						OriginalUriBaseIDs: map[string]*sarif.ArtifactLocation{
+							"ROOTPATH": {
+								URI: lo.ToPtr("file:///"),
+							},
+						},
+					},
+				},
+			},
+		},
 	}
 
 	for _, tt := range tests {
@@ -549,12 +674,12 @@ func TestReportWriter_Sarif(t *testing.T) {
 			w := report.SarifWriter{
 				Output: sarifWritten,
 			}
-			err := w.Write(tt.input)
-			assert.NoError(t, err)
+			err := w.Write(context.TODO(), tt.input)
+			require.NoError(t, err)
 
 			result := &sarif.Report{}
 			err = json.Unmarshal(sarifWritten.Bytes(), result)
-			assert.NoError(t, err)
+			require.NoError(t, err)
 			assert.Equal(t, tt.want, result)
 		})
 	}

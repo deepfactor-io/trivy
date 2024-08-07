@@ -2,9 +2,9 @@ package handler
 
 import (
 	"context"
+	"slices"
 	"sort"
 
-	"golang.org/x/exp/slices"
 	"golang.org/x/xerrors"
 
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"

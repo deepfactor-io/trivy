@@ -8,17 +8,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 
-	"github.com/deepfactor-io/trivy/v3/pkg/fanal/log"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/secret"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 func TestMain(m *testing.M) {
-	logger, _ := zap.NewDevelopment(zap.IncreaseLevel(zapcore.FatalLevel))
-	log.SetLogger(logger.Sugar())
+	log.InitLogger(false, true)
 	os.Exit(m.Run())
 }
 
@@ -429,7 +426,7 @@ func TestSecretScanner(t *testing.T) {
 		Severity:  "CRITICAL",
 		StartLine: 5,
 		EndLine:   5,
-		Match:     `aws_sec_key "****************************************"`,
+		Match:     `  "created_by": "ENV aws_sec_key "****************************************",`,
 		Code: types.Code{
 			Lines: []types.Line{
 				{
@@ -444,8 +441,8 @@ func TestSecretScanner(t *testing.T) {
 				},
 				{
 					Number:      5,
-					Content:     "aws_sec_key \"****************************************\"",
-					Highlighted: "aws_sec_key \"****************************************\"",
+					Content:     "  \"created_by\": \"ENV aws_sec_key \"****************************************\",",
+					Highlighted: "  \"created_by\": \"ENV aws_sec_key \"****************************************\",",
 					IsCause:     true,
 					FirstCause:  true,
 					LastCause:   true,
@@ -512,6 +509,14 @@ func TestSecretScanner(t *testing.T) {
 					IsCause:     true,
 					FirstCause:  true,
 					LastCause:   true,
+				},
+				{
+					Number:      2,
+					Content:     "",
+					Highlighted: "",
+					IsCause:     false,
+					FirstCause:  false,
+					LastCause:   false,
 				},
 			},
 		},
@@ -609,6 +614,28 @@ func TestSecretScanner(t *testing.T) {
 			},
 		},
 	}
+	wantFindingHuggingFace := types.SecretFinding{
+		RuleID:    "hugging-face-access-token",
+		Category:  secret.CategoryHuggingFace,
+		Title:     "Hugging Face Access Token",
+		Severity:  "CRITICAL",
+		StartLine: 1,
+		EndLine:   1,
+		Match:     "HF_example_token: ******************************************",
+		Code: types.Code{
+			Lines: []types.Line{
+				{
+					Number:      1,
+					Content:     "HF_example_token: ******************************************",
+					Highlighted: "HF_example_token: ******************************************",
+					IsCause:     true,
+					FirstCause:  true,
+					LastCause:   true,
+				},
+			},
+		},
+	}
+
 	wantMultiLine := types.SecretFinding{
 		RuleID:    "multi-line-secret",
 		Category:  "general",
@@ -653,7 +680,10 @@ func TestSecretScanner(t *testing.T) {
 			inputFilePath: filepath.Join("testdata", "secret.txt"),
 			want: types.Secret{
 				FilePath: filepath.Join("testdata", "secret.txt"),
-				Findings: []types.SecretFinding{wantFinding1, wantFinding2},
+				Findings: []types.SecretFinding{
+					wantFinding1,
+					wantFinding2,
+				},
 			},
 		},
 		{
@@ -662,7 +692,11 @@ func TestSecretScanner(t *testing.T) {
 			inputFilePath: filepath.Join("testdata", "aws-secrets.txt"),
 			want: types.Secret{
 				FilePath: filepath.Join("testdata", "aws-secrets.txt"),
-				Findings: []types.SecretFinding{wantFinding5, wantFinding9, wantFinding10},
+				Findings: []types.SecretFinding{
+					wantFinding5,
+					wantFinding10,
+					wantFinding9,
+				},
 			},
 		},
 		{
@@ -698,7 +732,19 @@ func TestSecretScanner(t *testing.T) {
 			inputFilePath: filepath.Join("testdata", "docker-secrets.txt"),
 			want: types.Secret{
 				FilePath: filepath.Join("testdata", "docker-secrets.txt"),
-				Findings: []types.SecretFinding{wantFindingDockerKey1, wantFindingDockerKey2},
+				Findings: []types.SecretFinding{
+					wantFindingDockerKey1,
+					wantFindingDockerKey2,
+				},
+			},
+		},
+		{
+			name:          "find Hugging face secret",
+			configPath:    filepath.Join("testdata", "config.yaml"),
+			inputFilePath: filepath.Join("testdata", "hugging-face-secret.txt"),
+			want: types.Secret{
+				FilePath: filepath.Join("testdata", "hugging-face-secret.txt"),
+				Findings: []types.SecretFinding{wantFindingHuggingFace},
 			},
 		},
 		{
@@ -707,7 +753,10 @@ func TestSecretScanner(t *testing.T) {
 			inputFilePath: filepath.Join("testdata", "secret.txt"),
 			want: types.Secret{
 				FilePath: filepath.Join("testdata", "secret.txt"),
-				Findings: []types.SecretFinding{wantFinding1, wantFinding2},
+				Findings: []types.SecretFinding{
+					wantFinding1,
+					wantFinding2,
+				},
 			},
 		},
 		{
@@ -730,7 +779,10 @@ func TestSecretScanner(t *testing.T) {
 			inputFilePath: filepath.Join("testdata", "secret.md"),
 			want: types.Secret{
 				FilePath: filepath.Join("testdata", "secret.md"),
-				Findings: []types.SecretFinding{wantFinding1, wantFinding2},
+				Findings: []types.SecretFinding{
+					wantFinding1,
+					wantFinding2,
+				},
 			},
 		},
 		{
@@ -739,7 +791,10 @@ func TestSecretScanner(t *testing.T) {
 			inputFilePath: filepath.Join("testdata", "builtin-rule-secret.txt"),
 			want: types.Secret{
 				FilePath: filepath.Join("testdata", "builtin-rule-secret.txt"),
-				Findings: []types.SecretFinding{wantFinding5a, wantFinding6},
+				Findings: []types.SecretFinding{
+					wantFinding5a,
+					wantFinding6,
+				},
 			},
 		},
 		{
@@ -846,7 +901,10 @@ func TestSecretScanner(t *testing.T) {
 			inputFilePath: filepath.Join("testdata", "secret.txt"),
 			want: types.Secret{
 				FilePath: filepath.Join("testdata", "secret.txt"),
-				Findings: []types.SecretFinding{wantFinding3, wantFinding4},
+				Findings: []types.SecretFinding{
+					wantFinding3,
+					wantFinding4,
+				},
 			},
 		},
 		{
@@ -861,6 +919,33 @@ func TestSecretScanner(t *testing.T) {
 		{
 			name:          "add unknown severity when rule has no severity",
 			configPath:    filepath.Join("testdata", "config-without-severity.yaml"),
+			inputFilePath: filepath.Join("testdata", "secret.txt"),
+			want: types.Secret{
+				FilePath: filepath.Join("testdata", "secret.txt"),
+				Findings: []types.SecretFinding{wantFinding8},
+			},
+		},
+		{
+			name:          "add unknown severity when rule has no severity",
+			configPath:    filepath.Join("testdata", "config-with-incorrect-severity.yaml"),
+			inputFilePath: filepath.Join("testdata", "secret.txt"),
+			want: types.Secret{
+				FilePath: filepath.Join("testdata", "secret.txt"),
+				Findings: []types.SecretFinding{wantFinding8},
+			},
+		},
+		{
+			name:          "update severity if rule severity is not in uppercase",
+			configPath:    filepath.Join("testdata", "config-with-non-uppercase-severity.yaml"),
+			inputFilePath: filepath.Join("testdata", "secret.txt"),
+			want: types.Secret{
+				FilePath: filepath.Join("testdata", "secret.txt"),
+				Findings: []types.SecretFinding{wantFinding8},
+			},
+		},
+		{
+			name:          "use unknown severity when rule has incorrect severity",
+			configPath:    filepath.Join("testdata", "config-with-incorrect-severity.yaml"),
 			inputFilePath: filepath.Join("testdata", "secret.txt"),
 			want: types.Secret{
 				FilePath: filepath.Join("testdata", "secret.txt"),

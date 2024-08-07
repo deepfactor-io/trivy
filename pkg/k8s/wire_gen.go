@@ -8,8 +8,8 @@ package k8s
 
 import (
 	"github.com/aquasecurity/trivy-db/pkg/db"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/applier"
-	"github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
 	"github.com/deepfactor-io/trivy/v3/pkg/scanner/langpkg"
 	"github.com/deepfactor-io/trivy/v3/pkg/scanner/local"
 	"github.com/deepfactor-io/trivy/v3/pkg/scanner/ospkg"

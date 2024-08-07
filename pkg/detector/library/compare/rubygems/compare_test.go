@@ -50,7 +50,7 @@ func TestRubyGemsComparer_IsVulnerable(t *testing.T) {
 			want: false,
 		},
 		{
-			// https://github.com/aquasecurity/trivy/issues/108
+			// https://github.com/deepfactor-io/trivy/issues/108
 			name: "hyphen",
 			args: args{
 				currentVersion: "1.9.25-x86-mingw32",
@@ -61,7 +61,7 @@ func TestRubyGemsComparer_IsVulnerable(t *testing.T) {
 			want: false,
 		},
 		{
-			// https://github.com/aquasecurity/trivy/issues/108
+			// https://github.com/deepfactor-io/trivy/issues/108
 			name: "pessimistic",
 			args: args{
 				currentVersion: "1.8.6-java",

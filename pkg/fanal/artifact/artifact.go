@@ -8,22 +8,22 @@ import (
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/walker"
 	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/core"
+	v1 "github.com/google/go-containerregistry/pkg/v1"
 )
 
 type Option struct {
 	AnalyzerGroup     analyzer.Group // It is empty in OSS
 	DisabledAnalyzers []analyzer.Type
 	DisabledHandlers  []types.HandlerType
-	SkipFiles         []string
-	SkipDirs          []string
 	FilePatterns      []string
+	Parallel          int
 	NoProgress        bool
 	Insecure          bool
 	Offline           bool
 	AppDirs           []string
 	SBOMSources       []string
 	RekorURL          string
-	Parallel          int
 	AWSRegion         string
 	AWSEndpoint       string
 	FileChecksum      bool // For SPDX
@@ -42,14 +42,7 @@ type Option struct {
 	SecretScannerOption  analyzer.SecretScannerOption
 	LicenseScannerOption analyzer.LicenseScannerOption
 
-	// File walk
-	WalkOption WalkOption
-}
-
-// WalkOption is a struct that allows users to define a custom walking behavior.
-// This option is only available when using Trivy as an imported library and not through CLI flags.
-type WalkOption struct {
-	ErrorCallback walker.ErrorCallback
+	WalkerOption walker.Option
 }
 
 func (o *Option) AnalyzerOptions() analyzer.AnalyzerOptions {
@@ -77,12 +70,47 @@ func (o *Option) Sort() {
 	sort.Slice(o.DisabledAnalyzers, func(i, j int) bool {
 		return o.DisabledAnalyzers[i] < o.DisabledAnalyzers[j]
 	})
-	sort.Strings(o.SkipFiles)
-	sort.Strings(o.SkipDirs)
+	sort.Strings(o.WalkerOption.SkipFiles)
+	sort.Strings(o.WalkerOption.SkipDirs)
 	sort.Strings(o.FilePatterns)
 }
 
 type Artifact interface {
-	Inspect(ctx context.Context) (reference types.ArtifactReference, err error)
-	Clean(reference types.ArtifactReference) error
+	Inspect(ctx context.Context) (reference Reference, err error)
+	Clean(reference Reference) error
+}
+
+// Type represents a type of artifact
+type Type string
+
+const (
+	TypeContainerImage Type = "container_image"
+	TypeFilesystem     Type = "filesystem"
+	TypeRepository     Type = "repository"
+	TypeCycloneDX      Type = "cyclonedx"
+	TypeSPDX           Type = "spdx"
+	TypeAWSAccount     Type = "aws_account"
+	TypeVM             Type = "vm"
+)
+
+// Reference represents a reference of container image, local filesystem and repository
+type Reference struct {
+	Name          string // image name, tar file name, directory or repository name
+	Type          Type
+	ID            string
+	BlobIDs       []string
+	ImageMetadata ImageMetadata
+
+	// SBOM
+	BOM *core.BOM
+}
+
+type ImageMetadata struct {
+	ID                    string   // image ID
+	DiffIDs               []string // uncompressed layer IDs
+	RepoTags              []string
+	RepoDigests           []string
+	BaseImageLayerDiffIDs []string // base image layer diff ids
+	BaseImageHistoryIndex int      // starting point of base image layer index  in image history
+	ConfigFile            v1.ConfigFile
 }

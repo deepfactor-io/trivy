@@ -74,14 +74,14 @@ func (r *misconfigRenderer) Render() string {
 func (r *misconfigRenderer) countSeverities() map[string]int {
 	severityCount := make(map[string]int)
 	for _, misconf := range r.result.Misconfigurations {
-		if misconf.Status == types.StatusFailure {
+		if misconf.Status == types.MisconfStatusFailure {
 			severityCount[misconf.Severity]++
 		}
 	}
 	return severityCount
 }
 
-func (r *misconfigRenderer) printf(format string, args ...interface{}) {
+func (r *misconfigRenderer) printf(format string, args ...any) {
 	// nolint
 	_ = tml.Fprintf(r.w, format, args...)
 }
@@ -110,11 +110,11 @@ func (r *misconfigRenderer) renderSummary(misconf types.DetectedMisconfiguration
 	// show pass/fail/exception unless we are only showing failures
 	if r.includeNonFailures {
 		switch misconf.Status {
-		case types.StatusPassed:
+		case types.MisconfStatusPassed:
 			r.printf("<green><bold>%s: ", misconf.Status)
-		case types.StatusFailure:
+		case types.MisconfStatusFailure:
 			r.printf("<red><bold>%s: ", misconf.Status)
-		case types.StatusException:
+		case types.MisconfStatusException:
 			r.printf("<yellow><bold>%s: ", misconf.Status)
 		}
 	}
@@ -217,7 +217,7 @@ func (r *misconfigRenderer) outputTrace() {
 		}
 
 		c := green
-		if misconf.Status == types.StatusFailure {
+		if misconf.Status == types.MisconfStatusFailure {
 			c = red
 		}
 

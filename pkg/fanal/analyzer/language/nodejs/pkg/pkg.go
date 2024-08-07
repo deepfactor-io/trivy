@@ -5,12 +5,11 @@ import (
 	"os"
 	"path/filepath"
 
-	dio "github.com/deepfactor-io/go-dep-parser/pkg/io"
-	"github.com/deepfactor-io/go-dep-parser/pkg/nodejs/packagejson"
-	godeptypes "github.com/deepfactor-io/go-dep-parser/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/nodejs/packagejson"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 func init() {
@@ -24,20 +23,20 @@ const (
 
 type parser struct{}
 
-func (*parser) Parse(r dio.ReadSeekerAt) ([]godeptypes.Library, []godeptypes.Dependency, error) {
+func (*parser) Parse(r xio.ReadSeekerAt) ([]types.Package, []types.Dependency, error) {
 	p := packagejson.NewParser()
 	pkg, err := p.Parse(r)
 	if err != nil {
 		return nil, nil, err
 	}
 	// skip packages without name/version
-	if pkg.Library.ID == "" {
+	if pkg.Package.ID == "" {
 		return nil, nil, nil
 	}
 	// package.json may contain version range in `dependencies` fields
 	// e.g.   "devDependencies": { "mocha": "^5.2.0", }
 	// so we get only information about project
-	return []godeptypes.Library{pkg.Library}, nil, nil
+	return []types.Package{pkg.Package}, nil, nil
 }
 
 type nodePkgLibraryAnalyzer struct{}

@@ -3,8 +3,8 @@ package applier
 import (
 	"golang.org/x/xerrors"
 
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/v3/pkg/fanal/cache"
 	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 

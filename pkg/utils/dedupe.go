@@ -11,7 +11,7 @@ import (
 )
 
 func dedupeNodePackages(app ftypes.Application, lockFilePackages map[string]ftypes.Package) ftypes.Application {
-	for j, pkg := range app.Libraries {
+	for j, pkg := range app.Packages {
 		if pkg.ID == "" || pkg.FilePath == "" {
 			continue
 		}
@@ -35,14 +35,14 @@ func dedupeNodePackages(app ftypes.Application, lockFilePackages map[string]ftyp
 				indirectPkg.Indirect = true
 				indirectPkg.RootDependencies = pkg.RootDependencies
 
-				app.Libraries = append(app.Libraries, indirectPkg)
+				app.Packages = append(app.Packages, indirectPkg)
 
 				// remove rootdeps from direct dep
 				pkg.RootDependencies = []string{}
 			}
 
 			// update app
-			app.Libraries[j] = pkg
+			app.Packages[j] = pkg
 		}
 
 	}
@@ -50,7 +50,7 @@ func dedupeNodePackages(app ftypes.Application, lockFilePackages map[string]ftyp
 }
 
 func dedupePHPPackages(app ftypes.Application, reqDevPHPPackages, reqPHPPackages map[string]struct{}) ftypes.Application {
-	for j, pkg := range app.Libraries {
+	for j, pkg := range app.Packages {
 		if pkg.Dev {
 			if _, ok := reqDevPHPPackages[pkg.Name]; !ok {
 				pkg.Indirect = true
@@ -61,7 +61,7 @@ func dedupePHPPackages(app ftypes.Application, reqDevPHPPackages, reqPHPPackages
 			}
 		}
 
-		app.Libraries[j] = pkg
+		app.Packages[j] = pkg
 	}
 
 	return app

@@ -16,7 +16,6 @@ import (
 
 	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/v3/pkg/oci"
-	"github.com/deepfactor-io/trivy/v3/pkg/utils/fsutils"
 )
 
 type fakeLayer struct {
@@ -97,7 +96,6 @@ func TestArtifact_Download(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tempDir := t.TempDir()
-			fsutils.SetCacheDir(tempDir)
 
 			// Mock image
 			img := new(fakei.FakeImage)

@@ -1,6 +1,8 @@
 package analyzer
 
-import "github.com/aquasecurity/trivy-iac/pkg/detection"
+import (
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/detection"
+)
 
 type Type string
 
@@ -50,11 +52,13 @@ const (
 	TypeComposer          Type = "composer"
 	TypeComposerInstalled Type = "composer-installed"
 	TypeComposerJSON      Type = "composer-json"
+	TypeComposerVendor    Type = "composer-vendor"
 
 	// Java
 	TypeJar        Type = "jar"
 	TypePom        Type = "pom"
 	TypeGradleLock Type = "gradle-lockfile"
+	TypeSbtLock    Type = "sbt-lockfile"
 
 	// Node.js
 	TypeNpmPkgLock Type = "npm"
@@ -69,6 +73,7 @@ const (
 
 	// Conda
 	TypeCondaPkg Type = "conda-pkg"
+	TypeCondaEnv Type = "conda-environment"
 
 	// Python
 	TypePythonPkg Type = "python-pkg"
@@ -93,6 +98,9 @@ const (
 	// Dart
 	TypePubSpecLock Type = "pubspec-lock"
 
+	// Julia
+	TypeJulia Type = "julia"
+
 	// ============
 	// Non-packaged
 	// ============
@@ -109,13 +117,14 @@ const (
 	// =================
 	// Structured Config
 	// =================
-	TypeAzureARM       Type = Type(detection.FileTypeAzureARM)
-	TypeCloudFormation Type = Type(detection.FileTypeCloudFormation)
-	TypeDockerfile     Type = Type(detection.FileTypeDockerfile)
-	TypeHelm           Type = Type(detection.FileTypeHelm)
-	TypeKubernetes     Type = Type(detection.FileTypeKubernetes)
-	TypeTerraform      Type = Type(detection.FileTypeTerraform)
-	TypeTerraformPlan  Type = Type(detection.FileTypeTerraformPlan)
+	TypeAzureARM              Type = Type(detection.FileTypeAzureARM)
+	TypeCloudFormation        Type = Type(detection.FileTypeCloudFormation)
+	TypeDockerfile            Type = Type(detection.FileTypeDockerfile)
+	TypeHelm                  Type = Type(detection.FileTypeHelm)
+	TypeKubernetes            Type = Type(detection.FileTypeKubernetes)
+	TypeTerraform             Type = Type(detection.FileTypeTerraform)
+	TypeTerraformPlanJSON     Type = Type(detection.FileTypeTerraformPlanJSON)
+	TypeTerraformPlanSnapshot Type = Type(detection.FileTypeTerraformPlanSnapshot)
 
 	// ========
 	// License
@@ -170,6 +179,7 @@ var (
 		TypeJar,
 		TypePom,
 		TypeGradleLock,
+		TypeSbtLock,
 		TypeNpmPkgLock,
 		TypeNodePkg,
 		TypeYarn,
@@ -178,6 +188,7 @@ var (
 		TypeDotNetCore,
 		TypePackagesProps,
 		TypeCondaPkg,
+		TypeCondaEnv,
 		TypePythonPkg,
 		TypePip,
 		TypePipenv,
@@ -190,6 +201,7 @@ var (
 		TypeSwift,
 		TypePubSpecLock,
 		TypeMixLock,
+		TypeJulia,
 	}
 
 	// TypeLockfiles has all lock file analyzers
@@ -206,10 +218,12 @@ var (
 		TypePom,
 		TypeConanLock,
 		TypeGradleLock,
+		TypeSbtLock,
 		TypeCocoaPods,
 		TypeSwift,
 		TypePubSpecLock,
 		TypeMixLock,
+		TypeCondaEnv,
 		TypeComposer,
 	}
 
@@ -224,6 +238,7 @@ var (
 		TypeRustBinary,
 		TypeComposerInstalled,
 		TypeComposerJSON,
+		TypeComposerVendor,
 	}
 
 	// TypeConfigFiles has all config file analyzers
@@ -234,6 +249,7 @@ var (
 		TypeHelm,
 		TypeKubernetes,
 		TypeTerraform,
-		TypeTerraformPlan,
+		TypeTerraformPlanJSON,
+		TypeTerraformPlanSnapshot,
 	}
 )

@@ -1,6 +1,7 @@
 package report
 
 import (
+	"context"
 	"fmt"
 	"html"
 	"io"
@@ -8,12 +9,12 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 	containerName "github.com/google/go-containerregistry/pkg/name"
 	"github.com/owenrumney/go-sarif/v2/sarif"
 	"golang.org/x/xerrors"
-
-	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 const (
@@ -31,7 +32,7 @@ const (
 
 	columnKind = "utf16CodeUnits"
 
-	builtinRulesUrl = "https://github.com/aquasecurity/trivy/blob/main/pkg/fanal/secret/builtin-rules.go" // list all secrets
+	builtinRulesUrl = "https://github.com/deepfactor-io/trivy/blob/main/pkg/fanal/secret/builtin-rules.go" // list all secrets
 )
 
 var (
@@ -130,7 +131,7 @@ func getRuleIndex(id string, indexes map[string]int) int {
 	}
 }
 
-func (sw *SarifWriter) Write(report types.Report) error {
+func (sw *SarifWriter) Write(ctx context.Context, report types.Report) error {
 	sarifReport, err := sarif.New(sarif.Version210)
 	if err != nil {
 		return xerrors.Errorf("error creating a new sarif template: %w", err)
@@ -139,11 +140,12 @@ func (sw *SarifWriter) Write(report types.Report) error {
 	sw.run.Tool.Driver.WithVersion(sw.Version)
 	sw.run.Tool.Driver.WithFullName("Dfctl Scanner")
 	sw.locationCache = make(map[string][]location)
-	if report.ArtifactType == ftypes.ArtifactContainerImage {
+	if report.ArtifactType == artifact.TypeContainerImage {
 		sw.run.Properties = sarif.Properties{
 			"imageName":   report.ArtifactName,
 			"repoTags":    report.Metadata.RepoTags,
 			"repoDigests": report.Metadata.RepoDigests,
+			"imageID":     report.Metadata.ImageID,
 		}
 	}
 	if sw.Target != "" {
@@ -177,15 +179,16 @@ func (sw *SarifWriter) Write(report types.Report) error {
 				resultIndex:      getRuleIndex(vuln.VulnerabilityID, ruleIndexes),
 				shortDescription: html.EscapeString(vuln.Title),
 				fullDescription:  html.EscapeString(fullDescription),
-				helpText: fmt.Sprintf(`Vulnerability %v\nSeverity: %v\nPackage: %v\nFixed Version: %v\nLink: [%v](%v)\n%v`,
+				helpText: fmt.Sprintf("Vulnerability %v\nSeverity: %v\nPackage: %v\nFixed Version: %v\nLink: [%v](%v)\n%v",
 					vuln.VulnerabilityID, vuln.Severity, vuln.PkgName, vuln.FixedVersion, vuln.VulnerabilityID, vuln.PrimaryURL, vuln.Description),
-				helpMarkdown: fmt.Sprintf(`**Vulnerability %v**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|%v|%v|%v|[%v](%v)|\n\n%v`,
+				helpMarkdown: fmt.Sprintf("**Vulnerability %v**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|%v|%v|%v|[%v](%v)|\n\n%v",
 					vuln.VulnerabilityID, vuln.Severity, vuln.PkgName, vuln.FixedVersion, vuln.VulnerabilityID, vuln.PrimaryURL, vuln.Description),
-				message: fmt.Sprintf(`Package: %v\nInstalled Version: %v\nVulnerability %v\nSeverity: %v\nFixed Version: %v\nLink: [%v](%v)`,
+				message: fmt.Sprintf("Package: %v\nInstalled Version: %v\nVulnerability %v\nSeverity: %v\nFixed Version: %v\nLink: [%v](%v)",
 					vuln.PkgName, vuln.InstalledVersion, vuln.VulnerabilityID, vuln.Severity, vuln.FixedVersion, vuln.VulnerabilityID, vuln.PrimaryURL),
 			})
 		}
 		for _, misconf := range res.Misconfigurations {
+			locationURI := clearURI(res.Target)
 			sw.addSarifResult(&sarifData{
 				title:            "misconfiguration",
 				vulnerabilityId:  misconf.ID,
@@ -193,8 +196,8 @@ func (sw *SarifWriter) Write(report types.Report) error {
 				cvssScore:        severityToScore(misconf.Severity),
 				url:              misconf.PrimaryURL,
 				resourceClass:    res.Class,
-				artifactLocation: target,
-				locationMessage:  target,
+				artifactLocation: locationURI,
+				locationMessage:  locationURI,
 				locations: []location{
 					{
 						startLine: misconf.CauseMetadata.StartLine,
@@ -204,12 +207,12 @@ func (sw *SarifWriter) Write(report types.Report) error {
 				resultIndex:      getRuleIndex(misconf.ID, ruleIndexes),
 				shortDescription: html.EscapeString(misconf.Title),
 				fullDescription:  html.EscapeString(misconf.Description),
-				helpText: fmt.Sprintf(`Misconfiguration %v\nType: %s\nSeverity: %v\nCheck: %v\nMessage: %v\nLink: [%v](%v)\n%s`,
+				helpText: fmt.Sprintf("Misconfiguration %v\nType: %s\nSeverity: %v\nCheck: %v\nMessage: %v\nLink: [%v](%v)\n%s",
 					misconf.ID, misconf.Type, misconf.Severity, misconf.Title, misconf.Message, misconf.ID, misconf.PrimaryURL, misconf.Description),
-				helpMarkdown: fmt.Sprintf(`**Misconfiguration %v**\n| Type | Severity | Check | Message | Link |\n| --- | --- | --- | --- | --- |\n|%v|%v|%v|%s|[%v](%v)|\n\n%v`,
+				helpMarkdown: fmt.Sprintf("**Misconfiguration %v**\n| Type | Severity | Check | Message | Link |\n| --- | --- | --- | --- | --- |\n|%v|%v|%v|%s|[%v](%v)|\n\n%v",
 					misconf.ID, misconf.Type, misconf.Severity, misconf.Title, misconf.Message, misconf.ID, misconf.PrimaryURL, misconf.Description),
-				message: fmt.Sprintf(`Artifact: %v\nType: %v\nVulnerability %v\nSeverity: %v\nMessage: %v\nLink: [%v](%v)`,
-					res.Target, res.Type, misconf.ID, misconf.Severity, misconf.Message, misconf.ID, misconf.PrimaryURL),
+				message: fmt.Sprintf("Artifact: %v\nType: %v\nVulnerability %v\nSeverity: %v\nMessage: %v\nLink: [%v](%v)",
+					locationURI, res.Type, misconf.ID, misconf.Severity, misconf.Message, misconf.ID, misconf.PrimaryURL),
 			})
 		}
 		for _, secret := range res.Secrets {
@@ -231,11 +234,11 @@ func (sw *SarifWriter) Write(report types.Report) error {
 				resultIndex:      getRuleIndex(secret.RuleID, ruleIndexes),
 				shortDescription: html.EscapeString(secret.Title),
 				fullDescription:  html.EscapeString(secret.Match),
-				helpText: fmt.Sprintf(`Secret %v\nSeverity: %v\nMatch: %s`,
+				helpText: fmt.Sprintf("Secret %v\nSeverity: %v\nMatch: %s",
 					secret.Title, secret.Severity, secret.Match),
-				helpMarkdown: fmt.Sprintf(`**Secret %v**\n| Severity | Match |\n| --- | --- |\n|%v|%v|`,
+				helpMarkdown: fmt.Sprintf("**Secret %v**\n| Severity | Match |\n| --- | --- |\n|%v|%v|",
 					secret.Title, secret.Severity, secret.Match),
-				message: fmt.Sprintf(`Artifact: %v\nType: %v\nSecret %v\nSeverity: %v\nMatch: %v`,
+				message: fmt.Sprintf("Artifact: %v\nType: %v\nSecret %v\nSeverity: %v\nMatch: %v",
 					res.Target, res.Type, secret.Title, secret.Severity, secret.Match),
 			})
 		}
@@ -253,11 +256,11 @@ func (sw *SarifWriter) Write(report types.Report) error {
 				resultIndex:      getRuleIndex(id, ruleIndexes),
 				shortDescription: desc,
 				fullDescription:  desc,
-				helpText: fmt.Sprintf(`License %s\nClassification: %s\nPkgName: %s\nPath: %s`,
+				helpText: fmt.Sprintf("License %s\nClassification: %s\nPkgName: %s\nPath: %s",
 					license.Name, license.Category, license.PkgName, license.FilePath),
-				helpMarkdown: fmt.Sprintf(`**License %s**\n| PkgName | Classification | Path |\n| --- | --- | --- |\n|%s|%s|%s|`,
+				helpMarkdown: fmt.Sprintf("**License %s**\n| PkgName | Classification | Path |\n| --- | --- | --- |\n|%s|%s|%s|",
 					license.Name, license.PkgName, license.Category, license.FilePath),
-				message: fmt.Sprintf(`Artifact: %s\nLicense %s\nPkgName: %s\n Classification: %s\n Path: %s`,
+				message: fmt.Sprintf("Artifact: %s\nLicense %s\nPkgName: %s\n Classification: %s\n Path: %s",
 					res.Target, license.Name, license.Category, license.PkgName, license.FilePath),
 			})
 		}
@@ -282,7 +285,7 @@ func toSarifLocations(locations []location, artifactLocation, locationMessage st
 	}
 
 	// some dependencies can be placed in multiple places.
-	// e.g.https://github.com/aquasecurity/go-dep-parser/pull/134#discussion_r985353240
+	// e.g.https://github.com/deepfactor-io/go-dep-parser/pull/134#discussion_r985353240
 	// create locations for each place.
 
 	for _, l := range locations {
@@ -346,7 +349,11 @@ func ToPathUri(input string, resultClass types.ResultClass) string {
 		input = ref.Context().RepositoryStr()
 	}
 
-	return strings.ReplaceAll(strings.ReplaceAll(input, "\\", "/"), "git::https:/", "")
+	return clearURI(input)
+}
+
+func clearURI(s string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(s, "\\", "/"), "git::https:/", "")
 }
 
 func (sw *SarifWriter) getLocations(name, version, path string, pkgs []ftypes.Package) []location {

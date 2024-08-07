@@ -8,8 +8,8 @@ import (
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image/registry/azure"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image/registry/ecr"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image/registry/google"
-	"github.com/deepfactor-io/trivy/v3/pkg/fanal/log"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 var (
@@ -41,7 +41,7 @@ func GetToken(ctx context.Context, domain string, opt types.RegistryOptions) (au
 		username, password, err := registry.GetCredential(ctx)
 		if err != nil {
 			// only skip check registry if error occurred
-			log.Logger.Debug(err)
+			log.Debug("Credential error", log.Err(err))
 			break
 		}
 		return authn.Basic{

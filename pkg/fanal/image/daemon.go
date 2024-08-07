@@ -21,8 +21,8 @@ func tryDockerDaemon(ctx context.Context, imageName string, ref name.Reference, 
 
 }
 
-func tryPodmanDaemon(ctx context.Context, imageName string, _ name.Reference, _ types.ImageOptions) (types.Image, func(), error) {
-	img, cleanup, err := daemon.PodmanImage(ctx, imageName)
+func tryPodmanDaemon(ctx context.Context, imageName string, _ name.Reference, opts types.ImageOptions) (types.Image, func(), error) {
+	img, cleanup, err := daemon.PodmanImage(ctx, imageName, opts.PodmanOptions.Host)
 	if err != nil {
 		return nil, nil, err
 	}

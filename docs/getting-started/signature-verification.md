@@ -45,9 +45,9 @@ You need the following tool:
 For example:
 
 ```shell
-$ wget "https://github.com/aquasecurity/trivy/releases/download/v0.45.0/trivy_0.45.0_Linux-32bit.tar.gz"
-$ wget "https://github.com/aquasecurity/trivy/releases/download/v0.45.0/trivy_0.45.0_Linux-32bit.tar.gz.pem"
-$ wget "https://github.com/aquasecurity/trivy/releases/download/v0.45.0/trivy_0.45.0_Linux-32bit.tar.gz.sig"
+$ wget "https://github.com/deepfactor-io/trivy/releases/download/v0.45.0/trivy_0.45.0_Linux-32bit.tar.gz"
+$ wget "https://github.com/deepfactor-io/trivy/releases/download/v0.45.0/trivy_0.45.0_Linux-32bit.tar.gz.pem"
+$ wget "https://github.com/deepfactor-io/trivy/releases/download/v0.45.0/trivy_0.45.0_Linux-32bit.tar.gz.sig"
 $ cosign verify-blob trivy_0.45.0_Linux-32bit.tar.gz \
   --certificate trivy_0.45.0_Linux-32bit.tar.gz.pem \
   --signature trivy_0.45.0_Linux-32bit.tar.gz.sig \
@@ -85,7 +85,7 @@ The public key downloaded [here](https://aquasecurity.github.io/trivy-repo/rpm/p
    
 4. Download the required binary
    ```shell
-   curl -L https://github.com/aquasecurity/trivy/releases/download/<version>/<file name>.rpm \
+   curl -L https://github.com/deepfactor-io/trivy/releases/download/<version>/<file name>.rpm \
    --output trivy.rpm
    ```
 5. Check the binary with the following command

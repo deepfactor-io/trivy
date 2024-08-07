@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/deepfactor-io/go-dep-parser/pkg/ruby/gemspec"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/ruby/gemspec"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"

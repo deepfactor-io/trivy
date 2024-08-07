@@ -6,7 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
@@ -28,37 +27,37 @@ var (
 				Misconfigurations: []types.DetectedMisconfiguration{
 					{
 						ID:       "ID100",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "LOW",
 					},
 					{
 						ID:       "ID101",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "MEDIUM",
 					},
 					{
 						ID:       "ID102",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "HIGH",
 					},
 					{
 						ID:       "ID103",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "CRITICAL",
 					},
 					{
 						ID:       "ID104",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "UNKNOWN",
 					},
 					{
 						ID:       "ID105",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "LOW",
 					},
 					{
 						ID:       "ID106",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "HIGH",
 					},
 				},
@@ -131,37 +130,37 @@ var (
 				Misconfigurations: []types.DetectedMisconfiguration{
 					{
 						ID:       "ID100",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "LOW",
 					},
 					{
 						ID:       "ID101",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "MEDIUM",
 					},
 					{
 						ID:       "ID102",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "HIGH",
 					},
 					{
 						ID:       "ID103",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "CRITICAL",
 					},
 					{
 						ID:       "ID104",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "UNKNOWN",
 					},
 					{
 						ID:       "ID105",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "LOW",
 					},
 					{
 						ID:       "ID106",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "HIGH",
 					},
 				},
@@ -244,7 +243,7 @@ var (
 				Misconfigurations: []types.DetectedMisconfiguration{
 					{
 						ID:       "ID100",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "MEDIUM",
 					},
 				},
@@ -258,7 +257,7 @@ var (
 		Name:      "lua",
 		Results: types.Results{
 			{
-				Secrets: []ftypes.SecretFinding{
+				Secrets: []types.DetectedSecret{
 					{
 						RuleID:   "secret1",
 						Severity: "CRITICAL",
@@ -281,28 +280,28 @@ var (
 				Misconfigurations: []types.DetectedMisconfiguration{
 					{
 						ID:       "KSV-ID100",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "LOW",
 					},
 					{
 						ID:       "KSV-ID101",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "MEDIUM",
 					},
 					{
 						ID:       "KSV-ID102",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "HIGH",
 					},
 
 					{
 						ID:       "KCV-ID100",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "LOW",
 					},
 					{
 						ID:       "KCV-ID101",
-						Status:   types.StatusFailure,
+						Status:   types.MisconfStatusFailure,
 						Severity: "MEDIUM",
 					},
 				},
@@ -516,7 +515,6 @@ func Test_separateMisconfigReports(t *testing.T) {
 		name            string
 		k8sReport       Report
 		scanners        types.Scanners
-		components      []string
 		expectedReports []Report
 	}{
 		{
@@ -526,38 +524,28 @@ func Test_separateMisconfigReports(t *testing.T) {
 				types.MisconfigScanner,
 				types.RBACScanner,
 			},
-			components: []string{
-				workloadComponent,
-				infraComponent,
-			},
 			expectedReports: []Report{
 				// the order matter for the test
 				{
 					Resources: []Resource{
 						{Kind: "Deployment"},
 						{Kind: "StatefulSet"},
-						{Kind: "Pod"},
 					},
 				},
-				{Resources: []Resource{{Kind: "Role"}}},
 				{Resources: []Resource{{Kind: "Pod"}}},
+				{Resources: []Resource{{Kind: "Role"}}},
 			},
 		},
 		{
 			name:      "Config and Infra for the same resource",
 			k8sReport: k8sReport,
 			scanners:  types.Scanners{types.MisconfigScanner},
-			components: []string{
-				workloadComponent,
-				infraComponent,
-			},
 			expectedReports: []Report{
 				// the order matter for the test
 				{
 					Resources: []Resource{
 						{Kind: "Deployment"},
 						{Kind: "StatefulSet"},
-						{Kind: "Pod"},
 					},
 				},
 				{Resources: []Resource{{Kind: "Pod"}}},
@@ -572,27 +560,39 @@ func Test_separateMisconfigReports(t *testing.T) {
 			},
 		},
 		{
-			name:       "Config Report Only",
-			k8sReport:  k8sReport,
-			scanners:   types.Scanners{types.MisconfigScanner},
-			components: []string{workloadComponent},
+			name:      "Config Report Only",
+			k8sReport: k8sReport,
+			scanners:  types.Scanners{types.MisconfigScanner},
 			expectedReports: []Report{
 				{
 					Resources: []Resource{
 						{Kind: "Deployment"},
 						{Kind: "StatefulSet"},
+					},
+				},
+				{
+					Resources: []Resource{
 						{Kind: "Pod"},
 					},
 				},
 			},
 		},
 		{
-			name:       "Infra Report Only",
-			k8sReport:  k8sReport,
-			scanners:   types.Scanners{types.MisconfigScanner},
-			components: []string{infraComponent},
+			name:      "Infra Report Only",
+			k8sReport: k8sReport,
+			scanners:  types.Scanners{types.MisconfigScanner},
 			expectedReports: []Report{
-				{Resources: []Resource{{Kind: "Pod"}}},
+				{
+					Resources: []Resource{
+						{Kind: "Deployment"},
+						{Kind: "StatefulSet"},
+					},
+				},
+				{
+					Resources: []Resource{
+						{Kind: "Pod"},
+					},
+				},
 			},
 		},
 
@@ -601,7 +601,7 @@ func Test_separateMisconfigReports(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			reports := SeparateMisconfigReports(tt.k8sReport, tt.scanners, tt.components)
+			reports := SeparateMisconfigReports(tt.k8sReport, tt.scanners)
 			assert.Equal(t, len(tt.expectedReports), len(reports))
 
 			for i := range reports {

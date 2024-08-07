@@ -7,7 +7,7 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/go-dep-parser/pkg/rust/binary"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/rust/binary"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
 	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"

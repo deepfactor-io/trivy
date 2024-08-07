@@ -5,12 +5,11 @@ import (
 	"errors"
 	"io"
 	"strings"
-	"sync"
 
 	"golang.org/x/xerrors"
 
 	cr "github.com/deepfactor-io/trivy/v3/pkg/compliance/report"
-	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
 	"github.com/deepfactor-io/trivy/v3/pkg/flag"
 	"github.com/deepfactor-io/trivy/v3/pkg/log"
 	"github.com/deepfactor-io/trivy/v3/pkg/report/cyclonedx"
@@ -61,7 +60,7 @@ func Write(ctx context.Context, report types.Report, option flag.Options) (err e
 
 	// Compliance report
 	if option.Compliance.Spec.ID != "" {
-		return complianceWrite(report, option, output)
+		return complianceWrite(ctx, report, option, output)
 	}
 
 	var writer Writer
@@ -71,14 +70,17 @@ func Write(ctx context.Context, report types.Report, option flag.Options) (err e
 			Output:               output,
 			Severities:           option.Severities,
 			Tree:                 option.DependencyTree,
-			ShowMessageOnce:      &sync.Once{},
+			ShowSuppressed:       option.ShowSuppressed,
 			IncludeNonFailures:   option.IncludeNonFailures,
 			Trace:                option.Trace,
 			LicenseRiskThreshold: option.LicenseRiskThreshold,
 			IgnoredLicenses:      option.IgnoredLicenses,
 		}
 	case types.FormatJSON:
-		writer = &JSONWriter{Output: output}
+		writer = &JSONWriter{
+			Output:      output,
+			ListAllPkgs: option.ListAllPkgs,
+		}
 	case types.FormatGitHub:
 		writer = &github.Writer{
 			Output:     output,
@@ -93,20 +95,19 @@ func Write(ctx context.Context, report types.Report, option flag.Options) (err e
 	case types.FormatTemplate:
 		// We keep `sarif.tpl` template working for backward compatibility for a while.
 		if strings.HasPrefix(option.Template, "@") && strings.HasSuffix(option.Template, "sarif.tpl") {
-			log.Logger.Warn("Using `--template sarif.tpl` is deprecated. Please migrate to `--format sarif`. See https://github.com/aquasecurity/trivy/discussions/1571")
+			log.Warn("Using `--template sarif.tpl` is deprecated. Please migrate to `--format sarif`. See https://github.com/deepfactor-io/trivy/discussions/1571")
 			writer = &SarifWriter{
 				Output:  output,
 				Version: option.AppVersion,
 			}
 			break
 		}
-		var err error
 		if writer, err = NewTemplateWriter(output, option.Template, option.AppVersion); err != nil {
 			return xerrors.Errorf("failed to initialize template writer: %w", err)
 		}
 	case types.FormatSarif:
 		target := ""
-		if report.ArtifactType == ftypes.ArtifactFilesystem {
+		if report.ArtifactType == artifact.TypeFilesystem {
 			target = option.Target
 		}
 		writer = &SarifWriter{
@@ -121,19 +122,19 @@ func Write(ctx context.Context, report types.Report, option flag.Options) (err e
 		return xerrors.Errorf("unknown format: %v", option.Format)
 	}
 
-	if err = writer.Write(report); err != nil {
+	if err = writer.Write(ctx, report); err != nil {
 		return xerrors.Errorf("failed to write results: %w", err)
 	}
 
 	return nil
 }
 
-func complianceWrite(report types.Report, opt flag.Options, output io.Writer) error {
+func complianceWrite(ctx context.Context, report types.Report, opt flag.Options, output io.Writer) error {
 	complianceReport, err := cr.BuildComplianceReport([]types.Results{report.Results}, opt.Compliance)
 	if err != nil {
 		return xerrors.Errorf("compliance report build error: %w", err)
 	}
-	return cr.Write(complianceReport, cr.Option{
+	return cr.Write(ctx, complianceReport, cr.Option{
 		Format:     opt.Format,
 		Report:     opt.ReportFormat,
 		Output:     output,
@@ -143,5 +144,5 @@ func complianceWrite(report types.Report, opt flag.Options, output io.Writer) er
 
 // Writer defines the result write operation
 type Writer interface {
-	Write(types.Report) error
+	Write(context.Context, types.Report) error
 }
