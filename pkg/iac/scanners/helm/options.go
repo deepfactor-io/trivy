@@ -1,8 +1,8 @@
 package helm
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/helm/parser"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/helm/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
 )
 
 type ConfigurableHelmScanner interface {

@@ -10,16 +10,16 @@ import (
 
 	k8sArtifacts "github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
 	"github.com/aquasecurity/trivy-kubernetes/pkg/k8s"
-	cmd "github.com/deepfactor-io/trivy/pkg/commands/artifact"
-	"github.com/deepfactor-io/trivy/pkg/commands/operation"
-	cr "github.com/deepfactor-io/trivy/pkg/compliance/report"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	k8sRep "github.com/deepfactor-io/trivy/pkg/k8s"
-	"github.com/deepfactor-io/trivy/pkg/k8s/report"
-	"github.com/deepfactor-io/trivy/pkg/k8s/scanner"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/version/doc"
+	cmd "github.com/deepfactor-io/trivy/v3/pkg/commands/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/commands/operation"
+	cr "github.com/deepfactor-io/trivy/v3/pkg/compliance/report"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	k8sRep "github.com/deepfactor-io/trivy/v3/pkg/k8s"
+	"github.com/deepfactor-io/trivy/v3/pkg/k8s/report"
+	"github.com/deepfactor-io/trivy/v3/pkg/k8s/scanner"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/version/doc"
 )
 
 // Run runs a k8s scan

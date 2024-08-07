@@ -8,9 +8,9 @@ import (
 	"github.com/liamg/jfather"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 // lockfile format defined at: https://stringbean.github.io/sbt-dependency-lock/file-formats/version-1.html

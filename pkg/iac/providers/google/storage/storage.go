@@ -1,8 +1,8 @@
 package storage
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/iam"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/google/iam"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 type Storage struct {

@@ -15,7 +15,7 @@ import (
 	"time"
 
 	"github.com/antchfx/htmlquery"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 	"golang.org/x/net/html"
 	"golang.org/x/sync/errgroup"
 )

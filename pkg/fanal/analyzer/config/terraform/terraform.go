@@ -3,10 +3,10 @@ package terraform
 import (
 	"os"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/config"
-	"github.com/deepfactor-io/trivy/pkg/iac/detection"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/config"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/detection"
+	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
 )
 
 const (

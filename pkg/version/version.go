@@ -6,10 +6,10 @@ import (
 
 	"github.com/aquasecurity/trivy-db/pkg/metadata"
 	javadb "github.com/deepfactor-io/javadb/pkg/db"
-	"github.com/deepfactor-io/trivy/pkg/db"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/policy"
-	"github.com/deepfactor-io/trivy/pkg/version/app"
+	"github.com/deepfactor-io/trivy/v3/pkg/db"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/policy"
+	"github.com/deepfactor-io/trivy/v3/pkg/version/app"
 )
 
 type VersionInfo struct {

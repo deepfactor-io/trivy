@@ -15,13 +15,13 @@ import (
 	"golang.org/x/sync/semaphore"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/utils"
-	fos "github.com/deepfactor-io/trivy/pkg/fanal/analyzer/os"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/utils"
+	fos "github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/os"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/misconf"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/misconf"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 var (

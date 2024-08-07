@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/python/pyproject"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/python/pyproject"
 )
 
 func TestParser_Parse(t *testing.T) {

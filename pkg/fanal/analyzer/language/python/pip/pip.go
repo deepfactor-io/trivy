@@ -15,13 +15,13 @@ import (
 	"golang.org/x/xerrors"
 
 	goversion "github.com/aquasecurity/go-version/pkg/version"
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/python/packaging"
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/python/pip"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/python/packaging"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/python/pip"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/utils/fsutils"
 )
 
 func init() {

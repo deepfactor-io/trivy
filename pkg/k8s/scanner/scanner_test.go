@@ -11,12 +11,12 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/aquasecurity/trivy-kubernetes/pkg/artifacts"
-	cmd "github.com/deepfactor-io/trivy/pkg/commands/artifact"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/purl"
-	"github.com/deepfactor-io/trivy/pkg/sbom/core"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
+	cmd "github.com/deepfactor-io/trivy/v3/pkg/commands/artifact"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/purl"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/v3/pkg/uuid"
 )
 
 func TestScanner_Scan(t *testing.T) {

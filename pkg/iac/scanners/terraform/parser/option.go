@@ -3,7 +3,7 @@ package parser
 import (
 	"io/fs"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
 )
 
 type ConfigurableTerraformParser interface {

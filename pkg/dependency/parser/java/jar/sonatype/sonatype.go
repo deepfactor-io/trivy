@@ -12,8 +12,8 @@ import (
 	"github.com/hashicorp/go-retryablehttp"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/java/jar"
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/utils"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/java/jar"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/utils"
 )
 
 const (

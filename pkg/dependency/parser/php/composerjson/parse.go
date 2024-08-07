@@ -10,8 +10,8 @@ import (
 	"golang.org/x/exp/maps"
 	"golang.org/x/xerrors"
 
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 type composerJSON struct {

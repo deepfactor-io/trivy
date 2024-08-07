@@ -3,8 +3,8 @@ package vex
 import (
 	openvex "github.com/openvex/go-vex/pkg/vex"
 
-	"github.com/deepfactor-io/trivy/pkg/sbom/core"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 type OpenVEX struct {

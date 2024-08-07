@@ -9,8 +9,8 @@ import (
 
 	"github.com/zclconf/go-cty/cty"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform/parser/resolvers"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform/parser/resolvers"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 type ModuleDefinition struct {

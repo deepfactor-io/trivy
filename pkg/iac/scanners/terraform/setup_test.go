@@ -6,11 +6,11 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform/parser"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 func createModulesFromSource(t *testing.T, source, ext string) terraform.Modules {

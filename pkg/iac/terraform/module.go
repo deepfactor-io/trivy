@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/ignore"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/ignore"
 )
 
 type Module struct {

@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
 )
 
 func Test_basic_cloudformation_scanning(t *testing.T) {

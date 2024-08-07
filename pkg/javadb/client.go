@@ -16,10 +16,10 @@ import (
 
 	"github.com/deepfactor-io/javadb/pkg/db"
 	"github.com/deepfactor-io/javadb/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/java/jar"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/oci"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/java/jar"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/oci"
 )
 
 const (

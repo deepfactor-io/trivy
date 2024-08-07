@@ -3,10 +3,10 @@ package executor
 import (
 	"io"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/debug"
-	"github.com/deepfactor-io/trivy/pkg/iac/framework"
-	"github.com/deepfactor-io/trivy/pkg/iac/rego"
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/rego"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
 )
 
 type Option func(s *Executor)

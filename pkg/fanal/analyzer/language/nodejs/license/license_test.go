@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language/nodejs/license"
-	"github.com/deepfactor-io/trivy/pkg/mapfs"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language/nodejs/license"
+	"github.com/deepfactor-io/trivy/v3/pkg/mapfs"
 )
 
 func Test_ParseLicenses(t *testing.T) {

@@ -6,10 +6,10 @@ import (
 	"io/fs"
 	"testing"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/rules"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform/executor"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform/parser"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/rules"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform/executor"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform/parser"
 )
 
 func BenchmarkCalculate(b *testing.B) {

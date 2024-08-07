@@ -9,7 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 var (

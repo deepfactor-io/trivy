@@ -19,9 +19,9 @@ import (
 	"k8s.io/utils/clock"
 	fake "k8s.io/utils/clock/testing"
 
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/oci"
-	"github.com/deepfactor-io/trivy/pkg/policy"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/oci"
+	"github.com/deepfactor-io/trivy/v3/pkg/policy"
 )
 
 type fakeLayer struct {

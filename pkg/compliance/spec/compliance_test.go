@@ -6,9 +6,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/compliance/spec"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 func TestComplianceSpec_Scanners(t *testing.T) {

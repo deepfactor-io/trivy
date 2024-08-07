@@ -10,14 +10,14 @@ import (
 	"github.com/bmatcuk/doublestar/v4"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/conda/environment"
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/conda/meta"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/version/doc"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/conda/environment"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/conda/meta"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/version/doc"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 func init() {

@@ -1,8 +1,8 @@
 package ec2
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ec2"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/ec2"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
 )
 
 func getSubnets(ctx parser.FileContext) (subnets []ec2.Subnet) {

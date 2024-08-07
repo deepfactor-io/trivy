@@ -3,10 +3,10 @@ package dns
 import (
 	"testing"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/tftestutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/nifcloud/dns"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/tftestutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/nifcloud/dns"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func Test_adaptRecords(t *testing.T) {

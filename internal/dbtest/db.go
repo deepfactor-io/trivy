@@ -11,7 +11,7 @@ import (
 	fixtures "github.com/aquasecurity/bolt-fixtures"
 	trivydb "github.com/aquasecurity/trivy-db/pkg/db"
 	jdb "github.com/deepfactor-io/javadb/pkg/db"
-	"github.com/deepfactor-io/trivy/pkg/db"
+	"github.com/deepfactor-io/trivy/v3/pkg/db"
 )
 
 // InitDB initializes testing database.

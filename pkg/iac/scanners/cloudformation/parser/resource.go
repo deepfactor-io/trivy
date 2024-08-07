@@ -7,7 +7,7 @@ import (
 	"github.com/liamg/jfather"
 	"gopkg.in/yaml.v3"
 
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 type Resource struct {

@@ -8,9 +8,9 @@ import (
 
 	s3types "github.com/aws/aws-sdk-go-v2/service/s3/types"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/s3"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/s3"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 var aclConvertRegex = regexp.MustCompile(`[A-Z][^A-Z]*`)

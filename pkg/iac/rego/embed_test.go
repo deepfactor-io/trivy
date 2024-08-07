@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/require"
 
 	checks "github.com/aquasecurity/trivy-checks"
-	"github.com/deepfactor-io/trivy/pkg/iac/rules"
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/rules"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
 )
 
 func Test_EmbeddedLoading(t *testing.T) {

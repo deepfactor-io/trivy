@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func (p *parser) parseNumber(parentMetadata *types.Metadata) (Node, error) {

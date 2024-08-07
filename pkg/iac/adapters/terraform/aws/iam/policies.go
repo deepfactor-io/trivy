@@ -3,9 +3,9 @@ package iam
 import (
 	"github.com/liamg/iamgo"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/iam"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/iam"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func parsePolicy(policyBlock *terraform.Block, modules terraform.Modules) (iam.Policy, error) {

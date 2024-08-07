@@ -1,8 +1,8 @@
 package cloudwatch
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/cloudwatch"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/cloudwatch"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
 )
 
 func getLogGroups(ctx parser.FileContext) (logGroups []cloudwatch.LogGroup) {

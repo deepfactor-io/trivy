@@ -1,8 +1,8 @@
 package apigateway
 
 import (
-	v1 "github.com/deepfactor-io/trivy/pkg/iac/providers/aws/apigateway/v1"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	v1 "github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/apigateway/v1"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
 )
 
 func adaptAPIsV1(fctx parser.FileContext) []v1.API {

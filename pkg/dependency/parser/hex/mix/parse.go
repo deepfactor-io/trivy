@@ -5,11 +5,11 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency"
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/utils"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/utils"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 // Parser is a parser for mix.lock

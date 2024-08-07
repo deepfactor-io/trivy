@@ -14,7 +14,7 @@ import (
 
 	"github.com/liamg/memoryfs"
 
-	iox "github.com/deepfactor-io/trivy/pkg/x/io"
+	iox "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 const (

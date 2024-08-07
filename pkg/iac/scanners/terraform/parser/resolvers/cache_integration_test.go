@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform/parser/resolvers"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform/parser/resolvers"
 )
 
 type moduleResolver interface {

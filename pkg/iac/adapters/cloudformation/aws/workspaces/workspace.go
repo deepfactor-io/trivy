@@ -1,8 +1,8 @@
 package workspaces
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/workspaces"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/workspaces"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
 )
 
 func getWorkSpaces(ctx parser.FileContext) (workSpaces []workspaces.WorkSpace) {

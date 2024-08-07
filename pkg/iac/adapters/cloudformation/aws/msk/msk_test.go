@@ -3,9 +3,9 @@ package msk
 import (
 	"testing"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/cloudformation/testutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/msk"
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/cloudformation/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/msk"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func TestAdapt(t *testing.T) {

@@ -17,16 +17,16 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nodejs/packagejson"
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nodejs/yarn"
-	"github.com/deepfactor-io/trivy/pkg/detector/library/compare/npm"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language/nodejs/license"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/nodejs/packagejson"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/nodejs/yarn"
+	"github.com/deepfactor-io/trivy/v3/pkg/detector/library/compare/npm"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language/nodejs/license"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/utils/fsutils"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 func init() {

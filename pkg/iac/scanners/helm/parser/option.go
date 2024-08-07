@@ -1,6 +1,6 @@
 package parser
 
-import "github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
+import "github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
 
 type ConfigurableHelmParser interface {
 	options.ConfigurableParser

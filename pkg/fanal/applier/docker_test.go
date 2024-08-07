@@ -7,8 +7,8 @@ import (
 	"github.com/package-url/packageurl-go"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/applier"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/applier"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 func TestApplyLayers(t *testing.T) {

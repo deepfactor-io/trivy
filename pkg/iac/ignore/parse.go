@@ -7,8 +7,8 @@ import (
 
 	"github.com/samber/lo"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 // RuleSectionParser defines the interface for parsing ignore rules.

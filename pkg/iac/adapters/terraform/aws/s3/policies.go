@@ -1,9 +1,9 @@
 package s3
 
 import (
-	iamAdapter "github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/aws/iam"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/iam"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	iamAdapter "github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/aws/iam"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/iam"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func (a *adapter) adaptBucketPolicies() {

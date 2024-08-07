@@ -8,9 +8,9 @@ import (
 
 	"golang.org/x/xerrors"
 
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/licensing"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
 )
 
 const specNewStr = "Gem::Specification.new"

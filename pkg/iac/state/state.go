@@ -3,17 +3,17 @@ package state
 import (
 	"reflect"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/azure"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/cloudstack"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/digitalocean"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/github"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/google"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/kubernetes"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/nifcloud"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/openstack"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/oracle"
-	"github.com/deepfactor-io/trivy/pkg/iac/rego/convert"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/azure"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/cloudstack"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/digitalocean"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/github"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/google"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/kubernetes"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/nifcloud"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/openstack"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/oracle"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/rego/convert"
 )
 
 type State struct {

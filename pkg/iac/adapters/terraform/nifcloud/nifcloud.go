@@ -1,14 +1,14 @@
 package nifcloud
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/nifcloud/computing"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/nifcloud/dns"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/nifcloud/nas"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/nifcloud/network"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/nifcloud/rdb"
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/nifcloud/sslcertificate"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/nifcloud"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/nifcloud/computing"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/nifcloud/dns"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/nifcloud/nas"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/nifcloud/network"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/nifcloud/rdb"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/nifcloud/sslcertificate"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/nifcloud"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 func Adapt(modules terraform.Modules) nifcloud.Nifcloud {

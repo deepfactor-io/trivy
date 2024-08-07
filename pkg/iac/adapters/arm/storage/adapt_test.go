@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	azure2 "github.com/deepfactor-io/trivy/pkg/iac/scanners/azure"
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	azure2 "github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func Test_AdaptStorageDefaults(t *testing.T) {

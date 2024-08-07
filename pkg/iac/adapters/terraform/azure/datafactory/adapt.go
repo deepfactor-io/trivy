@@ -1,8 +1,8 @@
 package datafactory
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/azure/datafactory"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/azure/datafactory"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 func Adapt(modules terraform.Modules) datafactory.DataFactory {

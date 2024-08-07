@@ -3,8 +3,8 @@ package iam
 import (
 	"github.com/samber/lo"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/iam"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/google/iam"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 func Adapt(modules terraform.Modules) iam.IAM {

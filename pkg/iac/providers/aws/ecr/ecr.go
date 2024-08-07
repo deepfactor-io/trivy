@@ -1,8 +1,8 @@
 package ecr
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/iam"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/iam"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 type ECR struct {

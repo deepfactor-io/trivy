@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/parallel"
+	"github.com/deepfactor-io/trivy/v3/pkg/parallel"
 )
 
 func TestPipeline_Do(t *testing.T) {

@@ -1,6 +1,6 @@
 package armjson
 
-import "github.com/deepfactor-io/trivy/pkg/iac/types"
+import "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 
 type Node interface {
 	Comments() []Node

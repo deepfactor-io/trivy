@@ -1,7 +1,7 @@
 package s3
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/s3"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/s3"
 )
 
 func (a *adapter) adaptPublicAccessBlocks() {

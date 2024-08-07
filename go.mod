@@ -1,4 +1,4 @@
-module github.com/deepfactor-io/trivy
+module github.com/deepfactor-io/trivy/v3
 
 go 1.22.0
 
