@@ -70,7 +70,7 @@ func (a *nugetLibraryAnalyzer) PostAnalyze(_ context.Context, input analyzer.Pos
 	// We save only config and lock files in the filtered FS,
 	// so we need to parse all saved files
 	// Note: If deep license scan is enabled, we'll save every file in the FS,
-	// so exquiste check is required here
+	// so explicit check is required here
 	required := func(path string, d fs.DirEntry) bool {
 		fileName := filepath.Base(path)
 		return slices.Contains(requiredFiles, fileName)
