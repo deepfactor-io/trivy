@@ -10,11 +10,11 @@ import (
 	"github.com/stretchr/testify/require"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/result"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/result"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 func TestFilter(t *testing.T) {

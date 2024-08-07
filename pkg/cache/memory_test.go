@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 func TestMemoryCache_PutArtifact(t *testing.T) {

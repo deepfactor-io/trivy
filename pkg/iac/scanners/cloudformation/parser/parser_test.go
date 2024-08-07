@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
 )
 
 func parseFile(t *testing.T, source, name string) (FileContexts, error) {

@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/plugin"
+	"github.com/deepfactor-io/trivy/v3/pkg/plugin"
 )
 
 func TestManager_Update(t *testing.T) {

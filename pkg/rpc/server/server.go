@@ -8,14 +8,14 @@ import (
 	"golang.org/x/xerrors"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/deepfactor-io/trivy/pkg/cache"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/rpc"
-	"github.com/deepfactor-io/trivy/pkg/scanner"
-	"github.com/deepfactor-io/trivy/pkg/scanner/local"
-	"github.com/deepfactor-io/trivy/pkg/types"
-	rpcCache "github.com/deepfactor-io/trivy/rpc/cache"
-	rpcScanner "github.com/deepfactor-io/trivy/rpc/scanner"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/rpc"
+	"github.com/deepfactor-io/trivy/v3/pkg/scanner"
+	"github.com/deepfactor-io/trivy/v3/pkg/scanner/local"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
+	rpcCache "github.com/deepfactor-io/trivy/v3/rpc/cache"
+	rpcScanner "github.com/deepfactor-io/trivy/v3/rpc/scanner"
 )
 
 // ScanSuperSet binds the dependencies for server

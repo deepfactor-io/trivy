@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/deepfactor-io/trivy/pkg/cache"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 var (

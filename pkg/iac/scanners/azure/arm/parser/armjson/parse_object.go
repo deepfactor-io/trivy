@@ -1,7 +1,7 @@
 package armjson
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func (p *parser) parseObject(parentMetadata *types.Metadata) (Node, error) {

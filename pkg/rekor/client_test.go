@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/rekor"
+	"github.com/deepfactor-io/trivy/v3/pkg/rekor"
 )
 
 func TestClient_Search(t *testing.T) {

@@ -15,11 +15,11 @@ import (
 	apkVersion "github.com/knqyf263/go-apk-version"
 	"github.com/samber/lo"
 
-	"github.com/deepfactor-io/trivy/pkg/digest"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/licensing"
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/digest"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 func init() {

@@ -6,10 +6,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/php/composerjson"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/php/composerjson"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 	"golang.org/x/exp/slices"
 )
 

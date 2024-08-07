@@ -3,9 +3,9 @@ package ec2
 import (
 	"strconv"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ec2"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/ec2"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func getNetworkACLs(ctx parser.FileContext) (acls []ec2.NetworkACL) {

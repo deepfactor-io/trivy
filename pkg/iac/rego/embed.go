@@ -9,7 +9,7 @@ import (
 	"github.com/open-policy-agent/opa/ast"
 
 	checks "github.com/aquasecurity/trivy-checks"
-	"github.com/deepfactor-io/trivy/pkg/iac/rules"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/rules"
 )
 
 func init() {

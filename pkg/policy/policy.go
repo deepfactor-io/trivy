@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/oci"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/oci"
 	"github.com/open-policy-agent/opa/bundle"
 
 	"golang.org/x/xerrors"

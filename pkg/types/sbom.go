@@ -1,8 +1,8 @@
 package types
 
 import (
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/sbom/core"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/core"
 )
 
 type SBOMSource = string

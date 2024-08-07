@@ -13,8 +13,8 @@ import (
 	"github.com/aquasecurity/table"
 	"github.com/aquasecurity/tml"
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 type pkgLicenseRenderer struct {

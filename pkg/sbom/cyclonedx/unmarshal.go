@@ -11,10 +11,10 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/digest"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/sbom/core"
+	"github.com/deepfactor-io/trivy/v3/pkg/digest"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/core"
 )
 
 var (

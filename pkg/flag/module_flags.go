@@ -1,7 +1,7 @@
 package flag
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/module"
+	"github.com/deepfactor-io/trivy/v3/pkg/module"
 )
 
 // e.g. config yaml

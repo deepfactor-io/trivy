@@ -8,12 +8,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/debug"
-	azure2 "github.com/deepfactor-io/trivy/pkg/iac/scanners/azure"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure/arm/parser/armjson"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure/resolver"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/debug"
+	azure2 "github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure/arm/parser/armjson"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure/resolver"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 type Parser struct {

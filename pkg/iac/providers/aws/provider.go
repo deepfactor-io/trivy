@@ -1,6 +1,6 @@
 package aws
 
-import "github.com/deepfactor-io/trivy/pkg/iac/types"
+import "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 
 type TerraformProvider struct {
 	Metadata types.Metadata

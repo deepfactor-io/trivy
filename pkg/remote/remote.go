@@ -18,10 +18,10 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/image/registry"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/version/app"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image/registry"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/version/app"
 )
 
 type Descriptor = remote.Descriptor

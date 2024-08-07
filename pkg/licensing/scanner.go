@@ -4,7 +4,7 @@ import (
 	"slices"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 type ScannerOption struct {

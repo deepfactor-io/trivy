@@ -7,8 +7,8 @@ import (
 
 	"github.com/open-policy-agent/opa/rego"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 type regoResult struct {

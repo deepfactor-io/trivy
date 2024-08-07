@@ -3,9 +3,9 @@ package storage
 import (
 	"strings"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/azure/storage"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/azure"
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/azure/storage"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func Adapt(deployment azure.Deployment) storage.Storage {

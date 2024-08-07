@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/rego/convert"
-	"github.com/deepfactor-io/trivy/pkg/iac/state"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/rego/convert"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/state"
 )
 
 type RawSchema struct {

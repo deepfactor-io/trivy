@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/detector/library/compare/rubygems"
+	"github.com/deepfactor-io/trivy/v3/pkg/detector/library/compare/rubygems"
 )
 
 func TestRubyGemsComparer_IsVulnerable(t *testing.T) {

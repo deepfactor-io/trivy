@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	config "github.com/deepfactor-io/trivy/pkg/dependency/parser/nuget/packagesprops"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+	config "github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/nuget/packagesprops"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 func TestParse(t *testing.T) {

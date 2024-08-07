@@ -5,13 +5,13 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/cache"
-	"github.com/deepfactor-io/trivy/pkg/commands/operation"
-	"github.com/deepfactor-io/trivy/pkg/db"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/module"
-	rpcServer "github.com/deepfactor-io/trivy/pkg/rpc/server"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/commands/operation"
+	"github.com/deepfactor-io/trivy/v3/pkg/db"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/module"
+	rpcServer "github.com/deepfactor-io/trivy/v3/pkg/rpc/server"
 )
 
 // Run runs the scan

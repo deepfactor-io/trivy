@@ -10,14 +10,14 @@ import (
 
 	"github.com/liamg/memoryfs"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/debug"
-	"github.com/deepfactor-io/trivy/pkg/iac/framework"
-	"github.com/deepfactor-io/trivy/pkg/iac/rego"
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/kubernetes/parser"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/rego"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/kubernetes/parser"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 var _ scanners.FSScanner = (*Scanner)(nil)

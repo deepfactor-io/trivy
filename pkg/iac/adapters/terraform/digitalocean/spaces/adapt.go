@@ -3,9 +3,9 @@ package spaces
 import (
 	"github.com/google/uuid"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/digitalocean/spaces"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/digitalocean/spaces"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func Adapt(modules terraform.Modules) spaces.Spaces {

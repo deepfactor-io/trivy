@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/tftestutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/tftestutil"
 )
 
 func Test_Networking(t *testing.T) {

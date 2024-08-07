@@ -13,14 +13,14 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	sbomatt "github.com/deepfactor-io/trivy/pkg/attestation/sbom"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact/sbom"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/oci"
-	"github.com/deepfactor-io/trivy/pkg/remote"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	sbomatt "github.com/deepfactor-io/trivy/v3/pkg/attestation/sbom"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact/sbom"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/oci"
+	"github.com/deepfactor-io/trivy/v3/pkg/remote"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 var errNoSBOMFound = xerrors.New("remote SBOM not found")

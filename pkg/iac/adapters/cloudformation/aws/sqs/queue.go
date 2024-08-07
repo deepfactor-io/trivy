@@ -5,10 +5,10 @@ import (
 
 	"github.com/liamg/iamgo"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/iam"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/sqs"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/iam"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/sqs"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func getQueues(ctx parser.FileContext) (queues []sqs.Queue) {

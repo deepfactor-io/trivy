@@ -1,7 +1,7 @@
 package elb
 
 import (
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 type ELB struct {

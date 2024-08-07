@@ -14,16 +14,16 @@ import (
 	"github.com/samber/lo"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/cache"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/fanal/handler"
-	"github.com/deepfactor-io/trivy/pkg/fanal/image"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/fanal/walker"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/parallel"
-	"github.com/deepfactor-io/trivy/pkg/semaphore"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/handler"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/image"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/walker"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/parallel"
+	"github.com/deepfactor-io/trivy/v3/pkg/semaphore"
 )
 
 type Artifact struct {

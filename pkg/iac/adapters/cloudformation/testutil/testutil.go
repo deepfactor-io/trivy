@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/deepfactor-io/trivy/internal/testutil"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/parser"
+	"github.com/deepfactor-io/trivy/v3/internal/testutil"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/parser"
 )
 
 type adaptFn[T any] func(fctx parser.FileContext) T

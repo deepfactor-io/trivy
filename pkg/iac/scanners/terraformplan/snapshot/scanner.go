@@ -7,9 +7,9 @@ import (
 	"io"
 	"io/fs"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
-	terraformScanner "github.com/deepfactor-io/trivy/pkg/iac/scanners/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
+	terraformScanner "github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/terraform"
 )
 
 type Scanner struct {

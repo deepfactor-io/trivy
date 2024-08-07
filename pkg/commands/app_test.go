@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/require"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/flag"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/flag"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 func Test_showVersion(t *testing.T) {

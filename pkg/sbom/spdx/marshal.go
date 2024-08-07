@@ -16,13 +16,13 @@ import (
 	spdxutils "github.com/spdx/tools-golang/utils"
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/digest"
-	"github.com/deepfactor-io/trivy/pkg/licensing"
-	"github.com/deepfactor-io/trivy/pkg/licensing/expression"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/sbom/core"
-	sbomio "github.com/deepfactor-io/trivy/pkg/sbom/io"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/digest"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing"
+	"github.com/deepfactor-io/trivy/v3/pkg/licensing/expression"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/core"
+	sbomio "github.com/deepfactor-io/trivy/v3/pkg/sbom/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 const (

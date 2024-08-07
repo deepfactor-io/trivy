@@ -6,10 +6,10 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"github.com/aquasecurity/trivy-checks/pkg/specs"
-	"github.com/deepfactor-io/trivy/pkg/iac/framework"
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
-	dftypes "github.com/deepfactor-io/trivy/pkg/iac/types"
-	ruleTypes "github.com/deepfactor-io/trivy/pkg/iac/types/rules"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/framework"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
+	dftypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
+	ruleTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types/rules"
 )
 
 type registry struct {

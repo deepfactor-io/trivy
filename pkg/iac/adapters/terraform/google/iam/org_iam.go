@@ -3,9 +3,9 @@ package iam
 import (
 	"github.com/google/uuid"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/iam"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/google/iam"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 // see https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_organization_iam

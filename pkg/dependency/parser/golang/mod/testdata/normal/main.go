@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/golang/mod"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/golang/mod"
 )
 
 func main() {

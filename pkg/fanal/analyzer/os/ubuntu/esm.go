@@ -8,8 +8,8 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 )
 
 func init() {

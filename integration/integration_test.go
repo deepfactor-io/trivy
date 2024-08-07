@@ -27,12 +27,12 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 
 	"github.com/aquasecurity/trivy-db/pkg/metadata"
-	"github.com/deepfactor-io/trivy/internal/dbtest"
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	"github.com/deepfactor-io/trivy/pkg/commands"
-	"github.com/deepfactor-io/trivy/pkg/db"
-	"github.com/deepfactor-io/trivy/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/uuid"
+	"github.com/deepfactor-io/trivy/v3/internal/dbtest"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/commands"
+	"github.com/deepfactor-io/trivy/v3/pkg/db"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/uuid"
 
 	_ "modernc.org/sqlite"
 )

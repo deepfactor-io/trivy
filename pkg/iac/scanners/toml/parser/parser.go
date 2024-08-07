@@ -8,9 +8,9 @@ import (
 
 	"github.com/BurntSushi/toml"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/debug"
-	"github.com/deepfactor-io/trivy/pkg/iac/detection"
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/options"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/debug"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/detection"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/options"
 )
 
 var _ options.ConfigurableParser = (*Parser)(nil)

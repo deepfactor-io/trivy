@@ -15,14 +15,14 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/aquasecurity/trivy-db/pkg/metadata"
-	"github.com/deepfactor-io/trivy/internal/dbtest"
-	"github.com/deepfactor-io/trivy/pkg/cache"
-	"github.com/deepfactor-io/trivy/pkg/clock"
-	"github.com/deepfactor-io/trivy/pkg/db"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/policy"
-	"github.com/deepfactor-io/trivy/pkg/version"
-	rpcCache "github.com/deepfactor-io/trivy/rpc/cache"
+	"github.com/deepfactor-io/trivy/v3/internal/dbtest"
+	"github.com/deepfactor-io/trivy/v3/pkg/cache"
+	"github.com/deepfactor-io/trivy/v3/pkg/clock"
+	"github.com/deepfactor-io/trivy/v3/pkg/db"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/policy"
+	"github.com/deepfactor-io/trivy/v3/pkg/version"
+	rpcCache "github.com/deepfactor-io/trivy/v3/rpc/cache"
 )
 
 func Test_dbWorker_update(t *testing.T) {

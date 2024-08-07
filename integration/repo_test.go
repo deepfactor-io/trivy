@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/deepfactor-io/trivy/pkg/fanal/artifact"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/artifact"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 	"github.com/stretchr/testify/require"
 )
 

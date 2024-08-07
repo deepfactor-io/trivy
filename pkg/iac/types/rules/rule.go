@@ -1,7 +1,7 @@
 package rules
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/scan"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scan"
 )
 
 type RegisteredRule struct {

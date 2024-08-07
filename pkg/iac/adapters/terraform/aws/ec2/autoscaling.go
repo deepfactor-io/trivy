@@ -3,9 +3,9 @@ package ec2
 import (
 	"encoding/base64"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/ec2"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/ec2"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func adaptLaunchTemplates(modules terraform.Modules) (templates []ec2.LaunchTemplate) {

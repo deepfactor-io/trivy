@@ -14,7 +14,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/deepfactor-io/trivy/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
 )
 
 func TestColorHandler(t *testing.T) {

@@ -9,8 +9,8 @@ import (
 	"github.com/liamg/jfather"
 	"gopkg.in/yaml.v3"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/scanners/cloudformation/cftypes"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/cloudformation/cftypes"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 type EqualityOptions = int

@@ -7,9 +7,9 @@ import (
 	"golang.org/x/xerrors"
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
-	"github.com/deepfactor-io/trivy/pkg/compliance/spec"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/compliance/spec"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 const (

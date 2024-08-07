@@ -1,9 +1,9 @@
 package cloudfront
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/aws/cloudfront"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	"github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/aws/cloudfront"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func Adapt(modules terraform.Modules) cloudfront.Cloudfront {

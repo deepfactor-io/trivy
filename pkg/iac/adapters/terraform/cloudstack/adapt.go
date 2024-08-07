@@ -1,9 +1,9 @@
 package cloudstack
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/adapters/terraform/cloudstack/compute"
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/cloudstack"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/adapters/terraform/cloudstack/compute"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/cloudstack"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
 )
 
 func Adapt(modules terraform.Modules) cloudstack.CloudStack {

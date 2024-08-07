@@ -8,10 +8,10 @@ import (
 
 	dbTypes "github.com/aquasecurity/trivy-db/pkg/types"
 	"github.com/aquasecurity/trivy-db/pkg/vulnsrc/chainguard"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/scanner/utils"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/scanner/utils"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 // Scanner implements the Chainguard scanner

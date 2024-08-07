@@ -1,7 +1,7 @@
 package iam
 
 import (
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/google/iam"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/google/iam"
 )
 
 // See https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/iam_workload_identity_pool_provider

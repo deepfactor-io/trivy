@@ -1,6 +1,6 @@
 package pipenv
 
-import ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
+import ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
 
 var (
 	// docker run --name pipenv --rm -it python:3.9-alpine sh

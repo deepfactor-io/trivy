@@ -11,10 +11,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	sbomio "github.com/deepfactor-io/trivy/pkg/sbom/io"
-	"github.com/deepfactor-io/trivy/pkg/sbom/spdx"
-	"github.com/deepfactor-io/trivy/pkg/types"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	sbomio "github.com/deepfactor-io/trivy/v3/pkg/sbom/io"
+	"github.com/deepfactor-io/trivy/v3/pkg/sbom/spdx"
+	"github.com/deepfactor-io/trivy/v3/pkg/types"
 )
 
 func TestUnmarshaler_Unmarshal(t *testing.T) {

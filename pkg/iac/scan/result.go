@@ -7,9 +7,9 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/ignore"
-	"github.com/deepfactor-io/trivy/pkg/iac/severity"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/ignore"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/severity"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 type Status uint8

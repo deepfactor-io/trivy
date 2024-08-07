@@ -11,15 +11,15 @@ import (
 
 	"golang.org/x/xerrors"
 
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nodejs/npm"
-	"github.com/deepfactor-io/trivy/pkg/dependency/parser/nodejs/packagejson"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer"
-	"github.com/deepfactor-io/trivy/pkg/fanal/analyzer/language"
-	"github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
-	xio "github.com/deepfactor-io/trivy/pkg/x/io"
-	xpath "github.com/deepfactor-io/trivy/pkg/x/path"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/nodejs/npm"
+	"github.com/deepfactor-io/trivy/v3/pkg/dependency/parser/nodejs/packagejson"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/analyzer/language"
+	"github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/utils/fsutils"
+	xio "github.com/deepfactor-io/trivy/v3/pkg/x/io"
+	xpath "github.com/deepfactor-io/trivy/v3/pkg/x/path"
 )
 
 func init() {

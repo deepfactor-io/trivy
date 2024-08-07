@@ -1,7 +1,7 @@
 package expressions
 
 import (
-	functions2 "github.com/deepfactor-io/trivy/pkg/iac/scanners/azure/functions"
+	functions2 "github.com/deepfactor-io/trivy/v3/pkg/iac/scanners/azure/functions"
 )
 
 type Node interface {

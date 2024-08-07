@@ -14,10 +14,10 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"github.com/aquasecurity/go-version/pkg/semver"
-	"github.com/deepfactor-io/trivy/pkg/downloader"
-	ftypes "github.com/deepfactor-io/trivy/pkg/fanal/types"
-	"github.com/deepfactor-io/trivy/pkg/log"
-	"github.com/deepfactor-io/trivy/pkg/utils/fsutils"
+	"github.com/deepfactor-io/trivy/v3/pkg/downloader"
+	ftypes "github.com/deepfactor-io/trivy/v3/pkg/fanal/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/log"
+	"github.com/deepfactor-io/trivy/v3/pkg/utils/fsutils"
 )
 
 const configFile = "plugin.yaml"

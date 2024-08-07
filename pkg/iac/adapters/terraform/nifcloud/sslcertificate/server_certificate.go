@@ -4,9 +4,9 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 
-	"github.com/deepfactor-io/trivy/pkg/iac/providers/nifcloud/sslcertificate"
-	"github.com/deepfactor-io/trivy/pkg/iac/terraform"
-	iacTypes "github.com/deepfactor-io/trivy/pkg/iac/types"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/providers/nifcloud/sslcertificate"
+	"github.com/deepfactor-io/trivy/v3/pkg/iac/terraform"
+	iacTypes "github.com/deepfactor-io/trivy/v3/pkg/iac/types"
 )
 
 func adaptServerCertificates(modules terraform.Modules) []sslcertificate.ServerCertificate {
