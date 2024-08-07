@@ -41,9 +41,6 @@ type Updater struct {
 }
 
 func (u *Updater) Update(ctx context.Context) error {
-	// logger object
-	logger, _ := log.NewLogger(true, false)
-
 	dbDir := u.dbDir
 	metac := db.NewMetadata(dbDir)
 
@@ -64,7 +61,7 @@ func (u *Updater) Update(ctx context.Context) error {
 
 		// TODO: support remote options
 		var a *oci.Artifact
-		if a, err = oci.NewArtifact(u.repo, u.quiet, u.registryOption); err != nil {
+		if a, err = oci.NewArtifact(u.repo.String(), u.quiet, u.registryOption); err != nil {
 			return xerrors.Errorf("oci error: %w", err)
 		}
 
@@ -84,7 +81,7 @@ func (u *Updater) Update(ctx context.Context) error {
 			return xerrors.Errorf("Java DB metadata update error: %w", err)
 		}
 
-		logger.Infof("Java DB download complete. Last Updated At: %s", meta.UpdatedAt.String())
+		log.Infof("Java DB download complete. Last Updated At: %s", meta.UpdatedAt.String())
 
 		log.Info("The Java DB is cached for 3 days. If you want to update the database more frequently, " +
 			"the '--reset' flag clears the DB cache.")
@@ -101,22 +98,6 @@ func Init(cacheDir string, javaDBRepository name.Reference, skip, quiet bool, re
 		quiet:          quiet,
 		registryOption: registryOption,
 	}
-}
-
-func NewUpdater(
-	cacheDir, javaDBRepository string,
-	skip, quiet bool,
-	registryOption ftypes.RegistryOptions,
-) *Updater {
-	updater = &Updater{
-		repo:           fmt.Sprintf("%s:%d", javaDBRepository, db.SchemaVersion),
-		dbDir:          filepath.Join(cacheDir, "java-db"),
-		skip:           skip,
-		quiet:          quiet,
-		registryOption: registryOption,
-	}
-
-	return updater
 }
 
 func Update(ctx context.Context) error {
